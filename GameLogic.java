@@ -1,4 +1,4 @@
-package guesswho;
+package guessWho;
 
 public class GameLogic {
 

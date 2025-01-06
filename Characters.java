@@ -12,7 +12,6 @@ public class Characters {
 	
 	
 	private String skinColor;
-	private String age;
 	private String hairColor;
 	private String gender;
 	private String eyeColor;
@@ -21,6 +20,7 @@ public class Characters {
 	private boolean hasGlasses;
 	private boolean hasHat;
 	private boolean hasFacialHair;
+	private boolean hasEarings;
 	private boolean isValidChoice;
 
 	
@@ -37,17 +37,17 @@ public class Characters {
 	 * @param isValidChoice
 	 */
 	
-	public Characters(String skinColor, String age, String hairColor, String gender, String eyeColor, String name, boolean hasGlasses,
-			boolean hasHat, boolean hasFacialHair) {
+	public Characters(String skinColor, String hairColor, String gender, String eyeColor, String name, boolean hasGlasses,
+			boolean hasHat, boolean hasFacialHair, boolean hasEarings) {
 
 		setSkinColor(skinColor);
-		setAge(age);
 		setHairColor(hairColor);
 		setGender(gender);
 		setEyeColor(eyeColor);
 		setName(name);
 		setHasGlasses(hasGlasses);
 		setHasHat(hasHat);
+		setHasEarings(hasEarings);
 		setHasFacialHair(hasFacialHair);
 		setIsValidChoice(true);
 
@@ -59,14 +59,6 @@ public class Characters {
 
 	public String getSkinColor() {
 		return skinColor;
-	}
-
-	public void setAge(String age) {
-		this.age = age;
-	}
-
-	public String getAge() {
-		return age;
 	}
 
 	public void setHairColor(String hairColor) {
@@ -123,6 +115,14 @@ public class Characters {
 
 	public boolean getHasFacialHair() {
 		return hasFacialHair;
+	}
+	
+	public void setHasEarings(boolean hasEarings) {
+		this.hasEarings = hasEarings;
+	}
+	
+	public boolean getHasEarings() {
+		return hasEarings;
 	}
 
 	public void setIsValidChoice(boolean isValidChoice) {

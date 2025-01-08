@@ -9,8 +9,7 @@ public class Characters {
 	/**
 	 * Character Attributes
 	 */
-	
-	
+
 	private String skinColor;
 	private String hairColor;
 	private String gender;
@@ -22,10 +21,12 @@ public class Characters {
 	private boolean hasFacialHair;
 	private boolean hasEarings;
 	private boolean isValidChoice;
+	private boolean hasMustache;
+	private boolean isShowingTeeth;
 
-	
 	/**
 	 * Constructor sets up characters
+	 * 
 	 * @param skinColor
 	 * @param age
 	 * @param hairColor
@@ -36,9 +37,10 @@ public class Characters {
 	 * @param hasFacialHair
 	 * @param isValidChoice
 	 */
-	
-	public Characters(String skinColor, String hairColor, String gender, String eyeColor, String name, boolean hasGlasses,
-			boolean hasHat, boolean hasFacialHair, boolean hasEarings) {
+
+	public Characters(String skinColor, String hairColor, String gender, String eyeColor, String name,
+			boolean hasGlasses, boolean hasHat, boolean hasFacialHair, boolean hasEarings, boolean hasMustache,
+			boolean isShowingTeeth) {
 
 		setSkinColor(skinColor);
 		setHairColor(hairColor);
@@ -50,6 +52,8 @@ public class Characters {
 		setHasEarings(hasEarings);
 		setHasFacialHair(hasFacialHair);
 		setIsValidChoice(true);
+		setHasMustache(hasMustache);
+		setIsShowingTeeth(isShowingTeeth);
 
 	}
 
@@ -72,11 +76,11 @@ public class Characters {
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
-	
+
 	public String getGender() {
 		return gender;
 	}
-	
+
 	public void setEyeColor(String eyeColor) {
 		this.eyeColor = eyeColor;
 	}
@@ -116,11 +120,11 @@ public class Characters {
 	public boolean getHasFacialHair() {
 		return hasFacialHair;
 	}
-	
+
 	public void setHasEarings(boolean hasEarings) {
 		this.hasEarings = hasEarings;
 	}
-	
+
 	public boolean getHasEarings() {
 		return hasEarings;
 	}
@@ -131,6 +135,22 @@ public class Characters {
 
 	public boolean getIsValidChoice() {
 		return isValidChoice;
+	}
+
+	public void setHasMustache(boolean hasMustache) {
+		this.hasMustache = hasMustache;
+	}
+
+	public boolean getHasMustache() {
+		return hasMustache;
+	}
+
+	public void setIsShowingTeeth(boolean isShowingTeeth) {
+		this.isShowingTeeth = isShowingTeeth;
+	}
+
+	public boolean getIsShowingTeeth() {
+		return isShowingTeeth;
 	}
 
 }

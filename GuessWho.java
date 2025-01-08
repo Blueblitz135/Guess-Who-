@@ -1,5 +1,5 @@
 package guessWho;
-
+import java.util.*;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.*;
@@ -9,7 +9,7 @@ import javax.swing.*;
  * This class will contain the game board and run the game Guess Who when the main method calls it.
  *
  */
-public class GuessWho extends JFrame implements ActionListener {
+public class GameLogic extends JFrame implements ActionListener {
 	private JFrame startFrame;
 	private JFrame rulesFrame;
 	private JFrame gameFrame;
@@ -20,45 +20,32 @@ public class GuessWho extends JFrame implements ActionListener {
 	private JLabel nameGuessLabel;
 	private JLabel guessLabel;
 	private JLabel questiontoAsk;
-	private JButton submitQuestionButton;
-	private JButton closeRulesButton;
 	private JButton startButton;
 	private JButton rulesButton;
 	private JButton submitGuessButton;
 	private JButton rightArrowForNextQuestion;
 	private JButton leftArrowForNextQuestion;
-	private ImageIcon gameLogo;
-	private ArrayList<String> questionBank = new ArrayList<>();
-	
-	
+	private JButton submitQuestionButton;
+	private JButton closeRulesButton;
+	private ImageIcon gameTitleImage;
+	private ArrayList<String> questionBank;
+	private int currentQuestionIndex;
 	
 	/**
 	 * This is the constructor which will initiate the graphics of the game board
 	 */
-	public GuessWho() {
-		ImageIcon gameLogo = new ImageIcon("GuessWho_Icon.png");
-		
-		
-		// Initialize the starting frame before the game starts, including the start button and the title logo on the frame
+	public GameLogic() {
+		// Initialize the starting frame before the game starts
 		startFrame = new JFrame("Guess Who");
 		startFrame.setSize(new Dimension(1100, 800));
-		startFrame.setLayout(new BoxLayout(startFrame.getContentPane(), BoxLayout.Y_AXIS));
+		//startFrame.setLayout();
 		startFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		startFrame.getContentPane().setBackground(new Color(187, 238, 252));
+		startFrame.getContentPane().setBackground(new Color(154, 231, 252));
 		startFrame.setResizable(false);
 		startFrame.setVisible(true);
 		
-		gameTitle = new JLabel();
-		gameTitle.setIcon(gameLogo);
-		gameTitle.setVisible(true);
-		startFrame.add(gameTitle);
-		startButton = new JButton();
-		
-		
-		
 		
 		// Initialize the rules 
-		
 		
 		// Initialize objects for the game board
 		//startFrame = new JFrame();
@@ -72,17 +59,71 @@ public class GuessWho extends JFrame implements ActionListener {
 		
 	}
 	
-	
+
 	
 	/**
 	 * This method will call the the methods from other classes while the game is running
 	 * @param e the action event that was registered
 	 */
 	@Override
+	
+	
+	// actionListener has if statements to determine which question is pressed
+	// 
 	public void actionPerformed(ActionEvent e) {
+		if ((e.getSource()).equals(startButton)) {
+			startFrame.setVisible(false);
+			gameFrame.setVisible(true);
+			rulesFrame.setVisible(true);
+		}
 		
+		if ((e.getSource()).equals(rulesButton)) {
+			rulesFrame.setVisible(true);
+		}
+		
+		if ((e.getSource()).equals(submitGuessButton)) {
+			
+			
+		}
+		
+		if ((e.getSource()).equals(rightArrowForNextQuestion)) {
+			// If at the last question, loop back to the very first question
+			if (currentQuestionIndex == questionBank.size() - 1) {
+				currentQuestionIndex = 0;
+			} else {
+				currentQuestionIndex++;
+			}
+			
+			questiontoAsk.setText(questionBank.get(currentQuestionIndex));
+
+		}
+		
+		if ((e.getSource()).equals(leftArrowForNextQuestion)) {
+			
+			// If at the first question, loop back to the very last question
+			if (currentQuestionIndex == 0) {
+				currentQuestionIndex = questionBank.size() - 1;
+			} else {
+				// Else subtract one from the index to go back to the previous index
+				currentQuestionIndex--;
+			}
+			
+			questiontoAsk.setText(questionBank.get(currentQuestionIndex));
+
+			
+		}
+		
+		if ((e.getSource()).equals(closeRulesButton)) {
+			rulesFrame.setVisible(false);
+			
+		}
+		
+		if ((e.getSource()).equals(submitQuestionButton)) {
+
+		}
 		
 	}
-	
+
+
 	
 }

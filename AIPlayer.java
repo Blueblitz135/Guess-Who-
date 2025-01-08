@@ -7,26 +7,59 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class AIPlayer {
+
 	private Character character;
 	private ArrayList<Boolean> questionAnswers = new ArrayList<Boolean>();
-	private int aiTurn = 0;
+	private ArrayList<Character> possibleCharacters = new ArrayList<Character>();
+
+	private String[] attributes = { "whiteSkin", "blackSkin", "whiteHair", "brownHair", "blondeHair", "blackHair",
+			"gingerHair", "maleGender", "femaleGender", "brownEye", "blueEye", "trueGlasses", "falseGlasses", "trueHat",
+			"falseHat", "trueFaceHair", "falseFaceHair", "trueEaring", "falseEaring", "trueMustache", "falseMustache",
+			"trueTeethShowing", "falseTeethShowing" }; // All the attributes of the characters
+
+	private int[] numberOfAttributes = new int[attributes.length]; // Number of people that have the attributes, indexes
+																	// correspond to those of the attributes
 
 	public AIPlayer() {
 
 	}
 
+	/**
+	 * Chooses a character randomly from the 24 available characters 
+	 * @param characters
+	 */
 	public void chooseCharacter(Character[] characters) {
 		Random rand = new Random();
 		setCharacter(characters[rand.nextInt(characters.length)]);
 	}
-
+	
 	/**
 	 * 
-	 * 
-	 * @return return the next question number
+	 * @param characters
 	 */
-	public int playTurn() {
-		
+	public void playTurn(Character[] characters) {
+		for (int i = 0; i < characters.length; i++) {
+			numberOfAttributes[getIndex(characters[i].getSkinColor() + "Skin")]++;
+			numberOfAttributes[getIndex(characters[i].getHairColor() + "Hair")]++;
+			numberOfAttributes[getIndex(characters[i].getGender() + "Gender")]++;
+			numberOfAttributes[getIndex(characters[i].getEyeColor() + "Eye")]++;
+			numberOfAttributes[getIndex(characters[i].getHasGlasses() + "Glasses")]++;
+			numberOfAttributes[getIndex(characters[i].getHasHat() + "Hat")]++;
+			numberOfAttributes[getIndex(characters[i].getHasFacialHair() + "FaceHair")]++;
+			numberOfAttributes[getIndex(characters[i].getHasEarings() + "Earing")]++;
+			numberOfAttributes[getIndex(characters[i].getHasMustache() + "Mustache")]++;
+			numberOfAttributes[getIndex(characters[i].getIsShowingTeeth() + "TeethShowing")]++;
+		}
+
+	}
+
+	public int getIndex(String key) {
+		for (int i = 0; i < attributes.length; i++) {
+			if (attributes[i] == key) {
+				return i;
+			}
+		}
+		return -1;
 	}
 
 	/**
@@ -36,6 +69,7 @@ public class AIPlayer {
 	 * @param questionNumber
 	 * @return
 	 */
+
 	public String askQuestion(int questionNumber) {
 		switch (questionNumber) {
 

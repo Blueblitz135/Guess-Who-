@@ -55,78 +55,78 @@ public class GuessWho extends JFrame implements ActionListener {
 		 * Creates and fills the character list
 		 */
 
-		Character[] characters = new Character[24];
-		characters[0] = new Character("white", "brown", "female", "brown", "RACHEL", false, true, false, false, false,
-				false);
+		ArrayList<Character> characters = new ArrayList<>();
+		characters.add(
+				new Character("white", "brown", "female", "brown", "RACHEL", false, true, false, false, false, false));
 
-		characters[1] = new Character("white", "white", "male", "brown", "JON", false, false, true, false, false,
-				false);
+		characters
+				.add(new Character("white", "white", "male", "brown", "JON", false, false, true, false, false, false));
 
-		characters[2] = new Character("white", "brown", "male", "blue", "NICK", true, false, false, false, false,
-				false);
+		characters
+				.add(new Character("white", "brown", "male", "blue", "NICK", true, false, false, false, false, false));
 
-		characters[3] = new Character("white", "orange", "female", "brown", "ASHLEY", false, true, false, true, false,
-				false);
+		characters.add(
+				new Character("white", "ginger", "female", "brown", "ASHLEY", false, true, false, true, false, false));
 
-		characters[4] = new Character("white", "blonde", "male", "brown", "JAKE", false, false, true, false, true,
-				false);
+		characters
+				.add(new Character("white", "blonde", "male", "brown", "JAKE", false, false, true, false, true, false));
 
-		characters[5] = new Character("white", "white", "male", "brown", "JOSHUA", false, false, true, false, true,
-				false);
+		characters.add(
+				new Character("white", "white", "male", "brown", "JOSHUA", false, false, true, false, true, false));
 
-		characters[6] = new Character("white", "white", "female", "blue", "EMILY", true, false, false, true, false,
-				false);
+		characters.add(
+				new Character("white", "white", "female", "blue", "EMILY", true, false, false, true, false, false));
 
-		characters[7] = new Character("white", "blonde", "male", "blue", "KYLE", false, false, false, false, false,
-				true);
+		characters
+				.add(new Character("white", "blonde", "male", "blue", "KYLE", false, false, false, false, false, true));
 
-		characters[8] = new Character("white", "white", "male", "brown", "ALEX", true, false, false, false, false,
-				false);
+		characters
+				.add(new Character("white", "white", "male", "brown", "ALEX", true, false, false, false, false, false));
 
-		characters[9] = new Character("black", "black", "female", "brown", "SARAH", true, false, false, true, false,
-				false);
+		characters.add(
+				new Character("black", "black", "female", "brown", "SARAH", true, false, false, true, false, false));
 
-		characters[10] = new Character("white", "brown", "male", "brown", "JUSTIN", false, false, true, false, true,
-				false);
+		characters.add(
+				new Character("white", "brown", "male", "brown", "JUSTIN", false, false, true, false, true, false));
 
-		characters[11] = new Character("white", "blonde", "female", "blue", "MEGAN", false, false, false, true, false,
-				false);
+		characters.add(
+				new Character("white", "blonde", "female", "blue", "MEGAN", false, false, false, true, false, false));
 
-		characters[12] = new Character("white", "white", "male", "brown", "MATT", false, false, false, false, false,
-				false);
+		characters.add(
+				new Character("white", "white", "male", "brown", "MATT", false, false, false, false, false, false));
 
-		characters[13] = new Character("white", "blonde", "male", "brown", "BRANDON", false, true, false, false, false,
-				true);
+		characters.add(
+				new Character("white", "blonde", "male", "brown", "BRANDON", false, true, false, false, false, true));
 
-		characters[14] = new Character("white", "blonde", "male", "brown", "WILLIAM", false, false, true, false, false,
-				false);
+		characters.add(
+				new Character("white", "blonde", "male", "brown", "WILLIAM", false, false, true, false, false, false));
 
-		characters[15] = new Character("black", "brown", "male", "brown", "CONNOR", false, false, true, false, true,
-				false);
+		characters.add(
+				new Character("black", "brown", "male", "brown", "CONNOR", false, false, true, false, true, false));
 
-		characters[16] = new Character("white", "black", "male", "brown", "CHRIS", false, true, false, false, false,
-				false);
+		characters.add(
+				new Character("white", "black", "male", "brown", "CHRIS", false, true, false, false, false, false));
 
-		characters[17] = new Character("black", "brown", "male", "brown", "DANIEL", false, true, false, false, false,
-				false);
+		characters.add(
+				new Character("black", "brown", "male", "brown", "DANIEL", false, true, false, false, false, false));
 
-		characters[18] = new Character("black", "black", "male", "brown", "ANDY", false, false, true, false, false,
-				true);
+		characters
+				.add(new Character("black", "black", "male", "brown", "ANDY", false, false, true, false, false, true));
 
-		characters[19] = new Character("black", "brown", "male", "brown", "JAMES", false, false, true, false, false,
-				false);
+		characters.add(
+				new Character("black", "brown", "male", "brown", "JAMES", false, false, true, false, false, false));
 
-		characters[20] = new Character("white", "orange", "male", "brown", "DAVID", false, false, true, false, true,
-				false);
+		characters.add(
+				new Character("white", "ginger", "male", "brown", "DAVID", false, false, true, false, true, false));
 
-		characters[21] = new Character("white", "orange", "male", "brown", "ZACHARY", false, false, false, false, false,
-				false);
+		characters.add(
+				new Character("white", "ginger", "male", "brown", "ZACHARY", false, false, false, false, false, false));
 
-		characters[22] = new Character("white", "orange", "male", "blue", "JOSEPH", true, false, false, false, false,
-				false);
+		characters.add(
+				new Character("white", "ginger", "male", "blue", "JOSEPH", true, false, false, false, false, false));
 
-		characters[23] = new Character("white", "black", "male", "brown", "TYLER", false, false, false, false, false,
-				true);
+		characters.add(
+				new Character("white", "black", "male", "brown", "TYLER", false, false, false, false, false, true));
 
 	}
 

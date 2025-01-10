@@ -20,8 +20,9 @@ public class AIPlayer {
 	private int[] numberOfAttributes = new int[attributes.length]; // Number of people that have the attributes, indexes
 																	// correspond to those of the attributes
 
-	public AIPlayer() {
-
+	public AIPlayer(ArrayList<Character> characters) {
+		possibleCharacters = characters;
+		
 	}
 
 	/**
@@ -37,19 +38,32 @@ public class AIPlayer {
 	 * 
 	 * @param characters
 	 */
-	public void playTurn(Character[] characters) {
-		for (int i = 0; i < characters.length; i++) {
-			numberOfAttributes[getIndex(characters[i].getSkinColor() + "Skin")]++;
-			numberOfAttributes[getIndex(characters[i].getHairColor() + "Hair")]++;
-			numberOfAttributes[getIndex(characters[i].getGender() + "Gender")]++;
-			numberOfAttributes[getIndex(characters[i].getEyeColor() + "Eye")]++;
-			numberOfAttributes[getIndex(characters[i].getHasGlasses() + "Glasses")]++;
-			numberOfAttributes[getIndex(characters[i].getHasHat() + "Hat")]++;
-			numberOfAttributes[getIndex(characters[i].getHasFacialHair() + "FaceHair")]++;
-			numberOfAttributes[getIndex(characters[i].getHasEarings() + "Earing")]++;
-			numberOfAttributes[getIndex(characters[i].getHasMustache() + "Mustache")]++;
-			numberOfAttributes[getIndex(characters[i].getIsShowingTeeth() + "TeethShowing")]++;
+	public void playTurn(ArrayList<Character> characters) {
+		for (int i = 0; i < characters.size(); i++) {
+			numberOfAttributes[getIndex(characters.get(i).getSkinColor() + "Skin")]++;
+			numberOfAttributes[getIndex(characters.get(i).getHairColor() + "Hair")]++;
+			numberOfAttributes[getIndex(characters.get(i).getGender() + "Gender")]++;
+			numberOfAttributes[getIndex(characters.get(i).getEyeColor() + "Eye")]++;
+			numberOfAttributes[getIndex(characters.get(i).getHasGlasses() + "Glasses")]++;
+			numberOfAttributes[getIndex(characters.get(i).getHasHat() + "Hat")]++;
+			numberOfAttributes[getIndex(characters.get(i).getHasFacialHair() + "FaceHair")]++;
+			numberOfAttributes[getIndex(characters.get(i).getHasEarings() + "Earing")]++;
+			numberOfAttributes[getIndex(characters.get(i).getHasMustache() + "Mustache")]++;
+			numberOfAttributes[getIndex(characters.get(i).getIsShowingTeeth() + "TeethShowing")]++;
 		}
+		
+		int highest = 0;
+		int key = -1;
+		for(int i = 0; i < numberOfAttributes.length; i++) {
+			if (numberOfAttributes[i] > highest) {
+				key = i;
+				highest = numberOfAttributes[i];
+			}
+		}
+		
+		questions(key);
+		
+		
 
 	}
 
@@ -70,37 +84,53 @@ public class AIPlayer {
 	 * @return
 	 */
 
-	public String askQuestion(int questionNumber) {
+	public String questions(int questionNumber) {
 		switch (questionNumber) {
 
 		case 0:
-			return "Is Your Character Male?";
+			return "Does Your Character Have White Skin?";
 		case 1:
-			return "Does Your Character Have Facial Hair";
+			return "Does Your Character Have Black Skin?";
 		case 2:
-			return "Is Your Character White?";
-		case 3:
-			return "Does Your Character Have A Moustache?";
-		case 4:
-			return "Is Your Character Wearing Glasses?";
-		case 5:
-			return "Does Your Characters Name Start With A J";
-		case 6:
-			return "Does Your Character Have Blue Eyes?";
-		case 7:
-			return "Does Your Character Have A Hat?";
-		case 8:
-			return "Is Your Character Wearing Earings?";
-		case 9:
 			return "Does Your Character Have White Hair?";
-		case 10:
-			return "Does Your Character Have Orange Hair?";
-		case 11:
-			return "Can You See Your Characters Teeth?";
-		case 12:
-			return "Is Your Character Blonde?";
-		case 13:
+		case 3:
 			return "Does Your Character Have Brown Hair?";
+		case 4:
+			return "Does Your Character Have Blonde Skin?";
+		case 5:
+			return "Does Your Character Have Ginger Skin?";
+		case 6:
+			return "Is Your Character Male?";
+		case 7:
+			return "Is Your Character Female?";
+		case 8:
+			return "Does Your Character Have Brown Eyes?";
+		case 9:
+			return "Does Your Character Have Blue Eyes?";
+		case 10:
+			return "Does Your Character Have Glasses";
+		case 11:
+			return "Does Your Character Not Have Glasses?";
+		case 12:
+			return "Is Your Character Wearing A Hat?";
+		case 13:
+			return "Is Your Character Not Wearing A Hat?";
+		case 14:
+			return "Does Your Character Have Facial Hair";
+		case 15:
+			return "Does Your Character Not Have Facial Hair";
+		case 16:
+			return "Does Your Character Have Earings";
+		case 17:
+			return "Does Your Character Not Have Earings";
+		case 18:
+			return "Does Your Character Have A Mustache";
+		case 19:
+			return "Does Your Character Not Have A Mustache";
+		case 20:
+			return "Is Your Character Showing Teeth?";
+		case 21:
+			return "Is Your Character Not Showing Teeth?";
 		}
 		return "Error";
 	}

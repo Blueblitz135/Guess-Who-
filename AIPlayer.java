@@ -98,7 +98,7 @@ public class AIPlayer {
 		case 4:
 			return "Does Your Character Have Blonde Skin?";
 		case 5:
-			return "Does Your Character Have Ginger Skin?";
+			return "Does Your Character Have Ginger Hair?";
 		case 6:
 			return "Is Your Character Male?";
 		case 7:

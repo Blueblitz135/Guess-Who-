@@ -20,7 +20,6 @@ public class Character {
 	private boolean hasHat;
 	private boolean hasFacialHair;
 	private boolean hasEarings;
-	private boolean isValidChoice;
 	private boolean hasMustache;
 	private boolean isShowingTeeth;
 
@@ -51,7 +50,6 @@ public class Character {
 		setHasHat(hasHat);
 		setHasEarings(hasEarings);
 		setHasFacialHair(hasFacialHair);
-		setIsValidChoice(true);
 		setHasMustache(hasMustache);
 		setIsShowingTeeth(isShowingTeeth);
 
@@ -127,14 +125,6 @@ public class Character {
 
 	public boolean getHasEarings() {
 		return hasEarings;
-	}
-
-	public void setIsValidChoice(boolean isValidChoice) {
-		this.isValidChoice = isValidChoice;
-	}
-
-	public boolean getIsValidChoice() {
-		return isValidChoice;
 	}
 
 	public void setHasMustache(boolean hasMustache) {

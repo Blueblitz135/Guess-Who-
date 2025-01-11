@@ -1,10 +1,7 @@
 package guessWho;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Scanner;
 
 public class AIPlayer {
 
@@ -19,9 +16,14 @@ public class AIPlayer {
 	private int[] numberOfAttributes = new int[attributes.length]; // Number of GameChar that have the attributes,
 																	// indexes
 																	// correspond to those of the attributes
+	private String aiQuestion;
 
 	public AIPlayer(ArrayList<GameChar> GameChars) {
 		possibleGameChars = GameChars;
+
+		for (int i = 0; i < numberOfAttributes.length; i++) {
+			numberOfAttributes[i] = 0;
+		}
 	}
 
 	/**
@@ -53,62 +55,114 @@ public class AIPlayer {
 			if (question.indexOf("Not") > -1) {
 				answer = !answer;
 			}
-			for (GameChar i : possibleGameChars) {
+			for (int i = 0; i < possibleGameChars.size();) {
+				GameChar characterUnderReview = possibleGameChars.get(i);
 				if (question.indexOf("Hair") > -1) {
 					if (question.indexOf("White") > -1) {
-						if (i.getHairColor().equals("white") && answer == true) {
+						if (characterUnderReview.getHairColor().equals("white") && answer == true) {
+							i++;
 							continue;
 						} else {
-							possibleGameChars.remove(i);
+							possibleGameChars.remove(characterUnderReview);
 						}
 					} else if (question.indexOf("Brown") > -1) {
-						if (i.getHairColor().equals("brown") && answer == true) {
+						if (characterUnderReview.getHairColor().equals("brown") && answer == true) {
+							i++;
 							continue;
 						} else {
-							possibleGameChars.remove(i);
+							possibleGameChars.remove(characterUnderReview);
 						}
 					} else if (question.indexOf("Blonde") > -1) {
-						if (i.getHairColor().equals("blonde") && answer == true) {
+						if (characterUnderReview.getHairColor().equals("blonde") && answer == true) {
+							i++;
 							continue;
 						} else {
-							possibleGameChars.remove(i);
+							possibleGameChars.remove(characterUnderReview);
 						}
 					} else if (question.indexOf("Ginger") > -1) {
-						if (i.getHairColor().equals("ginger") && answer == true) {
+						if (characterUnderReview.getHairColor().equals("ginger") && answer == true) {
+							i++;
 							continue;
 						} else {
-							possibleGameChars.remove(i);
+							possibleGameChars.remove(characterUnderReview);
 						}
 					}
 				} else if (question.indexOf("Eye") > -1) {
 					if (question.indexOf("Blue") > -1) {
-						if (i.getEyeColor().equals("blue") && answer == true) {
+						if (characterUnderReview.getEyeColor().equals("blue") && answer == true) {
+							i++;
 							continue;
 						} else {
-							possibleGameChars.remove(i);
+							possibleGameChars.remove(characterUnderReview);
 						}
 					} else if (question.indexOf("Brown") > -1) {
-						if (i.getEyeColor().equals("brown") && answer == true) {
+						if (characterUnderReview.getEyeColor().equals("brown") && answer == true) {
+							i++;
 							continue;
 						} else {
-							possibleGameChars.remove(i);
+							possibleGameChars.remove(characterUnderReview);
 						}
 					}
 				} else if (question.indexOf("Skin") > -1) {
 					if (question.indexOf("white") > -1) {
-						if (i.getSkinColor().equals("brown") && answer == true) {
-							
+						if (characterUnderReview.getSkinColor().equals("white") && answer == true) {
+							i++;
+							continue;
+						} else {
+							possibleGameChars.remove(characterUnderReview);
 						}
+					} else if (question.indexOf("Black") > -1 && answer == true) {
+						possibleGameChars.remove(characterUnderReview);
+					}
+				} else if (question.indexOf("Glasses") > -1) {
+					if (characterUnderReview.getHasGlasses() && answer == true) {
+						i++;
+						continue;
+					} else {
+						possibleGameChars.remove(characterUnderReview);
+					}
+				} else if (question.indexOf("Hat") > -1) {
+					if (characterUnderReview.getHasHat() && answer == true) {
+						i++;
+						continue;
+					} else {
+						possibleGameChars.remove(characterUnderReview);
+					}
+				} else if (question.indexOf("Face") > -1) {
+					if (characterUnderReview.getHasFacialHair() && answer == true) {
+						i++;
+						continue;
+					} else {
+						possibleGameChars.remove(characterUnderReview);
+					}
+				} else if (question.indexOf("Earing") > -1) {
+					if (characterUnderReview.getHasEarings() && answer == true) {
+						i++;
+						continue;
+					} else {
+						possibleGameChars.remove(characterUnderReview);
+					}
+				} else if (question.indexOf("Mustache") > -1) {
+					if (characterUnderReview.getHasMustache() && answer == true) {
+						i++;
+						continue;
+					} else {
+						possibleGameChars.remove(characterUnderReview);
+					}
+				} else if (question.indexOf("Teeth") > -1) {
+					if (characterUnderReview.getIsShowingTeeth() && answer == true) {
+						i++;
+						continue;
+					} else {
+						possibleGameChars.remove(characterUnderReview);
 					}
 				}
 			}
 		}
 
-		for (
-
-				int i = 0; i < possibleGameChars.size(); i++) {
-			numberOfAttributes[getIndex(possibleGameChars.get(i).getSkinColor())]++;
-			numberOfAttributes[getIndex(possibleGameChars.get(i).getHairColor())]++;
+		for (int i = 0; i < possibleGameChars.size(); i++) {
+			numberOfAttributes[getIndex(possibleGameChars.get(i).getSkinColor() + "Skin")]++;
+			numberOfAttributes[getIndex(possibleGameChars.get(i).getHairColor() + "Hair")]++;
 			numberOfAttributes[getIndex(possibleGameChars.get(i).getGender() + "Gender")]++;
 			numberOfAttributes[getIndex(possibleGameChars.get(i).getEyeColor() + "Eye")]++;
 			numberOfAttributes[getIndex(possibleGameChars.get(i).getHasGlasses() + "Glasses")]++;
@@ -118,26 +172,30 @@ public class AIPlayer {
 			numberOfAttributes[getIndex(possibleGameChars.get(i).getHasMustache() + "Mustache")]++;
 			numberOfAttributes[getIndex(possibleGameChars.get(i).getIsShowingTeeth() + "TeethShowing")]++;
 		}
-
-		int highest = -1;
+		int highest = 0;
 		for (int i = 0; i < numberOfAttributes.length; i++) {
 			if (numberOfAttributes[i] > highest) {
 				questionNumber = i;
 				highest = numberOfAttributes[i];
+				numberOfAttributes[i] = 0;
 			}
 		}
 
-		questions(questionNumber);
+		aiQuestion = questions(questionNumber);
 		return null;
 	}
 
 	public int getIndex(String key) {
 		for (int i = 0; i < attributes.length; i++) {
-			if (attributes[i] == key) {
+			if (attributes[i].equals(key)) {
 				return i;
 			}
 		}
 		return -1;
+	}
+
+	public String getAiQuestion() {
+		return aiQuestion;
 	}
 
 	/**
@@ -195,8 +253,16 @@ public class AIPlayer {
 			return "Is Your Character Showing Teeth?";
 		case 21:
 			return "Is Your Character Not Showing Teeth?";
+		case 22:
+			return "Is Your Character White?";
+		case 23:
+			return "Is Your Character Black?";
 		}
 		return "Error";
+	}
+
+	public ArrayList<GameChar> getPossibleCharacters() {
+		return possibleGameChars;
 	}
 
 	public GameChar getGameChar() {

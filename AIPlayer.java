@@ -4,10 +4,9 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class AIPlayer {
-
-	private GameChar GameChar;
-	private ArrayList<GameChar> possibleGameChars = new ArrayList<GameChar>();
-	private int questionNumber = -1;
+	private ArrayList<GameChar> possibleGameChars = new ArrayList<GameChar>(); // All possible characters which the
+																				// player could be
+	private int questionNumber = -1; // The question that was previously asked
 	private String[] attributes = { "whiteSkin", "blackSkin", "whiteHair", "brownHair", "blondeHair", "blackHair",
 			"gingerHair", "maleGender", "femaleGender", "brownEye", "blueEye", "trueGlasses", "falseGlasses", "trueHat",
 			"falseHat", "trueFaceHair", "falseFaceHair", "trueEaring", "falseEaring", "trueMustache", "falseMustache",
@@ -16,70 +15,66 @@ public class AIPlayer {
 	private int[] numberOfAttributes = new int[attributes.length]; // Number of GameChar that have the attributes,
 																	// indexes
 																	// correspond to those of the attributes
-	private String aiQuestion;
+	private String aiQuestion; // Question that was previously asked
 
 	public AIPlayer(ArrayList<GameChar> GameChars) {
 		possibleGameChars = GameChars;
-
-		for (int i = 0; i < numberOfAttributes.length; i++) {
-			numberOfAttributes[i] = 0;
-		}
 	}
 
 	/**
-	 * Chooses a GameChar randomly from the 24 available GameChars
+	 * Players the Ai's turn
 	 * 
-	 * @param GameChars
-	 */
-	public void chooseGameChar(ArrayList<GameChar> GameChars) {
-		Random rand = new Random();
-		setGameChar(GameChars.get(rand.nextInt(24)));
-	}
-
-	public void pop() {
-
-	}
-
-	/**
-	 * 
-	 * @param GameChars
+	 * @param answer The player answer to the previous AI question
 	 */
 	public GameChar playTurn(boolean answer) {
-		if (possibleGameChars.size() == 1) {
+		if (possibleGameChars.size() == 1) { // When only one character is possible this method will return a guess
 			// Must make a guess
 			return possibleGameChars.get(0);
 		}
 
+		// If question number is equal to -1, this means that it is the first question,
+		// and therefore no characters need to be removed
 		if (questionNumber != -1) {
-			String question = questions(questionNumber);
-			if (question.indexOf("Not") > -1) {
+			// if the question has a not, the answer is flipped, so that the question
+			// without a not is held true, with the answer variable
+			if (aiQuestion.indexOf("Not") > -1) {
 				answer = !answer;
 			}
-			for (int i = 0; i < possibleGameChars.size();) {
-				GameChar characterUnderReview = possibleGameChars.get(i);
-				if (question.indexOf("Hair") > -1) {
-					if (question.indexOf("White") > -1) {
+			// Algorithm for getting rid of impossible characters for the player to have
+			// chosen
+			int i = 0;
+			while (i < possibleGameChars.size()) {
+				GameChar characterUnderReview = possibleGameChars.get(i); // The character that is currently being
+																			// checked if is valid
+
+				// if question has hair in the string, it will check what color it is, and if it
+				// is meant to be that color, the index i is increased, otherwise, that
+				// character is removed from possible options, and i is not incremented, because
+				// the next player will replace the current player in index, same logic for
+				// every attribute
+				if (aiQuestion.indexOf("Hair") > -1) {
+					if (aiQuestion.indexOf("White") > -1) {
 						if (characterUnderReview.getHairColor().equals("white") && answer == true) {
 							i++;
 							continue;
 						} else {
 							possibleGameChars.remove(characterUnderReview);
 						}
-					} else if (question.indexOf("Brown") > -1) {
+					} else if (aiQuestion.indexOf("Brown") > -1) {
 						if (characterUnderReview.getHairColor().equals("brown") && answer == true) {
 							i++;
 							continue;
 						} else {
 							possibleGameChars.remove(characterUnderReview);
 						}
-					} else if (question.indexOf("Blonde") > -1) {
+					} else if (aiQuestion.indexOf("Blonde") > -1) {
 						if (characterUnderReview.getHairColor().equals("blonde") && answer == true) {
 							i++;
 							continue;
 						} else {
 							possibleGameChars.remove(characterUnderReview);
 						}
-					} else if (question.indexOf("Ginger") > -1) {
+					} else if (aiQuestion.indexOf("Ginger") > -1) {
 						if (characterUnderReview.getHairColor().equals("ginger") && answer == true) {
 							i++;
 							continue;
@@ -87,15 +82,15 @@ public class AIPlayer {
 							possibleGameChars.remove(characterUnderReview);
 						}
 					}
-				} else if (question.indexOf("Eye") > -1) {
-					if (question.indexOf("Blue") > -1) {
+				} else if (aiQuestion.indexOf("Eye") > -1) {
+					if (aiQuestion.indexOf("Blue") > -1) {
 						if (characterUnderReview.getEyeColor().equals("blue") && answer == true) {
 							i++;
 							continue;
 						} else {
 							possibleGameChars.remove(characterUnderReview);
 						}
-					} else if (question.indexOf("Brown") > -1) {
+					} else if (aiQuestion.indexOf("Brown") > -1) {
 						if (characterUnderReview.getEyeColor().equals("brown") && answer == true) {
 							i++;
 							continue;
@@ -103,53 +98,53 @@ public class AIPlayer {
 							possibleGameChars.remove(characterUnderReview);
 						}
 					}
-				} else if (question.indexOf("Skin") > -1) {
-					if (question.indexOf("white") > -1) {
+				} else if (aiQuestion.indexOf("Skin") > -1) {
+					if (aiQuestion.indexOf("white") > -1) {
 						if (characterUnderReview.getSkinColor().equals("white") && answer == true) {
 							i++;
 							continue;
 						} else {
 							possibleGameChars.remove(characterUnderReview);
 						}
-					} else if (question.indexOf("Black") > -1 && answer == true) {
+					} else if (aiQuestion.indexOf("Black") > -1 && answer == true) {
 						possibleGameChars.remove(characterUnderReview);
 					}
-				} else if (question.indexOf("Glasses") > -1) {
+				} else if (aiQuestion.indexOf("Glasses") > -1) {
 					if (characterUnderReview.getHasGlasses() && answer == true) {
 						i++;
 						continue;
 					} else {
 						possibleGameChars.remove(characterUnderReview);
 					}
-				} else if (question.indexOf("Hat") > -1) {
+				} else if (aiQuestion.indexOf("Hat") > -1) {
 					if (characterUnderReview.getHasHat() && answer == true) {
 						i++;
 						continue;
 					} else {
 						possibleGameChars.remove(characterUnderReview);
 					}
-				} else if (question.indexOf("Face") > -1) {
+				} else if (aiQuestion.indexOf("Face") > -1) {
 					if (characterUnderReview.getHasFacialHair() && answer == true) {
 						i++;
 						continue;
 					} else {
 						possibleGameChars.remove(characterUnderReview);
 					}
-				} else if (question.indexOf("Earing") > -1) {
+				} else if (aiQuestion.indexOf("Earing") > -1) {
 					if (characterUnderReview.getHasEarings() && answer == true) {
 						i++;
 						continue;
 					} else {
 						possibleGameChars.remove(characterUnderReview);
 					}
-				} else if (question.indexOf("Mustache") > -1) {
+				} else if (aiQuestion.indexOf("Mustache") > -1) {
 					if (characterUnderReview.getHasMustache() && answer == true) {
 						i++;
 						continue;
 					} else {
 						possibleGameChars.remove(characterUnderReview);
 					}
-				} else if (question.indexOf("Teeth") > -1) {
+				} else if (aiQuestion.indexOf("Teeth") > -1) {
 					if (characterUnderReview.getIsShowingTeeth() && answer == true) {
 						i++;
 						continue;
@@ -159,33 +154,57 @@ public class AIPlayer {
 				}
 			}
 		}
-
-		for (int i = 0; i < possibleGameChars.size(); i++) {
-			numberOfAttributes[getIndex(possibleGameChars.get(i).getSkinColor() + "Skin")]++;
-			numberOfAttributes[getIndex(possibleGameChars.get(i).getHairColor() + "Hair")]++;
-			numberOfAttributes[getIndex(possibleGameChars.get(i).getGender() + "Gender")]++;
-			numberOfAttributes[getIndex(possibleGameChars.get(i).getEyeColor() + "Eye")]++;
-			numberOfAttributes[getIndex(possibleGameChars.get(i).getHasGlasses() + "Glasses")]++;
-			numberOfAttributes[getIndex(possibleGameChars.get(i).getHasHat() + "Hat")]++;
-			numberOfAttributes[getIndex(possibleGameChars.get(i).getHasFacialHair() + "FaceHair")]++;
-			numberOfAttributes[getIndex(possibleGameChars.get(i).getHasEarings() + "Earing")]++;
-			numberOfAttributes[getIndex(possibleGameChars.get(i).getHasMustache() + "Mustache")]++;
-			numberOfAttributes[getIndex(possibleGameChars.get(i).getIsShowingTeeth() + "TeethShowing")]++;
+		// Sets default values of attributes
+		for (int i = 0; i < numberOfAttributes.length; i++) {
+			numberOfAttributes[i] = 0;
 		}
+		// From all possible characters, increases number of each attribute present
+		for (int i = 0; i < possibleGameChars.size(); i++) {
+			numberOfAttributes[findIndex(possibleGameChars.get(i).getSkinColor() + "Skin")]++;
+			numberOfAttributes[findIndex(possibleGameChars.get(i).getHairColor() + "Hair")]++;
+			numberOfAttributes[findIndex(possibleGameChars.get(i).getGender() + "Gender")]++;
+			numberOfAttributes[findIndex(possibleGameChars.get(i).getEyeColor() + "Eye")]++;
+			numberOfAttributes[findIndex(possibleGameChars.get(i).getHasGlasses() + "Glasses")]++;
+			numberOfAttributes[findIndex(possibleGameChars.get(i).getHasHat() + "Hat")]++;
+			numberOfAttributes[findIndex(possibleGameChars.get(i).getHasFacialHair() + "FaceHair")]++;
+			numberOfAttributes[findIndex(possibleGameChars.get(i).getHasEarings() + "Earing")]++;
+			numberOfAttributes[findIndex(possibleGameChars.get(i).getHasMustache() + "Mustache")]++;
+			numberOfAttributes[findIndex(possibleGameChars.get(i).getIsShowingTeeth() + "TeethShowing")]++;
+		}
+
+		// Calculates the highest/most popular attribute
 		int highest = 0;
+		int indexOfHighest = -1;
 		for (int i = 0; i < numberOfAttributes.length; i++) {
 			if (numberOfAttributes[i] > highest) {
 				questionNumber = i;
 				highest = numberOfAttributes[i];
-				numberOfAttributes[i] = 0;
 			}
 		}
 
+		// sets AI question
 		aiQuestion = questions(questionNumber);
-		return null;
+		return null; // Returns null if no character is chosen, base case for very first Ai turn
 	}
 
-	public int getIndex(String key) {
+	/**
+	 * Chooses a GameChar randomly from the 24 available GameChars
+	 * 
+	 * @param GameChars Returns the Ai's character
+	 */
+	public GameChar chooseGameChar(ArrayList<GameChar> GameChars) {
+		Random rand = new Random();
+		return GameChars.get(rand.nextInt(24));
+	}
+
+	/**
+	 * Finds the index of certain string key in attributes ArrayList
+	 * 
+	 * @param key String being looked for in array
+	 * @return The index of string in array
+	 * @return -1 if key is not in array
+	 */
+	public int findIndex(String key) {
 		for (int i = 0; i < attributes.length; i++) {
 			if (attributes[i].equals(key)) {
 				return i;
@@ -194,18 +213,12 @@ public class AIPlayer {
 		return -1;
 	}
 
-	public String getAiQuestion() {
-		return aiQuestion;
-	}
-
 	/**
-	 * This method should be called in the panel which holds the question which the
-	 * ai is asking
+	 * Question bank for all questions
 	 * 
-	 * @param questionNumber
-	 * @return
+	 * @param questionNumber index for each question
+	 * @return The question at a String
 	 */
-
 	public String questions(int questionNumber) {
 		switch (questionNumber) {
 
@@ -265,11 +278,7 @@ public class AIPlayer {
 		return possibleGameChars;
 	}
 
-	public GameChar getGameChar() {
-		return this.GameChar;
-	}
-
-	public void setGameChar(GameChar GameChar) {
-		this.GameChar = GameChar;
+	public String getAiQuestion() {
+		return aiQuestion;
 	}
 }

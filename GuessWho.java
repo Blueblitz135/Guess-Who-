@@ -152,7 +152,7 @@ public class GuessWho implements ActionListener {
 		startFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		startFrame.getContentPane().setBackground(backgroundColor);
 		startFrame.setResizable(false);
-		//startFrame.setVisible(true);
+		startFrame.setVisible(true);
 		
 		JPanel topStartPanel = new JPanel();
 		startFrame.add(topStartPanel, BorderLayout.NORTH);
@@ -196,7 +196,7 @@ public class GuessWho implements ActionListener {
 		gameBoardFrame = new JFrame();
 		gameBoardFrame.setResizable(false);
 		gameBoardFrame.setSize(new Dimension(1200, 800));
-		gameBoardFrame.setVisible(true);
+		//gameBoardFrame.setVisible(true);
 		gameBoardFrame.setLayout(new GridBagLayout());
 		gameBoardFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		gameBoardFrame.getContentPane().setBackground(backgroundColor);
@@ -412,7 +412,7 @@ public class GuessWho implements ActionListener {
 		//statsFrame.setLayout(new BorderLayout());
 		statsFrame.getContentPane().setBackground(new Color(187, 238, 252));
 		statsFrame.setResizable(false);
-		statsFrame.setVisible(true);
+		//statsFrame.setVisible(true);
 		
 		statsPanel = new JPanel();
 		statsPanel.setBorder(new EmptyBorder(40, 0, 0, 0));

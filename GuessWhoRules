@@ -1,0 +1,19 @@
+Guess Who Rules
+
+Welcome to Guess Who! In this game, you will be playing against an AI player. 
+In this traditional game of Guess Who, each player will choose one character from a board of 24 total characters, all with varying attributes.
+The objective of this game is to guess the opponent's characters. 
+You will take turns asking yes or no questions about the opponent's character in order to narrow down the game board and make a final, educated guess.
+
+These questions are provided at the bottom left of the screen, and the arrows on left and right side of the question will display the previous or next question respectively.
+To submit the question, click the check mark.
+
+Guessing a character will determine the game outcome. If the character matches the opponent's character, the player wins. Otherwise, the player loses.
+In order to submit a guess, type in the characters name in the text field in the top right, then click submit.
+
+The first person to guess the opponent's character will win.
+
+In order to view your number of games won, or minimum and maximum questions asked, click view stats.
+
+To view this screen again, click View Rules.
+

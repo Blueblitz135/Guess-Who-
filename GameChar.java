@@ -4,7 +4,7 @@ package guessWho;
  * This Class will create characters with their corresponding attributes
  */
 
-public class Character {
+public class GameChar {
 
 	/**
 	 * Character Attributes
@@ -37,7 +37,7 @@ public class Character {
 	 * @param isValidChoice
 	 */
 
-	public Character(String skinColor, String hairColor, String gender, String eyeColor, String name,
+	public GameChar(String skinColor, String hairColor, String gender, String eyeColor, String name,
 			boolean hasGlasses, boolean hasHat, boolean hasFacialHair, boolean hasEarings, boolean hasMustache,
 			boolean isShowingTeeth) {
 

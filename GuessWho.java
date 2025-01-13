@@ -23,6 +23,7 @@ public class GuessWho implements ActionListener {
 	private JPanel crossOutPanel;
 	private JPanel sidePanel;
 	private JPanel statsPanel;
+	private JPanel rulesPanel;
 	private JLabel guessGameCharLabel;
 	private JLabel questionToAsk;
 	private JLabel GameCharBoardLabel;
@@ -92,6 +93,15 @@ public class GuessWho implements ActionListener {
 		maxNumQuestionsAskedToWin = statsScan.nextInt();
 		minNumQuestionsAskedToWin = statsScan.nextInt();
 
+		// Initialize rules variables using file i/o
+		File rulesFile = new File("GuessWhoRules.txt");
+		Scanner ruleScan = new Scanner(rulesFile);
+
+		String[] rules = new String[12];
+		for (int i = 0; i < 12; i++) {
+			rules[i] = ruleScan.nextLine();
+		}
+		
 		System.out.println(numGamesWon);
 		System.out.println(maxNumQuestionsAskedToWin);
 		System.out.println(minNumQuestionsAskedToWin);
@@ -228,10 +238,32 @@ public class GuessWho implements ActionListener {
 
 		// Initialize the rules frame
 		rulesFrame = new JFrame("Rules");
-		rulesFrame.setSize(new Dimension(400, 700));
+		rulesFrame.setSize(new Dimension(1300, 750));
 		rulesFrame.setLayout(new BorderLayout());
 		rulesFrame.getContentPane().setBackground(new Color(187, 238, 252));
 		rulesFrame.setResizable(false);
+
+		rulesPanel = new JPanel();
+		rulesPanel.setBorder(new EmptyBorder(40, 0, 0, 0));
+		rulesPanel.setLayout(new BoxLayout(rulesPanel, BoxLayout.Y_AXIS));
+		rulesPanel.setBackground(backgroundColor);
+		rulesFrame.add(rulesPanel);
+
+		rulesPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+		JLabel rulesTitle = new JLabel();
+		rulesTitle.setText(rules[0]);
+		rulesTitle.setFont(new Font("Helvetica", Font.BOLD, 50));
+		rulesTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+		rulesPanel.add(rulesTitle);
+		
+		for (int i = 1; i < 12; i++) {
+			rulesPanel.add(Box.createRigidArea(new Dimension(0, 30)));
+			JLabel rulesLabel = new JLabel();
+			rulesLabel.setText(rules[i]);
+			rulesLabel.setFont(new Font("Helvetica", Font.BOLD, 15));
+			rulesLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+			rulesPanel.add(rulesLabel);
+		}
 		// rulesFrame.setVisible(true);
 
 		// Initialize frame for game board

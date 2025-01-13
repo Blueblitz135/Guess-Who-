@@ -107,6 +107,25 @@ public class AIPlayer {
 							possibleGameChars.remove(characterUnderReview);
 						}
 					} else if (aiQuestion.indexOf("Black") > -1 && answer == true) {
+						if (characterUnderReview.getSkinColor().equals("black") && answer == true) {
+							i++;
+							continue;
+						} else {
+							possibleGameChars.remove(characterUnderReview);
+						}
+					}
+				} else if (aiQuestion.indexOf("Male") > -1) {
+					if (characterUnderReview.getGender().equals("male") && answer == true) {
+						i++;
+						continue;
+					} else {
+						possibleGameChars.remove(characterUnderReview);
+					}
+				} else if (aiQuestion.indexOf("Female") > -1) {
+					if (characterUnderReview.getGender().equals("female") && answer == true) {
+						i++;
+						continue;
+					} else {
 						possibleGameChars.remove(characterUnderReview);
 					}
 				} else if (aiQuestion.indexOf("Glasses") > -1) {
@@ -192,7 +211,7 @@ public class AIPlayer {
 	 * 
 	 * @param GameChars Returns the Ai's character
 	 */
-	public GameChar chooseGameChar(ArrayList<GameChar> GameChars) {
+	public static GameChar chooseGameChar(ArrayList<GameChar> GameChars) {
 		Random rand = new Random();
 		return GameChars.get(rand.nextInt(24));
 	}
@@ -219,7 +238,7 @@ public class AIPlayer {
 	 * @param questionNumber index for each question
 	 * @return The question at a String
 	 */
-	public String questions(int questionNumber) {
+	public static String questions(int questionNumber) {
 		switch (questionNumber) {
 
 		case 0:

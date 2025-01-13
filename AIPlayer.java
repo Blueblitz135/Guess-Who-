@@ -43,7 +43,7 @@ public class AIPlayer {
 			// Algorithm for getting rid of impossible characters for the player to have
 			// chosen
 			int i = 0;
-			while (i < possibleGameChars.size()) {
+			for (int j = 0; j < possibleGameChars.size(); j++) {
 				GameChar characterUnderReview = possibleGameChars.get(i); // The character that is currently being
 																			// checked if is valid
 
@@ -179,10 +179,10 @@ public class AIPlayer {
 		}
 		// From all possible characters, increases number of each attribute present
 		for (int i = 0; i < possibleGameChars.size(); i++) {
-			numberOfAttributes[findIndex(possibleGameChars.get(i).getSkinColor() + "Skin")]++;
-			numberOfAttributes[findIndex(possibleGameChars.get(i).getHairColor() + "Hair")]++;
-			numberOfAttributes[findIndex(possibleGameChars.get(i).getGender() + "Gender")]++;
-			numberOfAttributes[findIndex(possibleGameChars.get(i).getEyeColor() + "Eye")]++;
+			numberOfAttributes[findIndex(possibleGameChars.get(i).getSkinColor())]++;
+			numberOfAttributes[findIndex(possibleGameChars.get(i).getHairColor())]++;
+			numberOfAttributes[findIndex(possibleGameChars.get(i).getGender())]++;
+			numberOfAttributes[findIndex(possibleGameChars.get(i).getEyeColor())]++;
 			numberOfAttributes[findIndex(possibleGameChars.get(i).getHasGlasses() + "Glasses")]++;
 			numberOfAttributes[findIndex(possibleGameChars.get(i).getHasHat() + "Hat")]++;
 			numberOfAttributes[findIndex(possibleGameChars.get(i).getHasFacialHair() + "FaceHair")]++;

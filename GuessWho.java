@@ -11,7 +11,7 @@ import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.border.EmptyBorder;
 
-public class GuessWhocopy implements ActionListener {
+public class GuessWho implements ActionListener {
 	private JFrame startFrame;
 	private JFrame rulesFrame;
 	private JFrame gameBoardFrame;
@@ -72,7 +72,7 @@ public class GuessWhocopy implements ActionListener {
 	 * 
 	 * @throws FileNotFoundException
 	 */
-	public GuessWhocopy() throws FileNotFoundException {
+	public GuessWho() throws FileNotFoundException {
 
 		// Initialize variables and constant objects for the game
 		gameLogo = new ImageIcon("guessWho_Icon.png");
@@ -590,7 +590,6 @@ public class GuessWhocopy implements ActionListener {
 				}
 
 				questionToAsk.setText(questionBank.get(currentQuestionIndex));
-
 			}
 
 			// Submit the question and cross out GameChars accordingly based on the results
@@ -607,24 +606,22 @@ public class GuessWhocopy implements ActionListener {
 					answer = !answer;
 				}
 				int index = 0;
-				while (index < notCrossGameChars.size()) {
-					if (question.indexOf("Hair") > -1) {
-						if (question.indexOf("White") > -1) {
-							if (!(aiGameChar.getHairColor().equals("white") && answer == true)) {
-								notCrossGameChars.remove(gameChars.get(index));
-							}
-						} else if (question.indexOf("Brown") > -1) {
-							if (!(aiGameChar.getHairColor().equals("brown") && answer == true)) {
-								notCrossGameChars.remove(gameChars.get(index));
-							}
-						} else if (question.indexOf("Blonde") > -1) {
-							if (!(aiGameChar.getHairColor().equals("blonde") && answer == true)) {
-								notCrossGameChars.remove(gameChars.get(index));
-							}
-						} else if (question.indexOf("Ginger") > -1) {
-							if (!(aiGameChar.getHairColor().equals("ginger") && answer == true)) {
-								notCrossGameChars.remove(gameChars.get(index));
-							}
+				for (int j = 0; j < notCrossGameChars.size(); j++) {
+					if (question.indexOf("White") > -1) {
+						if (!(aiGameChar.getHairColor().equals("white") && answer == true)) {
+							notCrossGameChars.remove(gameChars.get(index));
+						}
+					} else if (question.indexOf("Brown") > -1) {
+						if (!(aiGameChar.getHairColor().equals("brown") && answer == true)) {
+							notCrossGameChars.remove(gameChars.get(index));
+						}
+					} else if (question.indexOf("Blonde") > -1) {
+						if (!(aiGameChar.getHairColor().equals("blonde") && answer == true)) {
+							notCrossGameChars.remove(gameChars.get(index));
+						}
+					} else if (question.indexOf("Ginger") > -1) {
+						if (!(aiGameChar.getHairColor().equals("ginger") && answer == true)) {
+							notCrossGameChars.remove(gameChars.get(index));
 						}
 					} else if (question.indexOf("Eye") > -1) {
 						if (question.indexOf("Blue") > -1) {
@@ -672,7 +669,8 @@ public class GuessWhocopy implements ActionListener {
 						}
 					}
 				}
-				index = 0; 
+				index = 0;
+				System.out.println(gameChars.size());
 				for (int i = 0; i < 24; i++) {
 					if (!gameChars.get(i).equals(notCrossGameChars.get(index))) {
 						crossOutLabelGrid[i].setIcon(redCrossImage);

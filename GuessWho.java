@@ -672,7 +672,7 @@ public class GuessWho implements ActionListener {
 				index = 0;
 				System.out.println(gameChars.size());
 				for (int i = 0; i < 24; i++) {
-					if (!gameChars.get(i).equals(notCrossGameChars.get(index))) {
+					if (!notCrossGameChars.contains(gameChars.get(i))) {
 						crossOutLabelGrid[i].setIcon(redCrossImage);
 						index--;
 					}

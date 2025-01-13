@@ -56,7 +56,7 @@ public class GuessWho implements ActionListener {
 	// private GameChar aiGameChar;
 	private boolean playerAnswer;
 	private ArrayList<GameChar> gameChars = new ArrayList<GameChar>();
-	private ArrayList<GameChar> notCrossGameChars;
+	private ArrayList<GameChar> notCrossGameChars = new ArrayList<GameChar>();
 	private JLabel[] crossOutLabelGrid;
 	private boolean aiTurn = true;
 	private int numGamesWon;
@@ -98,7 +98,7 @@ public class GuessWho implements ActionListener {
 
 		// Add questions to the question bank
 		questionBank = new ArrayList<>();
-		for (int i = 0; i < 24; i++) {
+		for (int i = 0; i < 22; i++) {
 			questionBank.add(AIPlayer.questions(i));
 		}
 
@@ -152,7 +152,9 @@ public class GuessWho implements ActionListener {
 		gameChars.add(new GameChar("whiteSkin", "blackHair", "maleGender", "brownEye", "CHRIS", false, true, false,
 				false, false, false));
 
-		notCrossGameChars = gameChars;
+		for (int i = 0; i < gameChars.size(); i++) {
+			notCrossGameChars.add(gameChars.get(i));
+		}
 		aiGameChar = AIPlayer.chooseGameChar(gameChars);
 
 		// ---------------------------------Graphics
@@ -311,7 +313,7 @@ public class GuessWho implements ActionListener {
 		questionPanel.add(questionToAsk);
 		questionToAsk.setHorizontalAlignment(SwingConstants.CENTER);
 		questionToAsk.setVerticalAlignment(SwingConstants.CENTER);
-		questionToAsk.setText("Does Your GameChar Not Have Facial Hair?");
+		questionToAsk.setText("Does Your Character Not Have Facial Hair?");
 		questionToAsk.setOpaque(true);
 		questionToAsk.setBackground(new Color(38, 65, 110));
 		questionToAsk.setForeground(Color.white);
@@ -518,190 +520,481 @@ public class GuessWho implements ActionListener {
 		// The result screen will be displayed when either after the AI or the player
 		// makes a guess
 
-		if (aiTurn) {
-			// code here for the pop and when AI asks the question, and if it makes a guess
+		// If the start game button is pressed, close the start frame, and open the game
+		// and rule frames
+		if ((e.getSource()).equals(startButton)) {
+			startFrame.setVisible(false);
+			gameBoardFrame.setVisible(true);
+			rulesFrame.setVisible(true);
+		}
+
+		// If the rules button is pressed, open the rules frame
+		if ((e.getSource()).equals(rulesButton)) {
+			rulesFrame.setVisible(true);
+		}
+
+		// If the close rules button is clicked, close the rules frame
+		if ((e.getSource()).equals(closeRulesButton)) {
+			rulesFrame.setVisible(false);
+		}
+
+		if ((e.getSource()).equals(statsButton)) {
+			statsFrame.setVisible(true);
+		}
+
+		// If the submit guess button is clicked, submit the text within the text field
+		if ((e.getSource()).equals(submitGuessButton)) {
+
+			String name = nameGuessField.getText();
+
+			// Go through the array of GameChars to see if the name submitted is valid
+			for (int i = 0; i < gameChars.size(); i++) {
+				if (gameChars.get(i).getName().equalsIgnoreCase(name)) {
+
+				}
+			}
+
+		}
+
+		// If the right arrow is clicked, go to the next question.
+		// If the right arrow is clicked at the last question, loop back to the first
+		// question.
+		if ((e.getSource()).equals(rightArrow)) {
+
+			if (currentQuestionIndex == questionBank.size() - 1) {
+				currentQuestionIndex = 0;
+			} else {
+
+				currentQuestionIndex++;
+			}
+
+			questionToAsk.setText(questionBank.get(currentQuestionIndex));
+
+		}
+
+		// If the left arrow is clicked, go to the previous question.
+		// If the left arrow is clicked at the first question, loop back to the last
+		// question.
+		if ((e.getSource()).equals(leftArrow)) {
+
+			if (currentQuestionIndex == 0) {
+				currentQuestionIndex = questionBank.size() - 1;
+			} else {
+				currentQuestionIndex--;
+			}
+
+			questionToAsk.setText(questionBank.get(currentQuestionIndex));
+		}
+
+		// Submit the question and cross out GameChars accordingly based on the results
+		// of the question asked.
+		// The question that is asked will be removed from the question bank after
+
+		if ((e.getSource()).equals(submitQuestionButton)) {
+			aiTurn = true;
+			String question = questionToAsk.getText();
+			for (int i = 0; i < gameChars.size(); i++) {
+				System.out.print(gameChars.get(i).getName() + ", ");
+			}
+			
+			System.out.println();
+			
+			for (int i = 0; i < notCrossGameChars.size(); i++) {
+				System.out.print(notCrossGameChars.get(i).getName() + ", ");
+			}
+			if (question.equals(AIPlayer.questions(0))) {
+				if (aiGameChar.getSkinColor().equals("whiteSkin")) {
+					for (int i = 0; i < notCrossGameChars.size(); i++) {
+						if (!notCrossGameChars.get(i).getSkinColor().equals("whiteSkin")) {
+							notCrossGameChars.remove(notCrossGameChars.get(i));
+							i--;
+						}
+					}
+				} else {
+					for (int i = 0; i < notCrossGameChars.size(); i++) {
+						if (notCrossGameChars.get(i).getSkinColor().equals("whiteSkin")) {
+							notCrossGameChars.remove(notCrossGameChars.get(i));
+							i--;
+						}
+					}
+				}
+			} else if (question.equals(AIPlayer.questions(1))) {
+				if (aiGameChar.getSkinColor().equals("blackSkin")) {
+					for (int i = 0; i < notCrossGameChars.size(); i++) {
+						if (!notCrossGameChars.get(i).getSkinColor().equals("blackSkin")) {
+							notCrossGameChars.remove(notCrossGameChars.get(i));
+							i--;
+						}
+					}
+				} else {
+					for (int i = 0; i < notCrossGameChars.size(); i++) {
+						if (notCrossGameChars.get(i).getSkinColor().equals("blackSkin")) {
+							notCrossGameChars.remove(notCrossGameChars.get(i));
+							i--;
+						}
+					}
+				}
+			} else if (question.equals(AIPlayer.questions(2))) {
+				if (aiGameChar.getHairColor().equals("whiteHair")) {
+					for (int i = 0; i < notCrossGameChars.size(); i++) {
+						if (!notCrossGameChars.get(i).getHairColor().equals("whiteHair")) {
+							notCrossGameChars.remove(notCrossGameChars.get(i));
+							i--;
+						}
+					}
+				} else {
+					for (int i = 0; i < notCrossGameChars.size(); i++) {
+						if (notCrossGameChars.get(i).getHairColor().equals("whiteHair")) {
+							notCrossGameChars.remove(notCrossGameChars.get(i));
+							i--;
+						}
+					}
+				}
+			} else if (question.equals(AIPlayer.questions(3))) {
+				if (aiGameChar.getHairColor().equals("brownHair")) {
+					for (int i = 0; i < notCrossGameChars.size(); i++) {
+						if (!notCrossGameChars.get(i).getHairColor().equals("brownHair")) {
+							notCrossGameChars.remove(notCrossGameChars.get(i));
+							i--;
+						}
+					}
+				} else {
+					for (int i = 0; i < notCrossGameChars.size(); i++) {
+						if (notCrossGameChars.get(i).getHairColor().equals("brownHair")) {
+							notCrossGameChars.remove(notCrossGameChars.get(i));
+						}
+					}
+				}
+			} else if (question.equals(AIPlayer.questions(4))) {
+				if (aiGameChar.getHairColor().equals("blondeHair")) {
+					for (int i = 0; i < notCrossGameChars.size(); i++) {
+						if (!notCrossGameChars.get(i).getHairColor().equals("blondeHair")) {
+							notCrossGameChars.remove(notCrossGameChars.get(i));
+							i--;
+						}
+					}
+				} else {
+					for (int i = 0; i < notCrossGameChars.size(); i++) {
+						if (notCrossGameChars.get(i).getHairColor().equals("blondeHair")) {
+							notCrossGameChars.remove(notCrossGameChars.get(i));
+							i--;
+						}
+					}
+				}
+			} else if (question.equals(AIPlayer.questions(5))) {
+				if (aiGameChar.getHairColor().equals("gingerHair")) {
+					for (int i = 0; i < notCrossGameChars.size(); i++) {
+						if (!notCrossGameChars.get(i).getHairColor().equals("gingerHair")) {
+							notCrossGameChars.remove(notCrossGameChars.get(i));
+							i--;
+						}
+					}
+				} else {
+					for (int i = 0; i < notCrossGameChars.size(); i++) {
+						if (notCrossGameChars.get(i).getHairColor().equals("gingerHair")) {
+							notCrossGameChars.remove(notCrossGameChars.get(i));
+							i--;
+						}
+					}
+				}
+			} else if (question.equals(AIPlayer.questions(6))) {
+				if (aiGameChar.getGender().equals("maleGender")) {
+					for (int i = 0; i < notCrossGameChars.size(); i++) {
+						if (!notCrossGameChars.get(i).getGender().equals("maleGender")) {
+							notCrossGameChars.remove(notCrossGameChars.get(i));
+							i--;
+						}
+					}
+				} else {
+					for (int i = 0; i < notCrossGameChars.size(); i++) {
+						if (notCrossGameChars.get(i).getGender().equals("maleGender")) {
+							notCrossGameChars.remove(notCrossGameChars.get(i));
+							i--;
+						}
+					}
+				}
+			} else if (question.equals(AIPlayer.questions(7))) {
+				if (aiGameChar.getGender().equals("femaleGender")) {
+					for (int i = 0; i < notCrossGameChars.size(); i++) {
+						if (!notCrossGameChars.get(i).getGender().equals("femaleGender")) {
+							notCrossGameChars.remove(notCrossGameChars.get(i));
+							i--;
+						}
+					}
+				} else {
+					for (int i = 0; i < notCrossGameChars.size(); i++) {
+						if (notCrossGameChars.get(i).getGender().equals("femaleGender")) {
+							notCrossGameChars.remove(notCrossGameChars.get(i));
+							i--;
+						}
+					}
+				}
+			} else if (question.equals(AIPlayer.questions(8))) {
+				if (aiGameChar.getEyeColor().equals("brownEye")) {
+					for (int i = 0; i < notCrossGameChars.size(); i++) {
+						if (!notCrossGameChars.get(i).getEyeColor().equals("brownEye")) {
+							notCrossGameChars.remove(notCrossGameChars.get(i));
+							i--;
+						}
+					}
+				} else {
+					for (int i = 0; i < notCrossGameChars.size(); i++) {
+						if (notCrossGameChars.get(i).getEyeColor().equals("brownEye")) {
+							notCrossGameChars.remove(notCrossGameChars.get(i));
+							i--;
+						}
+					}
+				}
+			} else if (question.equals(AIPlayer.questions(9))) {
+				if (aiGameChar.getEyeColor().equals("blueEye")) {
+					for (int i = 0; i < notCrossGameChars.size(); i++) {
+						if (!notCrossGameChars.get(i).getEyeColor().equals("blueEye")) {
+							notCrossGameChars.remove(notCrossGameChars.get(i));
+							i--;
+						}
+					}
+				} else {
+					for (int i = 0; i < notCrossGameChars.size(); i++) {
+						if (notCrossGameChars.get(i).getEyeColor().equals("blueEye")) {
+							notCrossGameChars.remove(notCrossGameChars.get(i));
+							i--;
+						}
+					}
+				}
+			} else if (question.equals(AIPlayer.questions(10))) {
+				if (aiGameChar.getHasGlasses() == true) {
+					for (int i = 0; i < notCrossGameChars.size(); i++) {
+						if (!notCrossGameChars.get(i).getHasGlasses() == true) {
+							notCrossGameChars.remove(notCrossGameChars.get(i));
+							i--;
+						}
+					}
+				} else {
+					for (int i = 0; i < notCrossGameChars.size(); i++) {
+						if (notCrossGameChars.get(i).getHasGlasses() == true) {
+							notCrossGameChars.remove(notCrossGameChars.get(i));
+							i--;
+						}
+					}
+				}
+			} else if (question.equals(AIPlayer.questions(11))) {
+				if (aiGameChar.getHasGlasses() == false) {
+					for (int i = 0; i < notCrossGameChars.size(); i++) {
+						if (!notCrossGameChars.get(i).getHasGlasses() == false) {
+							notCrossGameChars.remove(notCrossGameChars.get(i));
+							i--;
+						}
+					}
+				} else {
+					for (int i = 0; i < notCrossGameChars.size(); i++) {
+						if (notCrossGameChars.get(i).getHasGlasses() == false) {
+							notCrossGameChars.remove(notCrossGameChars.get(i));
+							i--;
+						}
+					}
+				}
+			} else if (question.equals(AIPlayer.questions(12))) {
+				if (aiGameChar.getHasHat() == true) {
+					for (int i = 0; i < notCrossGameChars.size(); i++) {
+						if (!notCrossGameChars.get(i).getHasHat() == true) {
+							notCrossGameChars.remove(notCrossGameChars.get(i));
+							i--;
+						}
+					}
+				} else {
+					for (int i = 0; i < notCrossGameChars.size(); i++) {
+						if (notCrossGameChars.get(i).getHasHat() == true) {
+							notCrossGameChars.remove(notCrossGameChars.get(i));
+							i--;
+						}
+					}
+				}
+			} else if (question.equals(AIPlayer.questions(13))) {
+				if (aiGameChar.getHasHat() == false) {
+					for (int i = 0; i < notCrossGameChars.size(); i++) {
+						if (!notCrossGameChars.get(i).getHasHat() == false) {
+							notCrossGameChars.remove(notCrossGameChars.get(i));
+							i--;
+						}
+					}
+				} else {
+					for (int i = 0; i < notCrossGameChars.size(); i++) {
+						if (notCrossGameChars.get(i).getHasHat() == false) {
+							notCrossGameChars.remove(notCrossGameChars.get(i));
+							i--;
+						}
+					}
+				}
+			} else if (question.equals(AIPlayer.questions(14))) {
+				if (aiGameChar.getHasFacialHair() == true) {
+					for (int i = 0; i < notCrossGameChars.size(); i++) {
+						if (!notCrossGameChars.get(i).getHasFacialHair() == true) {
+							notCrossGameChars.remove(notCrossGameChars.get(i));
+							i--;
+						}
+					}
+				} else {
+					for (int i = 0; i < notCrossGameChars.size(); i++) {
+						if (notCrossGameChars.get(i).getHasFacialHair() == true) {
+							notCrossGameChars.remove(notCrossGameChars.get(i));
+							i--;
+						}
+					}
+				}
+			} else if (question.equals(AIPlayer.questions(15))) {
+				if (aiGameChar.getHasFacialHair() == false) {
+					for (int i = 0; i < notCrossGameChars.size(); i++) {
+						if (!notCrossGameChars.get(i).getHasFacialHair() == false) {
+							notCrossGameChars.remove(notCrossGameChars.get(i));
+							i--;
+						}
+					}
+				} else {
+					for (int i = 0; i < notCrossGameChars.size(); i++) {
+						if (notCrossGameChars.get(i).getHasFacialHair() == false) {
+							notCrossGameChars.remove(notCrossGameChars.get(i));
+							i--;
+						}
+					}
+				}
+			} else if (question.equals(AIPlayer.questions(16))) {
+				if (aiGameChar.getHasEarings() == true) {
+					for (int i = 0; i < notCrossGameChars.size(); i++) {
+						if (!notCrossGameChars.get(i).getHasEarings() == true) {
+							notCrossGameChars.remove(notCrossGameChars.get(i));
+							i--;
+						}
+					}
+				} else {
+					for (int i = 0; i < notCrossGameChars.size(); i++) {
+						if (notCrossGameChars.get(i).getHasEarings() == true) {
+							notCrossGameChars.remove(notCrossGameChars.get(i));
+							i--;
+						}
+					}
+				}
+			} else if (question.equals(AIPlayer.questions(17))) {
+				if (aiGameChar.getHasEarings() == false) {
+					for (int i = 0; i < notCrossGameChars.size(); i++) {
+						if (!notCrossGameChars.get(i).getHasEarings() == false) {
+							notCrossGameChars.remove(notCrossGameChars.get(i));
+							i--;
+						}
+					}
+				} else {
+					for (int i = 0; i < notCrossGameChars.size(); i++) {
+						if (notCrossGameChars.get(i).getHasEarings() == false) {
+							notCrossGameChars.remove(notCrossGameChars.get(i));
+							i--;
+						}
+					}
+				}
+			} else if (question.equals(AIPlayer.questions(18))) {
+				if (aiGameChar.getHasMustache() == true) {
+					for (int i = 0; i < notCrossGameChars.size(); i++) {
+						if (!notCrossGameChars.get(i).getHasMustache() == true) {
+							notCrossGameChars.remove(notCrossGameChars.get(i));
+							i--;
+						}
+					}
+				} else {
+					for (int i = 0; i < notCrossGameChars.size(); i++) {
+						if (notCrossGameChars.get(i).getHasMustache() == true) {
+							notCrossGameChars.remove(notCrossGameChars.get(i));
+							i--;
+						}
+					}
+				}
+			} else if (question.equals(AIPlayer.questions(19))) {
+				if (aiGameChar.getHasMustache() == false) {
+					for (int i = 0; i < notCrossGameChars.size(); i++) {
+						if (!notCrossGameChars.get(i).getHasMustache() == false) {
+							notCrossGameChars.remove(notCrossGameChars.get(i));
+							i--;
+						}
+					}
+				} else {
+					for (int i = 0; i < notCrossGameChars.size(); i++) {
+						if (notCrossGameChars.get(i).getHasMustache() == false) {
+							notCrossGameChars.remove(notCrossGameChars.get(i));
+							i--;
+						}
+					}
+				}
+			} else if (question.equals(AIPlayer.questions(20))) {
+				if (aiGameChar.getIsShowingTeeth() == true) {
+					for (int i = 0; i < notCrossGameChars.size(); i++) {
+						if (!notCrossGameChars.get(i).getIsShowingTeeth() == true) {
+							notCrossGameChars.remove(notCrossGameChars.get(i));
+							i--;
+						}
+					}
+				} else {
+					for (int i = 0; i < notCrossGameChars.size(); i++) {
+						if (notCrossGameChars.get(i).getIsShowingTeeth() == true) {
+							notCrossGameChars.remove(notCrossGameChars.get(i));
+							i--;
+						}
+					}
+				}
+			} else if (question.equals(AIPlayer.questions(21))) {
+				if (aiGameChar.getIsShowingTeeth() == false) {
+					for (int i = 0; i < notCrossGameChars.size(); i++) {
+						if (!notCrossGameChars.get(i).getIsShowingTeeth() == false) {
+							notCrossGameChars.remove(notCrossGameChars.get(i));
+							i--;
+						}
+					}
+				} else {
+					for (int i = 0; i < notCrossGameChars.size(); i++) {
+						if (notCrossGameChars.get(i).getIsShowingTeeth() == false) {
+							notCrossGameChars.remove(notCrossGameChars.get(i));
+							i--;
+						}
+					}
+				}
+			}
+			
+			System.out.println();
+			for (int i = 0; i < gameChars.size(); i++) {
+				System.out.print(gameChars.get(i).getName() + ", ");
+			}
+			
+			System.out.println();
+			
+			for (int i = 0; i < notCrossGameChars.size(); i++) {
+				System.out.print(notCrossGameChars.get(i).getName() + ", ");
+			}
+			
+			for (int i = 0; i < gameChars.size(); i++) {
+				if (!notCrossGameChars.contains(gameChars.get(i))) {
+					crossOutLabelGrid[i].setVisible(true);
+				}
+			}			// Increment the number of questions asked by 1 and display it
+			numOfQuestionsAsked += 1;
+			numQuestionsAskedLabel.setText("# of Questions Asked: " + numOfQuestionsAsked);
+
+			// Remove question from question bank
+			// If there are no more questions left, then create a pop up to tell the user
+			// they have to enter a guess
+			questionBank.remove(currentQuestionIndex);
+			currentQuestionIndex = 0;
+
+			if (questionBank.size() != 0) {
+				questionToAsk.setText(questionBank.get(currentQuestionIndex));
+			} else {
+				JOptionPane.showMessageDialog(null, "There are no more questions left! Now input a guess!",
+						"No More Guesses", JOptionPane.WARNING_MESSAGE);
+				questionToAsk.setText("");
+				leftArrow.setEnabled(false);
+				rightArrow.setEnabled(false);
+				submitQuestionButton.setEnabled(false);
+
+			}
 			aiTurn = false;
 			ai.playTurn(playerAnswer);
 			int choice = JOptionPane.showConfirmDialog(null, ai.getAiQuestion(), "Answer Ai's Question",
 					JOptionPane.YES_NO_OPTION);
-
-		} else {
-			// If the start game button is pressed, close the start frame, and open the game
-			// and rule frames
-			if ((e.getSource()).equals(startButton)) {
-				startFrame.setVisible(false);
-				gameBoardFrame.setVisible(true);
-				rulesFrame.setVisible(true);
-			}
-
-			// If the rules button is pressed, open the rules frame
-			if ((e.getSource()).equals(rulesButton)) {
-				rulesFrame.setVisible(true);
-			}
-
-			// If the close rules button is clicked, close the rules frame
-			if ((e.getSource()).equals(closeRulesButton)) {
-				rulesFrame.setVisible(false);
-			}
-
-			if ((e.getSource()).equals(statsButton)) {
-				statsFrame.setVisible(true);
-			}
-
-			// If the submit guess button is clicked, submit the text within the text field
-			if ((e.getSource()).equals(submitGuessButton)) {
-
-				String name = nameGuessField.getText();
-
-				// Go through the array of GameChars to see if the name submitted is valid
-				for (int i = 0; i < gameChars.size(); i++) {
-					if (gameChars.get(i).getName().equalsIgnoreCase(name)) {
-
-					}
-				}
-
-			}
-
-			// If the right arrow is clicked, go to the next question.
-			// If the right arrow is clicked at the last question, loop back to the first
-			// question.
-			if ((e.getSource()).equals(rightArrow)) {
-
-				if (currentQuestionIndex == questionBank.size() - 1) {
-					currentQuestionIndex = 0;
-				} else {
-
-					currentQuestionIndex++;
-				}
-
-				questionToAsk.setText(questionBank.get(currentQuestionIndex));
-
-			}
-
-			// If the left arrow is clicked, go to the previous question.
-			// If the left arrow is clicked at the first question, loop back to the last
-			// question.
-			if ((e.getSource()).equals(leftArrow)) {
-
-				if (currentQuestionIndex == 0) {
-					currentQuestionIndex = questionBank.size() - 1;
-				} else {
-					currentQuestionIndex--;
-				}
-
-				questionToAsk.setText(questionBank.get(currentQuestionIndex));
-			}
-
-			// Submit the question and cross out GameChars accordingly based on the results
-			// of the question asked.
-			// The question that is asked will be removed from the question bank after
-
-			if ((e.getSource()).equals(submitQuestionButton)) {
-				aiTurn = true;
-				String question = questionToAsk.getText();
-
-				boolean answer = true;
-
-				if (question.indexOf("Not") > -1) {
-					answer = !answer;
-				}
-				int index = 0;
-				for (int j = 0; j < notCrossGameChars.size(); j++) {
-					if (question.indexOf("White") > -1) {
-						if (!(aiGameChar.getHairColor().equals("white") && answer == true)) {
-							notCrossGameChars.remove(gameChars.get(index));
-						}
-					} else if (question.indexOf("Brown") > -1) {
-						if (!(aiGameChar.getHairColor().equals("brown") && answer == true)) {
-							notCrossGameChars.remove(gameChars.get(index));
-						}
-					} else if (question.indexOf("Blonde") > -1) {
-						if (!(aiGameChar.getHairColor().equals("blonde") && answer == true)) {
-							notCrossGameChars.remove(gameChars.get(index));
-						}
-					} else if (question.indexOf("Ginger") > -1) {
-						if (!(aiGameChar.getHairColor().equals("ginger") && answer == true)) {
-							notCrossGameChars.remove(gameChars.get(index));
-						}
-					} else if (question.indexOf("Eye") > -1) {
-						if (question.indexOf("Blue") > -1) {
-							if (!(aiGameChar.getEyeColor().equals("blue") && answer == true)) {
-								notCrossGameChars.remove(gameChars.get(index));
-							}
-						} else if (question.indexOf("Brown") > -1) {
-							if (!(aiGameChar.getEyeColor().equals("brown") && answer == true)) {
-								notCrossGameChars.remove(gameChars.get(index));
-							}
-						}
-					} else if (question.indexOf("Skin") > -1) {
-						if (question.indexOf("white") > -1) {
-							if (!(aiGameChar.getSkinColor().equals("white") && answer == true)) {
-								notCrossGameChars.remove(gameChars.get(index));
-							}
-						} else if (question.indexOf("Black") > -1 && answer == true) {
-							if (!(aiGameChar.getSkinColor().equals("black") && answer == true)) {
-								notCrossGameChars.remove(gameChars.get(index));
-							}
-						}
-					} else if (question.indexOf("Glasses") > -1) {
-						if (!(aiGameChar.getHasGlasses() && answer == true)) {
-							notCrossGameChars.remove(gameChars.get(index));
-						}
-					} else if (question.indexOf("Hat") > -1) {
-						if (!(aiGameChar.getHasHat() && answer == true)) {
-							notCrossGameChars.remove(gameChars.get(index));
-						}
-					} else if (question.indexOf("Face") > -1) {
-						if (!(aiGameChar.getHasHat() && answer == true)) {
-							notCrossGameChars.remove(gameChars.get(index));
-						}
-					} else if (question.indexOf("Earing") > -1) {
-						if (!(aiGameChar.getHasEarings() && answer == true)) {
-							notCrossGameChars.remove(gameChars.get(index));
-						}
-					} else if (question.indexOf("Mustache") > -1) {
-						if (!(aiGameChar.getHasMustache() && answer == true)) {
-							notCrossGameChars.remove(gameChars.get(index));
-						}
-					} else if (question.indexOf("Teeth") > -1) {
-						if (!(aiGameChar.getIsShowingTeeth() && answer == true)) {
-							notCrossGameChars.remove(gameChars.get(index));
-						}
-					}
-				}
-				index = 0;
-				System.out.println(gameChars.size());
-				for (int i = 0; i < 24; i++) {
-					if (!notCrossGameChars.contains(gameChars.get(i))) {
-						crossOutLabelGrid[i].setIcon(redCrossImage);
-						index--;
-					}
-					index++;
-				}
-
-				// Increment the number of questions asked by 1 and display it
-				numOfQuestionsAsked += 1;
-				numQuestionsAskedLabel.setText("# of Questions Asked: " + numOfQuestionsAsked);
-
-				// Remove question from question bank
-				// If there are no more questions left, then create a pop up to tell the user
-				// they have to enter a guess
-				questionBank.remove(currentQuestionIndex);
-				currentQuestionIndex = 0;
-
-				if (questionBank.size() != 0) {
-					questionToAsk.setText(questionBank.get(currentQuestionIndex));
-				} else {
-					JOptionPane.showMessageDialog(null, "There are no more questions left! Now input a guess!",
-							"No More Guesses", JOptionPane.WARNING_MESSAGE);
-					questionToAsk.setText("");
-					leftArrow.setEnabled(false);
-					rightArrow.setEnabled(false);
-					submitQuestionButton.setEnabled(false);
-
-				}
-			}
-
 		}
 
 	}

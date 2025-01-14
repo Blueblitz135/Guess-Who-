@@ -15,7 +15,6 @@ public class GuessWho implements ActionListener {
 	private JFrame startFrame;
 	private JFrame rulesFrame;
 	private JFrame gameBoardFrame;
-	private JFrame endFrame;
 	private JFrame statsFrame;
 	private JLabel gameTitle;
 	private JLabel smallGameTitle;
@@ -41,7 +40,6 @@ public class GuessWho implements ActionListener {
 	private JButton submitQuestionButton;
 	private JButton closeRulesButton; // maybe we don't need cause they can just "x" out
 	private JButton statsButton;
-	private JButton exitButton = new JButton("Exit");
 	private JTextField nameGuessField;
 	private JLayeredPane GameCharLayerPane;
 	private ImageIcon gameLogo;
@@ -67,7 +65,7 @@ public class GuessWho implements ActionListener {
 	private int minNumQuestionsAskedToWin;
 
 	// Kian Fixing Everytthing Variables
-	private AIPlayer ai = new AIPlayer(gameChars);
+	private AIPlayer ai; 
 	private GameChar aiGameChar;
 
 	/**
@@ -104,14 +102,14 @@ public class GuessWho implements ActionListener {
 			rules[i] = ruleScan.nextLine();
 		}
 
-		System.out.println(numGamesWon);
-		System.out.println(maxNumQuestionsAskedToWin);
-		System.out.println(minNumQuestionsAskedToWin);
+//		System.out.println(numGamesWon);
+//		System.out.println(maxNumQuestionsAskedToWin);
+//		System.out.println(minNumQuestionsAskedToWin);
 
 		// Add questions to the question bank
 		questionBank = new ArrayList<>();
-		for (int i = 0; i < 22; i++) {
-			questionBank.add(AIPlayer.questions(i));
+		for (int i = 0; i < 23; i++) {
+			questionBank.add(questions(i));
 		}
 
 		// Initialize GameChars
@@ -167,8 +165,9 @@ public class GuessWho implements ActionListener {
 		for (int i = 0; i < gameChars.size(); i++) {
 			notCrossGameChars.add(gameChars.get(i));
 		}
+		ai = new AIPlayer(gameChars);
 		aiGameChar = AIPlayer.chooseGameChar(gameChars);
-
+		
 		// ---------------------------------Graphics
 		// Initialization-------------------------------
 
@@ -530,6 +529,65 @@ public class GuessWho implements ActionListener {
 	}
 
 	/**
+	 * Question bank for all questions
+	 * 
+	 * @param questionNumber index for each question
+	 * @return The question at a String
+	 */
+	public static String questions(int questionNumber) {
+		switch (questionNumber) {
+
+		case 0:
+			return "Does Your Character Have White Skin?";
+		case 1:
+			return "Does Your Character Have Black Skin?";
+		case 2:
+			return "Does Your Character Have White Hair?";
+		case 3:
+			return "Does Your Character Have Brown Hair?";
+		case 4:
+			return "Does Your Character Have Blonde Hair?";
+		case 5:
+			return "Does Your Character Have Ginger Hair?";
+		case 6:
+			return "Does Your Character Have Black Hair?";
+		case 7:
+			return "Is Your Character Male?";
+		case 8:
+			return "Is Your Character Female?";
+		case 9:
+			return "Does Your Character Have Brown Eyes?";
+		case 10:
+			return "Does Your Character Have Blue Eyes?";
+		case 11:
+			return "Does Your Character Have Glasses?";
+		case 12:
+			return "Does Your Character Not Have Glasses?";
+		case 13:
+			return "Is Your Character Wearing A Hat?";
+		case 14:
+			return "Is Your Character Not Wearing A Hat?";
+		case 15:
+			return "Does Your Character Have Facial Hair?";
+		case 16:
+			return "Does Your Character Not Have Facial Hair?";
+		case 17:
+			return "Does Your Character Have Earings?";
+		case 18:
+			return "Does Your Character Not Have Earings?";
+		case 19:
+			return "Does Your Character Have A Mustache?";
+		case 20:
+			return "Does Your Character Not Have A Mustache?";
+		case 21:
+			return "Is Your Character Showing Teeth?";
+		case 22:
+			return "Is Your Character Not Showing Teeth?";
+		}
+		return "Error";
+	}
+
+	/**
 	 * This method will create the pop up for the win screen when there is a winner.
 	 */
 	public static void resultScreen(boolean playerWins) {
@@ -572,114 +630,21 @@ public class GuessWho implements ActionListener {
 			rulesFrame.setVisible(false);
 		}
 
-		// if the stats button is clicked, open the states frame
 		if ((e.getSource()).equals(statsButton)) {
 			statsFrame.setVisible(true);
 		}
 
-		// if the exit button is clicked, close all frames and end game
-		if ((e.getSource()).equals(exitButton)) {
-			gameBoardFrame.setVisible(false);
-			statsFrame.setVisible(false);
-			rulesFrame.setVisible(false);
-			endFrame.setVisible(false);
-		}
-		
 		// If the submit guess button is clicked, submit the text within the text field
 		if ((e.getSource()).equals(submitGuessButton)) {
 
-			String guess = nameGuessField.getText().trim().toUpperCase();
+			String name = nameGuessField.getText();
 
 			// Go through the array of GameChars to see if the name submitted is valid
 			for (int i = 0; i < gameChars.size(); i++) {
-				if (gameChars.get(i).getName().equalsIgnoreCase(guess)) {
-					break;
+				if (gameChars.get(i).getName().equalsIgnoreCase(name)) {
+
 				}
 			}
-
-			// create end panel
-			JPanel endPanel = new JPanel();
-			endPanel = new JPanel();
-			endPanel.setBorder(new EmptyBorder(40, 0, 0, 0));
-			endPanel.setLayout(new BoxLayout(endPanel, BoxLayout.Y_AXIS));
-			endPanel.setBackground(backgroundColor);
-			
-			// if user guessed the correct character
-			if (guess.equals(aiGameChar.getName())) {
-			
-				// tells user they win
-				endFrame = new JFrame("You Win!");
-				endFrame.setSize(new Dimension(600,500));
-				endFrame.setLayout(new BorderLayout());
-				endFrame.getContentPane().setBackground(new Color(187, 238, 252));
-				endFrame.setResizable(false);
-				endPanel.add(Box.createRigidArea(new Dimension(0, 20)));
-				JLabel endTitle = new JLabel();
-				endTitle.setText("You Win 😊!");
-				endTitle.setFont(new Font("Helvetica", Font.BOLD, 70));
-				endTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
-				endPanel.add(endTitle);
-				endFrame.add(endPanel);
-
-			}
-			
-			// if user guess the wrong character
-			else {
-				
-				// tells user they lost
-				endFrame = new JFrame("You Lose!");
-				endFrame.setSize(new Dimension(600,500));
-				endFrame.setLayout(new BorderLayout());
-				endFrame.getContentPane().setBackground(new Color(187, 238, 252));
-				endFrame.setResizable(false);
-				endPanel.add(Box.createRigidArea(new Dimension(0, 20)));
-				JLabel endTitle = new JLabel();
-				endTitle.setText("You Lose 😢!");
-				endTitle.setFont(new Font("Helvetica", Font.BOLD, 70));
-				endTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
-				endPanel.add(endTitle);
-				endFrame.add(endPanel);
-		
-			}
-			
-			
-			
-			
-			// tells user the character the ai chose
-			JLabel chosenChar = new JLabel();
-			endPanel.add(Box.createRigidArea(new Dimension(0, 50)));
-			chosenChar.setText("AI's Character: " + aiGameChar.getName());
-			chosenChar.setFont(new Font("Helvetica", Font.BOLD, 30));
-			chosenChar.setAlignmentX(Component.CENTER_ALIGNMENT);
-			endPanel.add(chosenChar);
-			
-			// tells user the number of questions asked
-			JLabel numQuestions = new JLabel();
-			endPanel.add(Box.createRigidArea(new Dimension(0, 20)));
-			numQuestions.setText("Number of Questions Asked: " + numOfQuestionsAsked);
-			numQuestions.setFont(new Font("Helvetica", Font.BOLD, 30));
-			numQuestions.setAlignmentX(Component.CENTER_ALIGNMENT);
-			endPanel.add(numQuestions);
-
-			
-			// creates exit button
-			exitButton.addActionListener(this);
-			exitButton.setVisible(true);
-			endPanel.add(Box.createRigidArea(new Dimension(0, 20)));
-			exitButton.setPreferredSize(new Dimension(280, 110));
-			exitButton.setBackground(new Color(247, 238, 156));
-			exitButton.setFocusable(false);
-			exitButton.setFont(new Font("Helvetica", Font.BOLD, 60));
-			exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-			endPanel.add(exitButton);
-			
-			endFrame.setVisible(true);
-			
-			
-			
-			
-
-			
 
 		}
 
@@ -718,18 +683,8 @@ public class GuessWho implements ActionListener {
 		// The question that is asked will be removed from the question bank after
 
 		if ((e.getSource()).equals(submitQuestionButton)) {
-			aiTurn = true;
 			String question = questionToAsk.getText();
-			for (int i = 0; i < gameChars.size(); i++) {
-				System.out.print(gameChars.get(i).getName() + ", ");
-			}
-			
-			System.out.println();
-			
-			for (int i = 0; i < notCrossGameChars.size(); i++) {
-				System.out.print(notCrossGameChars.get(i).getName() + ", ");
-			}
-			if (question.equals(AIPlayer.questions(0))) {
+			if (question.equals(questions(0))) {
 				if (aiGameChar.getSkinColor().equals("whiteSkin")) {
 					for (int i = 0; i < notCrossGameChars.size(); i++) {
 						if (!(notCrossGameChars.get(i).getSkinColor().equals("whiteSkin"))) {
@@ -745,7 +700,7 @@ public class GuessWho implements ActionListener {
 						}
 					}
 				}
-			} else if (question.equals(AIPlayer.questions(1))) {
+			} else if (question.equals(GuessWho.questions(1))) {
 				if (aiGameChar.getSkinColor().equals("blackSkin")) {
 					for (int i = 0; i < notCrossGameChars.size(); i++) {
 						if (!(notCrossGameChars.get(i).getSkinColor().equals("blackSkin"))) {
@@ -761,7 +716,7 @@ public class GuessWho implements ActionListener {
 						}
 					}
 				}
-			} else if (question.equals(AIPlayer.questions(2))) {
+			} else if (question.equals(questions(2))) {
 				if (aiGameChar.getHairColor().equals("whiteHair")) {
 					for (int i = 0; i < notCrossGameChars.size(); i++) {
 						if (!(notCrossGameChars.get(i).getHairColor().equals("whiteHair"))) {
@@ -777,7 +732,7 @@ public class GuessWho implements ActionListener {
 						}
 					}
 				}
-			} else if (question.equals(AIPlayer.questions(3))) {
+			} else if (question.equals(questions(3))) {
 				if (aiGameChar.getHairColor().equals("brownHair")) {
 					for (int i = 0; i < notCrossGameChars.size(); i++) {
 						if (!(notCrossGameChars.get(i).getHairColor().equals("brownHair"))) {
@@ -793,7 +748,7 @@ public class GuessWho implements ActionListener {
 						}
 					}
 				}
-			} else if (question.equals(AIPlayer.questions(4))) {
+			} else if (question.equals(questions(4))) {
 				if (aiGameChar.getHairColor().equals("blondeHair")) {
 					for (int i = 0; i < notCrossGameChars.size(); i++) {
 						if (!(notCrossGameChars.get(i).getHairColor().equals("blondeHair"))) {
@@ -809,7 +764,7 @@ public class GuessWho implements ActionListener {
 						}
 					}
 				}
-			} else if (question.equals(AIPlayer.questions(5))) {
+			} else if (question.equals(questions(5))) {
 				if (aiGameChar.getHairColor().equals("gingerHair")) {
 					for (int i = 0; i < notCrossGameChars.size(); i++) {
 						if (!(notCrossGameChars.get(i).getHairColor().equals("gingerHair"))) {
@@ -825,7 +780,23 @@ public class GuessWho implements ActionListener {
 						}
 					}
 				}
-			} else if (question.equals(AIPlayer.questions(6))) {
+			} else if (question.equals(questions(6))) {
+				if (aiGameChar.getHairColor().equals("blackHair")) {
+					for (int i = 0; i < notCrossGameChars.size(); i++) {
+						if (!(notCrossGameChars.get(i).getHairColor().equals("blackHair"))) {
+							notCrossGameChars.remove(notCrossGameChars.get(i));
+							i--;
+						}
+					}
+				} else {
+					for (int i = 0; i < notCrossGameChars.size(); i++) {
+						if (notCrossGameChars.get(i).getHairColor().equals("blackHair")) {
+							notCrossGameChars.remove(notCrossGameChars.get(i));
+							i--;
+						}
+					}
+				}
+			} else if (question.equals(questions(7))) {
 				if (aiGameChar.getGender().equals("maleGender")) {
 					for (int i = 0; i < notCrossGameChars.size(); i++) {
 						if (!(notCrossGameChars.get(i).getGender().equals("maleGender"))) {
@@ -841,7 +812,7 @@ public class GuessWho implements ActionListener {
 						}
 					}
 				}
-			} else if (question.equals(AIPlayer.questions(7))) {
+			} else if (question.equals(questions(8))) {
 				if (aiGameChar.getGender().equals("femaleGender")) {
 					for (int i = 0; i < notCrossGameChars.size(); i++) {
 						if (!(notCrossGameChars.get(i).getGender().equals("femaleGender"))) {
@@ -857,7 +828,7 @@ public class GuessWho implements ActionListener {
 						}
 					}
 				}
-			} else if (question.equals(AIPlayer.questions(8))) {
+			} else if (question.equals(questions(9))) {
 				if (aiGameChar.getEyeColor().equals("brownEye")) {
 					for (int i = 0; i < notCrossGameChars.size(); i++) {
 						if (!(notCrossGameChars.get(i).getEyeColor().equals("brownEye"))) {
@@ -873,7 +844,7 @@ public class GuessWho implements ActionListener {
 						}
 					}
 				}
-			} else if (question.equals(AIPlayer.questions(9))) {
+			} else if (question.equals(questions(10))) {
 				if (aiGameChar.getEyeColor().equals("blueEye")) {
 					for (int i = 0; i < notCrossGameChars.size(); i++) {
 						if (!(notCrossGameChars.get(i).getEyeColor().equals("blueEye"))) {
@@ -889,7 +860,7 @@ public class GuessWho implements ActionListener {
 						}
 					}
 				}
-			} else if (question.equals(AIPlayer.questions(10))) {
+			} else if (question.equals(questions(11))) {
 				if (aiGameChar.getHasGlasses() == true) {
 					for (int i = 0; i < notCrossGameChars.size(); i++) {
 						if (!(notCrossGameChars.get(i).getHasGlasses() == true)) {
@@ -905,7 +876,7 @@ public class GuessWho implements ActionListener {
 						}
 					}
 				}
-			} else if (question.equals(AIPlayer.questions(11))) {
+			} else if (question.equals(questions(12))) {
 				if (aiGameChar.getHasGlasses() == false) {
 					for (int i = 0; i < notCrossGameChars.size(); i++) {
 						if (!(notCrossGameChars.get(i).getHasGlasses() == false)) {
@@ -921,7 +892,7 @@ public class GuessWho implements ActionListener {
 						}
 					}
 				}
-			} else if (question.equals(AIPlayer.questions(12))) {
+			} else if (question.equals(questions(13))) {
 				if (aiGameChar.getHasHat() == true) {
 					for (int i = 0; i < notCrossGameChars.size(); i++) {
 						if (!(notCrossGameChars.get(i).getHasHat() == true)) {
@@ -937,7 +908,7 @@ public class GuessWho implements ActionListener {
 						}
 					}
 				}
-			} else if (question.equals(AIPlayer.questions(13))) {
+			} else if (question.equals(questions(14))) {
 				if (aiGameChar.getHasHat() == false) {
 					for (int i = 0; i < notCrossGameChars.size(); i++) {
 						if (!(notCrossGameChars.get(i).getHasHat() == false)) {
@@ -953,7 +924,7 @@ public class GuessWho implements ActionListener {
 						}
 					}
 				}
-			} else if (question.equals(AIPlayer.questions(14))) {
+			} else if (question.equals(questions(15))) {
 				if (aiGameChar.getHasFacialHair() == true) {
 					for (int i = 0; i < notCrossGameChars.size(); i++) {
 						if (!(notCrossGameChars.get(i).getHasFacialHair() == true)) {
@@ -969,7 +940,7 @@ public class GuessWho implements ActionListener {
 						}
 					}
 				}
-			} else if (question.equals(AIPlayer.questions(15))) {
+			} else if (question.equals(questions(16))) {
 				if (aiGameChar.getHasFacialHair() == false) {
 					for (int i = 0; i < notCrossGameChars.size(); i++) {
 						if (!(notCrossGameChars.get(i).getHasFacialHair() == false)) {
@@ -985,7 +956,7 @@ public class GuessWho implements ActionListener {
 						}
 					}
 				}
-			} else if (question.equals(AIPlayer.questions(16))) {
+			} else if (question.equals(questions(17))) {
 				if (aiGameChar.getHasEarings() == true) {
 					for (int i = 0; i < notCrossGameChars.size(); i++) {
 						if (!(notCrossGameChars.get(i).getHasEarings() == true)) {
@@ -1001,10 +972,10 @@ public class GuessWho implements ActionListener {
 						}
 					}
 				}
-			} else if (question.equals(AIPlayer.questions(17))) {
+			} else if (question.equals(questions(18))) {
 				if (aiGameChar.getHasEarings() == false) {
 					for (int i = 0; i < notCrossGameChars.size(); i++) {
-						if ((!notCrossGameChars.get(i).getHasEarings() == false)) {
+						if (!(notCrossGameChars.get(i).getHasEarings() == false)) {
 							notCrossGameChars.remove(notCrossGameChars.get(i));
 							i--;
 						}
@@ -1017,7 +988,7 @@ public class GuessWho implements ActionListener {
 						}
 					}
 				}
-			} else if (question.equals(AIPlayer.questions(18))) {
+			} else if (question.equals(questions(19))) {
 				if (aiGameChar.getHasMustache() == true) {
 					for (int i = 0; i < notCrossGameChars.size(); i++) {
 						if (!(notCrossGameChars.get(i).getHasMustache() == true)) {
@@ -1033,7 +1004,7 @@ public class GuessWho implements ActionListener {
 						}
 					}
 				}
-			} else if (question.equals(AIPlayer.questions(19))) {
+			} else if (question.equals(questions(20))) {
 				if (aiGameChar.getHasMustache() == false) {
 					for (int i = 0; i < notCrossGameChars.size(); i++) {
 						if (!(notCrossGameChars.get(i).getHasMustache() == false)) {
@@ -1049,7 +1020,7 @@ public class GuessWho implements ActionListener {
 						}
 					}
 				}
-			} else if (question.equals(AIPlayer.questions(20))) {
+			} else if (question.equals(questions(21))) {
 				if (aiGameChar.getIsShowingTeeth() == true) {
 					for (int i = 0; i < notCrossGameChars.size(); i++) {
 						if (!(notCrossGameChars.get(i).getIsShowingTeeth() == true)) {
@@ -1065,7 +1036,7 @@ public class GuessWho implements ActionListener {
 						}
 					}
 				}
-			} else if (question.equals(AIPlayer.questions(21))) {
+			} else if (question.equals(questions(22))) {
 				if (aiGameChar.getIsShowingTeeth() == false) {
 					for (int i = 0; i < notCrossGameChars.size(); i++) {
 						if (!(notCrossGameChars.get(i).getIsShowingTeeth() == false)) {
@@ -1082,23 +1053,11 @@ public class GuessWho implements ActionListener {
 					}
 				}
 			}
-			
-			System.out.println();
-			for (int i = 0; i < gameChars.size(); i++) {
-				System.out.print(gameChars.get(i).getName() + ", ");
-			}
-			
-			System.out.println();
-			
-			for (int i = 0; i < notCrossGameChars.size(); i++) {
-				System.out.print(notCrossGameChars.get(i).getName() + ", ");
-			}
-			
 			for (int i = 0; i < gameChars.size(); i++) {
 				if (!notCrossGameChars.contains(gameChars.get(i))) {
 					crossOutLabelGrid[i].setVisible(true);
 				}
-			}			// Increment the number of questions asked by 1 and display it
+			} // Increment the number of questions asked by 1 and display it
 			numOfQuestionsAsked += 1;
 			numQuestionsAskedLabel.setText("# of Questions Asked: " + numOfQuestionsAsked);
 
@@ -1119,10 +1078,22 @@ public class GuessWho implements ActionListener {
 				submitQuestionButton.setEnabled(false);
 
 			}
-			aiTurn = false;
-			ai.playTurn(playerAnswer);
-			int choice = JOptionPane.showConfirmDialog(null, ai.getAiQuestion(), "Answer Ai's Question",
-					JOptionPane.YES_NO_OPTION);
+			
+			GameChar aiGuess = ai.playTurn(playerAnswer);
+			int choice = -1;
+			while (choice == -1) {
+				choice = JOptionPane.showConfirmDialog(null, ai.getAiQuestion(), "Answer Ai's Question",
+						JOptionPane.YES_NO_OPTION);
+			}
+			if (choice == 0) {
+				playerAnswer = true;
+			} else {
+				playerAnswer = false;
+			}
+//			if (!(aiGuess == null)) {
+//				choice = JOptionPane.showConfirmDialog(null, "Is Your Character: " + aiGuess, "AI Is Guessing",
+//						JOptionPane.YES_NO_OPTION);
+//			}
 		}
 
 	}

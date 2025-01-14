@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -69,6 +70,10 @@ public class GuessWho implements ActionListener {
 	// Kian Fixing Everytthing Variables
 	private AIPlayer ai;
 	private GameChar aiGameChar;
+	
+	// text files
+	private File statsFile = new File("stats.txt");
+	private File rulesFile = new File("GuessWhoRules.txt");
 
 	/**
 	 * This is the constructor which will initiate the graphics of the game board
@@ -87,7 +92,6 @@ public class GuessWho implements ActionListener {
 		aiTurn = false;
 
 		// Initialize stats variables using file i/o
-		File statsFile = new File("stats.txt");
 		Scanner statsScan = new Scanner(statsFile);
 
 		// These should be not on file
@@ -96,7 +100,6 @@ public class GuessWho implements ActionListener {
 		minNumQuestionsAskedToWin = statsScan.nextInt();
 
 		// Initialize rules variables using file i/o
-		File rulesFile = new File("GuessWhoRules.txt");
 		Scanner ruleScan = new Scanner(rulesFile);
 
 		String[] rules = new String[12];
@@ -606,7 +609,7 @@ public class GuessWho implements ActionListener {
 	 * @param e the action event that was registered
 	 */
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e){
 		// If it is the AI's turn, there will be a pop up prompting the user to answer
 		// the AI's question
 		// If it is the player's turn, then they will be able to choose and ask a
@@ -636,8 +639,14 @@ public class GuessWho implements ActionListener {
 			statsFrame.setVisible(true);
 		}
 
-		// if the exit button is clicked, close all frames and end game
+		// if the exit button is clicked, updates stats file and ends game
 		if ((e.getSource()).equals(exitButton)) {
+			try {
+				fileWriter();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			gameBoardFrame.setVisible(false);
 			statsFrame.setVisible(false);
 			rulesFrame.setVisible(false);
@@ -680,6 +689,7 @@ public class GuessWho implements ActionListener {
 				endTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
 				endPanel.add(endTitle);
 				endFrame.add(endPanel);
+				numGamesWon++;
 			}
 
 			// if user guess the wrong character
@@ -1179,6 +1189,31 @@ public class GuessWho implements ActionListener {
 //			}
 		}
 
+	}
+	
+	// this method writes to the stats file
+	public void fileWriter() throws Exception{
+		File stats = new File("stats.txt");
+		PrintWriter statsWrite = new PrintWriter(stats);
+		// number of games won
+		statsWrite.println(numGamesWon);
+		
+		// writes the highest number of questioned asked
+		if ((numOfQuestionsAsked > maxNumQuestionsAskedToWin) || (maxNumQuestionsAskedToWin == 0)) {
+					statsWrite.println(numOfQuestionsAsked);
+		}
+		else {
+			statsWrite.println(maxNumQuestionsAskedToWin);
+		}
+		
+		// writes the lowest number of questions asked
+		if ((numOfQuestionsAsked < minNumQuestionsAskedToWin) || (minNumQuestionsAskedToWin == 0)) {
+			statsWrite.println(numOfQuestionsAsked);
+		}
+		else {
+			statsWrite.println(minNumQuestionsAskedToWin);
+		}
+		statsWrite.close();
 	}
 
 }

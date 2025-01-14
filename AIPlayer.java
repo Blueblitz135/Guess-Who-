@@ -11,14 +11,20 @@ public class AIPlayer {
 			"gingerHair", "maleGender", "femaleGender", "brownEye", "blueEye", "trueGlasses", "falseGlasses", "trueHat",
 			"falseHat", "trueFaceHair", "falseFaceHair", "trueEaring", "falseEaring", "trueMustache", "falseMustache",
 			"trueTeethShowing", "falseTeethShowing" }; // All the attributes of the GameChars
-
+	private ArrayList<String> attributesChosen = new ArrayList<String>();
 	private int[] numberOfAttributes = new int[attributes.length]; // Number of GameChar that have the attributes,
 																	// indexes
 																	// correspond to those of the attributes
+	private ArrayList<String> questionBank = new ArrayList<String>();
 	private String aiQuestion; // Question that was previously asked
 
-	public AIPlayer(ArrayList<GameChar> GameChars) {
-		possibleGameChars = GameChars;
+	public AIPlayer(ArrayList<GameChar> gameChars) {
+		for (int i = 0; i < gameChars.size(); i++) {
+			possibleGameChars.add(gameChars.get(i));
+		}
+		for (int i = 0; i < 23; i++) {
+			questionBank.add(GuessWho.questions(i));
+		}
 	}
 
 	/**
@@ -178,6 +184,7 @@ public class AIPlayer {
 			numberOfAttributes[i] = 0;
 		}
 		// From all possible characters, increases number of each attribute present
+		System.out.println(possibleGameChars.size());
 		for (int i = 0; i < possibleGameChars.size(); i++) {
 			numberOfAttributes[findIndex(possibleGameChars.get(i).getSkinColor())]++;
 			numberOfAttributes[findIndex(possibleGameChars.get(i).getHairColor())]++;
@@ -191,19 +198,31 @@ public class AIPlayer {
 			numberOfAttributes[findIndex(possibleGameChars.get(i).getIsShowingTeeth() + "TeethShowing")]++;
 		}
 
-		// Calculates the highest/most popular attribute
-		int highest = 0;
-		int indexOfHighest = -1;
+		// Calculates the most prevalent attribute
+		int indexOfHighest = -1; // By default. Also allows and error to occur in case something fails, should
+							// never stay as -1
+		System.out.println("ATTRIBUTES");
+		
 		for (int i = 0; i < numberOfAttributes.length; i++) {
-			if (numberOfAttributes[i] > highest) {
-				questionNumber = i;
-				highest = numberOfAttributes[i];
+			System.out.println(attributes[i] + ":" + numberOfAttributes[i]);
+		}
+		// For all the attributes
+		for (int i = 0; i < numberOfAttributes.length; i++) {
+			// If the a attribute is more common than the current highest attribute and has
+			// yet to be previously chosen
+			if (numberOfAttributes[i] > indexOfHighest && !(attributesChosen.contains(attributes[i]))) {
+				indexOfHighest = i; // Becomes new highest
 			}
 		}
+		System.out.println(indexOfHighest);
+		aiQuestion = GuessWho.questions(indexOfHighest); // Ai question set to question resulting in highest possibility of
+													// removing characters
+		attributesChosen.add(attributes[indexOfHighest]); // Most popular attribute added to asked attributes
+		questionBank.remove(aiQuestion); // Question gets removed as to not ask same questions
 
 		// sets AI question
-		aiQuestion = questions(questionNumber);
-		return null; // Returns null if no character is chosen, base case for very first Ai turn
+
+		return null; // Returns null if no character is chosen
 	}
 
 	/**
@@ -230,63 +249,6 @@ public class AIPlayer {
 			}
 		}
 		return -1;
-	}
-
-	/**
-	 * Question bank for all questions
-	 * 
-	 * @param questionNumber index for each question
-	 * @return The question at a String
-	 */
-	public static String questions(int questionNumber) {
-		switch (questionNumber) {
-
-		case 0:
-			return "Does Your Character Have White Skin?";
-		case 1:
-			return "Does Your Character Have Black Skin?";
-		case 2:
-			return "Does Your Character Have White Hair?";
-		case 3:
-			return "Does Your Character Have Brown Hair?";
-		case 4:
-			return "Does Your Character Have Blonde Hair?";
-		case 5:
-			return "Does Your Character Have Ginger Hair?";
-		case 6:
-			return "Is Your Character Male?";
-		case 7:
-			return "Is Your Character Female?";
-		case 8:
-			return "Does Your Character Have Brown Eyes?";
-		case 9:
-			return "Does Your Character Have Blue Eyes?";
-		case 10:
-			return "Does Your Character Have Glasses?";
-		case 11:
-			return "Does Your Character Not Have Glasses?";
-		case 12:
-			return "Is Your Character Wearing A Hat?";
-		case 13:
-			return "Is Your Character Not Wearing A Hat?";
-		case 14:
-			return "Does Your Character Have Facial Hair?";
-		case 15:
-			return "Does Your Character Not Have Facial Hair?";
-		case 16:
-			return "Does Your Character Have Earings?";
-		case 17:
-			return "Does Your Character Not Have Earings?";
-		case 18:
-			return "Does Your Character Have A Mustache?";
-		case 19:
-			return "Does Your Character Not Have A Mustache?";
-		case 20:
-			return "Is Your Character Showing Teeth?";
-		case 21:
-			return "Is Your Character Not Showing Teeth?";
-		}
-		return "Error";
 	}
 
 	public ArrayList<GameChar> getPossibleCharacters() {

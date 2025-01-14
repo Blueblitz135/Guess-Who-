@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -16,14 +17,18 @@ public class GuessWho implements ActionListener {
 	private JFrame rulesFrame;
 	private JFrame gameBoardFrame;
 	private JFrame statsFrame;
+	private JFrame endFrame;
 	private JLabel gameTitle;
 	private JLabel smallGameTitle;
+	private JLabel chosenChar;
+	private JLabel endTitle;
 	private JPanel GameCharPanel;
 	private JPanel questionPanel;
 	private JPanel crossOutPanel;
 	private JPanel sidePanel;
 	private JPanel statsPanel;
 	private JPanel rulesPanel;
+	private JPanel endPanel;
 	private JLabel guessGameCharLabel;
 	private JLabel questionToAsk;
 	private JLabel GameCharBoardLabel;
@@ -32,13 +37,14 @@ public class GuessWho implements ActionListener {
 	private JLabel maxNumQuestionsAskedToWinLabel;
 	private JLabel minNumQuestionsAskedToWinLabel;
 	private JLabel statsTitle;
+	private JLabel numQuestions;
 	private JButton startButton;
 	private JButton rulesButton;
 	private JButton submitGuessButton;
 	private JButton rightArrow;
 	private JButton leftArrow;
 	private JButton submitQuestionButton;
-	private JButton closeRulesButton; // maybe we don't need cause they can just "x" out
+	private JButton exitButton = new JButton("Exit");
 	private JButton statsButton;
 	private JTextField nameGuessField;
 	private JLayeredPane GameCharLayerPane;
@@ -54,19 +60,22 @@ public class GuessWho implements ActionListener {
 	private int numOfQuestionsAsked;
 	private ArrayList<String> questionBank;
 	private int currentQuestionIndex;
-	// private GameChar aiGameChar;
 	private boolean playerAnswer;
 	private ArrayList<GameChar> gameChars = new ArrayList<GameChar>();
 	private ArrayList<GameChar> notCrossGameChars = new ArrayList<GameChar>();
 	private JLabel[] crossOutLabelGrid;
-	private boolean aiTurn = true;
 	private int numGamesWon;
 	private int maxNumQuestionsAskedToWin;
 	private int minNumQuestionsAskedToWin;
-	private int choice = -1; 
-	// Kian Fixing Everytthing Variables
+	private int choice = -1;
+	private boolean isValidGuess;
+	private boolean playerWon;
 	private AIPlayer ai;
 	private GameChar aiGameChar;
+	
+	// text files
+	private File statsFile = new File("stats.txt");
+	private File rulesFile = new File("GuessWhoRules.txt");
 
 	/**
 	 * This is the constructor which will initiate the graphics of the game board
@@ -74,7 +83,7 @@ public class GuessWho implements ActionListener {
 	 * @throws FileNotFoundException
 	 */
 	public GuessWho() throws FileNotFoundException {
-		
+
 		// Initialize variables and constant objects for the game
 		gameLogo = new ImageIcon("guessWho_Icon.png");
 		gbc = new GridBagConstraints(); // variable used to determine the panel position and spacing for the game frame
@@ -82,29 +91,27 @@ public class GuessWho implements ActionListener {
 		numOfQuestionsAsked = 0;
 		currentQuestionIndex = 0;
 		playerAnswer = false;
-		aiTurn = false;
+		isValidGuess = false;
+		playerWon = false;
 
 		// Initialize stats variables using file i/o
-		File statsFile = new File("stats.txt");
 		Scanner statsScan = new Scanner(statsFile);
+		
 
 		// These should be not on file
 		numGamesWon = statsScan.nextInt();
 		maxNumQuestionsAskedToWin = statsScan.nextInt();
 		minNumQuestionsAskedToWin = statsScan.nextInt();
-
+		statsScan.close();
+		
 		// Initialize rules variables using file i/o
-		File rulesFile = new File("GuessWhoRules.txt");
 		Scanner ruleScan = new Scanner(rulesFile);
-
 		String[] rules = new String[12];
 		for (int i = 0; i < 12; i++) {
 			rules[i] = ruleScan.nextLine();
 		}
-
-//		System.out.println(numGamesWon);
-//		System.out.println(maxNumQuestionsAskedToWin);
-//		System.out.println(minNumQuestionsAskedToWin);
+		ruleScan.close();
+		
 
 		// Add questions to the question bank
 		questionBank = new ArrayList<>();
@@ -513,7 +520,58 @@ public class GuessWho implements ActionListener {
 		statsPanel.add(minNumQuestionsAskedToWinLabel);
 		statsPanel.add(Box.createRigidArea(new Dimension(0, 20)));
 		statsPanel.add(maxNumQuestionsAskedToWinLabel);
+		
+		// create end panel
+		endPanel = new JPanel();
+		endPanel = new JPanel();
+		endPanel.setBorder(new EmptyBorder(40, 0, 0, 0));
+		endPanel.setLayout(new BoxLayout(endPanel, BoxLayout.Y_AXIS));
+		endPanel.setBackground(backgroundColor);
 
+
+		// Initialize the results frame for when the player wins or loses
+		endFrame = new JFrame("Results");
+		endFrame.setSize(new Dimension(600, 500));
+		endFrame.setLayout(new BorderLayout());
+		endFrame.getContentPane().setBackground(new Color(187, 238, 252));
+		endFrame.setResizable(false);
+		endPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+		endTitle = new JLabel();
+		endTitle.setText("You Win 😊!");
+		endTitle.setFont(new Font("Helvetica", Font.BOLD, 70));
+		endTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+		endPanel.add(endTitle);
+		endFrame.add(endPanel);
+		
+		// tells user the character the ai chose
+		chosenChar = new JLabel();
+		endPanel.add(Box.createRigidArea(new Dimension(0, 50)));
+		chosenChar.setText("AI's Character: " + aiGameChar.getName());
+		chosenChar.setFont(new Font("Helvetica", Font.BOLD, 30));
+		chosenChar.setAlignmentX(Component.CENTER_ALIGNMENT);
+		endPanel.add(chosenChar);
+
+		// tells user the number of questions asked
+		numQuestions = new JLabel();
+		endPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+		numQuestions.setText("Number of Questions Asked: " + numOfQuestionsAsked);
+		numQuestions.setFont(new Font("Helvetica", Font.BOLD, 30));
+		numQuestions.setAlignmentX(Component.CENTER_ALIGNMENT);
+		endPanel.add(numQuestions);
+
+
+		// creates exit button
+		exitButton.addActionListener(this);
+		exitButton.setVisible(true);
+		endPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+		exitButton.setPreferredSize(new Dimension(280, 110));
+		exitButton.setBackground(new Color(247, 238, 156));
+		exitButton.setFocusable(false);
+		exitButton.setFont(new Font("Helvetica", Font.BOLD, 60));
+		exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		endPanel.add(exitButton);
+		
+		
 		numGamesWonLabel.setText("Number of Games Won: " + numGamesWon);
 
 		if (numGamesWon == 0) {
@@ -593,7 +651,7 @@ public class GuessWho implements ActionListener {
 	public static void resultScreen(boolean playerWins) {
 		// might change how this works
 		if (playerWins) {
-
+			
 		}
 	}
 
@@ -604,7 +662,7 @@ public class GuessWho implements ActionListener {
 	 * @param e the action event that was registered
 	 */
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e){
 		// If it is the AI's turn, there will be a pop up prompting the user to answer
 		// the AI's question
 		// If it is the player's turn, then they will be able to choose and ask a
@@ -625,27 +683,51 @@ public class GuessWho implements ActionListener {
 			rulesFrame.setVisible(true);
 		}
 
-		// If the close rules button is clicked, close the rules frame
-		if ((e.getSource()).equals(closeRulesButton)) {
-			rulesFrame.setVisible(false);
-		}
-
 		if ((e.getSource()).equals(statsButton)) {
 			statsFrame.setVisible(true);
+		}
+
+		// if the exit button is clicked, updates stats file and ends game
+		if ((e.getSource()).equals(exitButton)) {
+			try {
+				fileWriter();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			gameBoardFrame.setVisible(false);
+			statsFrame.setVisible(false);
+			rulesFrame.setVisible(false);
+			endFrame.setVisible(false);
+			System.exit(0);
 		}
 
 		// If the submit guess button is clicked, submit the text within the text field
 		if ((e.getSource()).equals(submitGuessButton)) {
 
-			String name = nameGuessField.getText();
+			String guess = nameGuessField.getText().trim().toUpperCase();
 
 			// Go through the array of GameChars to see if the name submitted is valid
 			for (int i = 0; i < gameChars.size(); i++) {
-				if (gameChars.get(i).getName().equalsIgnoreCase(name)) {
-
+				if (gameChars.get(i).getName().equalsIgnoreCase(guess)) {
+					isValidGuess = true;
+					break;
 				}
 			}
+			
+			if (isValidGuess) {
+				endFrame.setVisible(true);
+				if (guess.equals(aiGameChar.getName())) {
+					endTitle.setText("You Win 😊!");
+					numGamesWon++;
+					playerWon = true;
+				} else {
+					endTitle.setText("You Lose 😢!");
+				}
+				numQuestions.setText("Number of Questions Asked: " + numOfQuestionsAsked);
+			}
 
+			
 		}
 
 		// If the right arrow is clicked, go to the next question.
@@ -1078,25 +1160,63 @@ public class GuessWho implements ActionListener {
 				submitQuestionButton.setEnabled(false);
 
 			}
-
 			GameChar aiGuess = ai.playTurn(playerAnswer);
 			if (aiGuess == null) {
 				do {
-					choice = JOptionPane.showConfirmDialog(null, ai.getAiQuestion(), "Answer Ai's Question",
-							JOptionPane.YES_NO_OPTION);
+					choice = JOptionPane.showConfirmDialog(null, ai.getAiQuestion(), "Answer Ai's Question", JOptionPane.YES_NO_OPTION);
 				} while (choice == -1);
-			}
-			if (choice == 0) {
-				playerAnswer = true;
+				if (choice == 0) {
+					playerAnswer = true;
+				} else {
+					playerAnswer = false;
+				}
 			} else {
-				playerAnswer = false;
+				choice = JOptionPane.showConfirmDialog(null, "Is Your Character: " + aiGuess.getName(), "AI Is Guessing", JOptionPane.YES_NO_OPTION);
+				endFrame.setVisible(true);
+				if (choice == 0) {
+					// player answers "yes"
+					endTitle.setText("You Lose 😢!");
+				} else {
+					// player answers "no"
+					endTitle.setText("You Win 😊!");
+					playerWon = true;
+				}
+				numGamesWon++;
+				numQuestions.setText("Number of Questions Asked: " + numOfQuestionsAsked);
+
 			}
-			if (!(aiGuess == null)) {
-				choice = JOptionPane.showConfirmDialog(null, "Is Your Character: " + aiGuess.getName(), "AI Is Guessing",
-						JOptionPane.YES_NO_OPTION);
-			}
+			
+			
+			
 		}
 
+	}
+	
+	// this method writes to the stats file
+	public void fileWriter() throws Exception{
+		File stats = new File("stats.txt");
+		PrintWriter statsWrite = new PrintWriter(stats);
+		// number of games won
+		statsWrite.println(numGamesWon);
+		
+		// writes the highest number of questioned asked
+		if (((numOfQuestionsAsked > maxNumQuestionsAskedToWin) || (maxNumQuestionsAskedToWin == 0)) && playerWon) {
+			statsWrite.println(numOfQuestionsAsked);
+			System.out.println("here");
+		}
+		else {
+			statsWrite.println(maxNumQuestionsAskedToWin);
+		}
+		
+		// writes the lowest number of questions asked
+		if (((numOfQuestionsAsked < minNumQuestionsAskedToWin) || (minNumQuestionsAskedToWin == 0)) && playerWon) {
+			statsWrite.println(numOfQuestionsAsked);
+		}
+		else {
+			statsWrite.println(minNumQuestionsAskedToWin);
+		}
+		
+		statsWrite.close();
 	}
 
 }

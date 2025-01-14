@@ -7,20 +7,25 @@ public class AIPlayer {
 	private ArrayList<GameChar> possibleGameChars = new ArrayList<GameChar>(); // All possible characters which the
 																				// player could be
 	private String[] attributes = { "whiteSkin", "blackSkin", "whiteHair", "brownHair", "blondeHair", "blackHair",
-			"gingerHair", "maleGender", "femaleGender", "brownEye", "blueEye", "trueGlasses", "falseGlasses", "trueHat",
-			"falseHat", "trueFaceHair", "falseFaceHair", "trueEaring", "falseEaring", "trueMustache", "falseMustache",
-			"trueTeethShowing", "falseTeethShowing" }; // All the attributes of the GameChars
+			"gingerHair", "maleGender", "femaleGender", "brownEye", "blueEye", "glasses", "hat", "faceHair", "earing",
+			"mustache", "teethShowing" }; // All the attributes
+											// of the GameChars
 	private int[] numberOfAttributes = new int[attributes.length]; // Number of GameChar that have the attributes,
 																	// indexes
 																	// correspond to those of the attributes
-	private ArrayList<String> questionBank = new ArrayList<String>();
-	private String question = ""; // Question that was previously asked
-	private int indexOfHighest; 
+	private ArrayList<String> questionBank = new ArrayList<String>(); // ArrayList of all questions
+	
+	private String question = ""; // Question the ai is asking, will be accessed
+	
+	private int indexOfHighest; // index of the most prevalent attribute
+	
 	public AIPlayer(ArrayList<GameChar> gameChars) {
+		// Adds all characters to possibleCharacters which AI can guess
 		for (int i = 0; i < gameChars.size(); i++) {
 			possibleGameChars.add(gameChars.get(i));
 		}
-		for (int i = 0; i < 23; i++) {
+		// Adds all questions to questionbank
+		for (int i = 0; i < 17; i++) {
 			questionBank.add(GuessWho.questions(i));
 		}
 	}
@@ -33,8 +38,7 @@ public class AIPlayer {
 	public GameChar playTurn(boolean answer) {
 		Random ran = new Random();
 
-		// If question number is equal to -1, this means that it is the first question,
-		// and therefore no characters need to be removed
+		// If the question String is empty, it represents the first run of the game, therefore no characters need to be removed 
 		if (!question.equals("")) {
 			// Algorithm for getting rid of impossible characters for the player to have
 			// chosen
@@ -241,22 +245,6 @@ public class AIPlayer {
 			} else if (question.equals(GuessWho.questions(12))) {
 				if (answer) {
 					for (int i = 0; i < possibleGameChars.size(); i++) {
-						if (!(possibleGameChars.get(i).getHasGlasses() == false)) {
-							possibleGameChars.remove(possibleGameChars.get(i));
-							i--;
-						}
-					}
-				} else {
-					for (int i = 0; i < possibleGameChars.size(); i++) {
-						if (possibleGameChars.get(i).getHasGlasses() == false) {
-							possibleGameChars.remove(possibleGameChars.get(i));
-							i--;
-						}
-					}
-				}
-			} else if (question.equals(GuessWho.questions(13))) {
-				if (answer) {
-					for (int i = 0; i < possibleGameChars.size(); i++) {
 						if (!(possibleGameChars.get(i).getHasHat() == true)) {
 							possibleGameChars.remove(possibleGameChars.get(i));
 							i--;
@@ -270,23 +258,7 @@ public class AIPlayer {
 						}
 					}
 				}
-			} else if (question.equals(GuessWho.questions(14))) {
-				if (answer) {
-					for (int i = 0; i < possibleGameChars.size(); i++) {
-						if (!(possibleGameChars.get(i).getHasHat() == false)) {
-							possibleGameChars.remove(possibleGameChars.get(i));
-							i--;
-						}
-					}
-				} else {
-					for (int i = 0; i < possibleGameChars.size(); i++) {
-						if (possibleGameChars.get(i).getHasHat() == false) {
-							possibleGameChars.remove(possibleGameChars.get(i));
-							i--;
-						}
-					}
-				}
-			} else if (question.equals(GuessWho.questions(15))) {
+			} else if (question.equals(GuessWho.questions(13))) {
 				if (answer) {
 					for (int i = 0; i < possibleGameChars.size(); i++) {
 						if (!(possibleGameChars.get(i).getHasFacialHair() == true)) {
@@ -302,23 +274,7 @@ public class AIPlayer {
 						}
 					}
 				}
-			} else if (question.equals(GuessWho.questions(16))) {
-				if (answer) {
-					for (int i = 0; i < possibleGameChars.size(); i++) {
-						if (!(possibleGameChars.get(i).getHasFacialHair() == false)) {
-							possibleGameChars.remove(possibleGameChars.get(i));
-							i--;
-						}
-					}
-				} else {
-					for (int i = 0; i < possibleGameChars.size(); i++) {
-						if (possibleGameChars.get(i).getHasFacialHair() == false) {
-							possibleGameChars.remove(possibleGameChars.get(i));
-							i--;
-						}
-					}
-				}
-			} else if (question.equals(GuessWho.questions(17))) {
+			} else if (question.equals(GuessWho.questions(14))) {
 				if (answer) {
 					for (int i = 0; i < possibleGameChars.size(); i++) {
 						if (!(possibleGameChars.get(i).getHasEarings() == true)) {
@@ -334,23 +290,7 @@ public class AIPlayer {
 						}
 					}
 				}
-			} else if (question.equals(GuessWho.questions(18))) {
-				if (answer) {
-					for (int i = 0; i < possibleGameChars.size(); i++) {
-						if (!(possibleGameChars.get(i).getHasEarings() == false)) {
-							possibleGameChars.remove(possibleGameChars.get(i));
-							i--;
-						}
-					}
-				} else {
-					for (int i = 0; i < possibleGameChars.size(); i++) {
-						if (possibleGameChars.get(i).getHasEarings() == false) {
-							possibleGameChars.remove(possibleGameChars.get(i));
-							i--;
-						}
-					}
-				}
-			} else if (question.equals(GuessWho.questions(19))) {
+			} else if (question.equals(GuessWho.questions(15))) {
 				if (answer) {
 					for (int i = 0; i < possibleGameChars.size(); i++) {
 						if (!(possibleGameChars.get(i).getHasMustache() == true)) {
@@ -366,23 +306,7 @@ public class AIPlayer {
 						}
 					}
 				}
-			} else if (question.equals(GuessWho.questions(20))) {
-				if (answer) {
-					for (int i = 0; i < possibleGameChars.size(); i++) {
-						if (!(possibleGameChars.get(i).getHasMustache() == false)) {
-							possibleGameChars.remove(possibleGameChars.get(i));
-							i--;
-						}
-					}
-				} else {
-					for (int i = 0; i < possibleGameChars.size(); i++) {
-						if (possibleGameChars.get(i).getHasMustache() == false) {
-							possibleGameChars.remove(possibleGameChars.get(i));
-							i--;
-						}
-					}
-				}
-			} else if (question.equals(GuessWho.questions(21))) {
+			} else if (question.equals(GuessWho.questions(16))) {
 				if (answer) {
 					for (int i = 0; i < possibleGameChars.size(); i++) {
 						if (!(possibleGameChars.get(i).getIsShowingTeeth() == true)) {
@@ -393,22 +317,6 @@ public class AIPlayer {
 				} else {
 					for (int i = 0; i < possibleGameChars.size(); i++) {
 						if (possibleGameChars.get(i).getIsShowingTeeth() == true) {
-							possibleGameChars.remove(possibleGameChars.get(i));
-							i--;
-						}
-					}
-				}
-			} else if (question.equals(GuessWho.questions(22))) {
-				if (answer) {
-					for (int i = 0; i < possibleGameChars.size(); i++) {
-						if (!(possibleGameChars.get(i).getIsShowingTeeth() == false)) {
-							possibleGameChars.remove(possibleGameChars.get(i));
-							i--;
-						}
-					}
-				} else {
-					for (int i = 0; i < possibleGameChars.size(); i++) {
-						if (possibleGameChars.get(i).getIsShowingTeeth() == false) {
 							possibleGameChars.remove(possibleGameChars.get(i));
 							i--;
 						}
@@ -432,19 +340,19 @@ public class AIPlayer {
 			numberOfAttributes[findIndex(possibleGameChars.get(i).getHairColor())]++;
 			numberOfAttributes[findIndex(possibleGameChars.get(i).getGender())]++;
 			numberOfAttributes[findIndex(possibleGameChars.get(i).getEyeColor())]++;
-			numberOfAttributes[findIndex(possibleGameChars.get(i).getHasGlasses() + "Glasses")]++;
-			numberOfAttributes[findIndex(possibleGameChars.get(i).getHasHat() + "Hat")]++;
-			numberOfAttributes[findIndex(possibleGameChars.get(i).getHasFacialHair() + "FaceHair")]++;
-			numberOfAttributes[findIndex(possibleGameChars.get(i).getHasEarings() + "Earing")]++;
-			numberOfAttributes[findIndex(possibleGameChars.get(i).getHasMustache() + "Mustache")]++;
-			numberOfAttributes[findIndex(possibleGameChars.get(i).getIsShowingTeeth() + "TeethShowing")]++;
+			numberOfAttributes[findIndex("glasses")]++;
+			numberOfAttributes[findIndex("hat")]++;
+			numberOfAttributes[findIndex("faceHair")]++;
+			numberOfAttributes[findIndex("earing")]++;
+			numberOfAttributes[findIndex("mustache")]++;
+			numberOfAttributes[findIndex("teethShowing")]++;
 		}
 		if (possibleGameChars.size() == 1) { // When only one character is possible this method will return a guess
 			// Must make a guess
 			return possibleGameChars.get(0);
 		}
 		// Calculates the most prevalent attribute by default
-		int half = possibleGameChars.size() / 2; 
+		int half = possibleGameChars.size() / 2;
 		int res = numberOfAttributes[0];
 		// For all the attributes
 		for (int i = 1; i < numberOfAttributes.length; i++) {
@@ -455,22 +363,21 @@ public class AIPlayer {
 				indexOfHighest = i; // Becomes new highest
 			}
 		}
-		
+
 		if (questionBank.size() == 0) {
 			return possibleGameChars.get(ran.nextInt(possibleGameChars.size()));
 		}
-		
+
 		question = questionBank.get(indexOfHighest);
 		while (question == null) {
 			question = questionBank.get(ran.nextInt(23));
 		}
-		System.out.println(question);
 		questionBank.set(indexOfHighest, null); // Question gets removed as to not ask same GuessWho.questions
 
 		// sets AI question
 		return null; // Returns null if no character is chosen
 	}
-	
+
 	/**
 	 * Chooses a GameChar randomly from the 24 available GameChars
 	 * 

@@ -12,7 +12,16 @@ import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.border.EmptyBorder;
 
+/**
+ * 
+ * This class will contain the game board and run the game Guess Who when the
+ * main method calls it.
+ * 
+ */
+
 public class GuessWho implements ActionListener {
+
+	// GUI objects
 	private JFrame startFrame;
 	private JFrame rulesFrame;
 	private JFrame gameBoardFrame;
@@ -56,14 +65,15 @@ public class GuessWho implements ActionListener {
 	private ImageIcon checkMarkImage;
 	private GridBagConstraints gbc;
 	private Color backgroundColor;
+	private JLabel[] crossOutLabelGrid;
 
+	// game objects
 	private int numOfQuestionsAsked;
 	private ArrayList<String> questionBank;
 	private int currentQuestionIndex;
 	private boolean playerAnswer;
 	private ArrayList<GameChar> gameChars = new ArrayList<GameChar>();
 	private ArrayList<GameChar> notCrossGameChars = new ArrayList<GameChar>();
-	private JLabel[] crossOutLabelGrid;
 	private int numGamesWon;
 	private int maxNumQuestionsAskedToWin;
 	private int minNumQuestionsAskedToWin;
@@ -167,9 +177,12 @@ public class GuessWho implements ActionListener {
 		gameChars.add(new GameChar("whiteSkin", "blackHair", "maleGender", "brownEye", "CHRIS", false, true, false,
 				false, false, false));
 
+		// adds game characters to notCrossGameChars
 		for (int i = 0; i < gameChars.size(); i++) {
 			notCrossGameChars.add(gameChars.get(i));
 		}
+
+		// creates ai player object and chooses their character
 		ai = new AIPlayer(gameChars);
 		aiGameChar = AIPlayer.chooseGameChar(gameChars);
 
@@ -262,6 +275,7 @@ public class GuessWho implements ActionListener {
 		rulesTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
 		rulesPanel.add(rulesTitle);
 
+		// takes rules from GuessWhoRules.txt and puts them on the rules frame
 		for (int i = 1; i < 12; i++) {
 			rulesPanel.add(Box.createRigidArea(new Dimension(0, 30)));
 			JLabel rulesLabel = new JLabel();
@@ -567,6 +581,7 @@ public class GuessWho implements ActionListener {
 		exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		endPanel.add(exitButton);
 
+		// sets text for the stats frame
 		numGamesWonLabel.setText("Number of Games Won: " + numGamesWon);
 
 		if (numGamesWon == 0) {
@@ -588,6 +603,8 @@ public class GuessWho implements ActionListener {
 	 * @return The question at a String
 	 */
 	public static String questions(int questionNumber) {
+
+		// chooses questions depending on which question number was chosen
 		switch (questionNumber) {
 
 		case 0:
@@ -625,6 +642,8 @@ public class GuessWho implements ActionListener {
 		case 16:
 			return "Is Your Character Showing Teeth?";
 		}
+
+		// if question number is out of bounds
 		return "Error";
 	}
 
@@ -698,15 +717,20 @@ public class GuessWho implements ActionListener {
 				}
 			}
 
+			// if the guess is valid
 			if (isValidGuess) {
 				endFrame.setVisible(true);
+				// the guess was right
 				if (guess.equals(aiGameChar.getName())) {
+					// user wins
 					endTitle.setText("You Win 😊!");
 					numGamesWon++;
 					playerWon = true;
 				} else {
+					// user loses
 					endTitle.setText("You Lose 😢!");
 				}
+
 				numQuestions.setText("Number of Questions Asked: " + numOfQuestionsAsked);
 			}
 
@@ -747,7 +771,13 @@ public class GuessWho implements ActionListener {
 		// The question that is asked will be removed from the question bank after
 
 		if ((e.getSource()).equals(submitQuestionButton)) {
+
+			// gets the question that was asked
 			String question = questionToAsk.getText();
+
+			/**
+			 * depending on the question asked, remove characters from notCrossGameChars
+			 */
 
 			if (question.equals(questions(0))) {
 				if (aiGameChar.getSkinColor().equals("whiteSkin")) {
@@ -1022,6 +1052,8 @@ public class GuessWho implements ActionListener {
 					}
 				}
 			}
+
+			// crosses off characters from the board
 			for (int i = 0; i < gameChars.size(); i++) {
 				if (!notCrossGameChars.contains(gameChars.get(i))) {
 					crossOutLabelGrid[i].setVisible(true);
@@ -1047,22 +1079,25 @@ public class GuessWho implements ActionListener {
 				submitQuestionButton.setEnabled(false);
 
 			}
-			GameChar aiGuess = ai.playTurn(playerAnswer);
+
+			GameChar aiGuess = ai.playTurn(playerAnswer); // The guess of the AI, it will either be null if AI has no//
+															// guess, and a character if it does have a guess
+
 			if (aiGuess == null) {
 				do {
 					choice = JOptionPane.showConfirmDialog(null, ai.getAiQuestion(), "Answer Ai's Question",
-							JOptionPane.YES_NO_OPTION);
-				} while (choice == -1);
-				if (choice == 0) {
+							JOptionPane.YES_NO_OPTION); // The user gets to choose their answer to the AI's
+				} while (choice == -1); // when choice == -1 that means user pressed close button, which will keep
+										// prompting until user presses yes or no
+				if (choice == 0) { // represents user pressing yes
 					playerAnswer = true;
-				} else {
+				} else { // Only other possible button is No
 					playerAnswer = false;
 				}
-			} else {
+			} else { // If the AI has a guess, it will ask user to verify if their guess is right 
 				choice = JOptionPane.showConfirmDialog(null, "Is Your Character: " + aiGuess.getName(),
 						"AI Is Guessing", JOptionPane.YES_NO_OPTION);
-				endFrame.setVisible(true);
-				if (choice == 0) {
+				endFrame.setVisible(true); 				if (choice == 0) {
 					// player answers "yes"
 					endTitle.setText("You Lose 😢!");
 				} else {

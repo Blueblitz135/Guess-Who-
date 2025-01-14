@@ -39,7 +39,7 @@ public class GuessWho implements ActionListener {
 	private JButton rightArrow;
 	private JButton leftArrow;
 	private JButton submitQuestionButton;
-	private JButton exitButton;
+	private JButton exitButton = new JButton();
 	private JButton closeRulesButton; // maybe we don't need cause they can just "x" out
 	private JButton statsButton;
 	private JTextField nameGuessField;
@@ -67,7 +67,7 @@ public class GuessWho implements ActionListener {
 	private int minNumQuestionsAskedToWin;
 
 	// Kian Fixing Everytthing Variables
-	private AIPlayer ai; 
+	private AIPlayer ai;
 	private GameChar aiGameChar;
 
 	/**
@@ -169,7 +169,7 @@ public class GuessWho implements ActionListener {
 		}
 		ai = new AIPlayer(gameChars);
 		aiGameChar = AIPlayer.chooseGameChar(gameChars);
-		
+
 		// ---------------------------------Graphics
 		// Initialization-------------------------------
 
@@ -635,7 +635,7 @@ public class GuessWho implements ActionListener {
 		if ((e.getSource()).equals(statsButton)) {
 			statsFrame.setVisible(true);
 		}
-		
+
 		// if the exit button is clicked, close all frames and end game
 		if ((e.getSource()).equals(exitButton)) {
 			gameBoardFrame.setVisible(false);
@@ -643,7 +643,7 @@ public class GuessWho implements ActionListener {
 			rulesFrame.setVisible(false);
 			endFrame.setVisible(false);
 		}
-		
+
 		// If the submit guess button is clicked, submit the text within the text field
 		if ((e.getSource()).equals(submitGuessButton)) {
 
@@ -662,13 +662,13 @@ public class GuessWho implements ActionListener {
 			endPanel.setBorder(new EmptyBorder(40, 0, 0, 0));
 			endPanel.setLayout(new BoxLayout(endPanel, BoxLayout.Y_AXIS));
 			endPanel.setBackground(backgroundColor);
-			
+
 			// if user guessed the correct character
 			if (guess.equals(aiGameChar.getName())) {
-			
+
 				// tells user they win
 				endFrame = new JFrame("You Win!");
-				endFrame.setSize(new Dimension(600,500));
+				endFrame.setSize(new Dimension(600, 500));
 				endFrame.setLayout(new BorderLayout());
 				endFrame.getContentPane().setBackground(new Color(187, 238, 252));
 				endFrame.setResizable(false);
@@ -679,15 +679,14 @@ public class GuessWho implements ActionListener {
 				endTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
 				endPanel.add(endTitle);
 				endFrame.add(endPanel);
-
 			}
-			
+
 			// if user guess the wrong character
 			else {
-				
+
 				// tells user they lost
 				endFrame = new JFrame("You Lose!");
-				endFrame.setSize(new Dimension(600,500));
+				endFrame.setSize(new Dimension(600, 500));
 				endFrame.setLayout(new BorderLayout());
 				endFrame.getContentPane().setBackground(new Color(187, 238, 252));
 				endFrame.setResizable(false);
@@ -698,12 +697,9 @@ public class GuessWho implements ActionListener {
 				endTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
 				endPanel.add(endTitle);
 				endFrame.add(endPanel);
-		
+
 			}
-			
-			
-			
-			
+
 			// tells user the character the ai chose
 			JLabel chosenChar = new JLabel();
 			endPanel.add(Box.createRigidArea(new Dimension(0, 50)));
@@ -711,7 +707,7 @@ public class GuessWho implements ActionListener {
 			chosenChar.setFont(new Font("Helvetica", Font.BOLD, 30));
 			chosenChar.setAlignmentX(Component.CENTER_ALIGNMENT);
 			endPanel.add(chosenChar);
-			
+
 			// tells user the number of questions asked
 			JLabel numQuestions = new JLabel();
 			endPanel.add(Box.createRigidArea(new Dimension(0, 20)));
@@ -720,7 +716,6 @@ public class GuessWho implements ActionListener {
 			numQuestions.setAlignmentX(Component.CENTER_ALIGNMENT);
 			endPanel.add(numQuestions);
 
-			
 			// creates exit button
 			exitButton.addActionListener(this);
 			exitButton.setVisible(true);
@@ -731,10 +726,9 @@ public class GuessWho implements ActionListener {
 			exitButton.setFont(new Font("Helvetica", Font.BOLD, 60));
 			exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 			endPanel.add(exitButton);
-			
+
 			endFrame.setVisible(true);
 		}
-		
 
 		// If the right arrow is clicked, go to the next question.
 		// If the right arrow is clicked at the last question, loop back to the first
@@ -1166,7 +1160,7 @@ public class GuessWho implements ActionListener {
 				submitQuestionButton.setEnabled(false);
 
 			}
-			
+
 			GameChar aiGuess = ai.playTurn(playerAnswer);
 			int choice = -1;
 			while (choice == -1) {

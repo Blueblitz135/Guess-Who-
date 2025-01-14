@@ -637,7 +637,7 @@ public class GuessWho implements ActionListener {
 			if (question.equals(AIPlayer.questions(0))) {
 				if (aiGameChar.getSkinColor().equals("whiteSkin")) {
 					for (int i = 0; i < notCrossGameChars.size(); i++) {
-						if (!notCrossGameChars.get(i).getSkinColor().equals("whiteSkin")) {
+						if (!(notCrossGameChars.get(i).getSkinColor().equals("whiteSkin"))) {
 							notCrossGameChars.remove(notCrossGameChars.get(i));
 							i--;
 						}
@@ -653,7 +653,7 @@ public class GuessWho implements ActionListener {
 			} else if (question.equals(AIPlayer.questions(1))) {
 				if (aiGameChar.getSkinColor().equals("blackSkin")) {
 					for (int i = 0; i < notCrossGameChars.size(); i++) {
-						if (!notCrossGameChars.get(i).getSkinColor().equals("blackSkin")) {
+						if (!(notCrossGameChars.get(i).getSkinColor().equals("blackSkin"))) {
 							notCrossGameChars.remove(notCrossGameChars.get(i));
 							i--;
 						}
@@ -669,7 +669,7 @@ public class GuessWho implements ActionListener {
 			} else if (question.equals(AIPlayer.questions(2))) {
 				if (aiGameChar.getHairColor().equals("whiteHair")) {
 					for (int i = 0; i < notCrossGameChars.size(); i++) {
-						if (!notCrossGameChars.get(i).getHairColor().equals("whiteHair")) {
+						if (!(notCrossGameChars.get(i).getHairColor().equals("whiteHair"))) {
 							notCrossGameChars.remove(notCrossGameChars.get(i));
 							i--;
 						}
@@ -685,7 +685,7 @@ public class GuessWho implements ActionListener {
 			} else if (question.equals(AIPlayer.questions(3))) {
 				if (aiGameChar.getHairColor().equals("brownHair")) {
 					for (int i = 0; i < notCrossGameChars.size(); i++) {
-						if (!notCrossGameChars.get(i).getHairColor().equals("brownHair")) {
+						if (!(notCrossGameChars.get(i).getHairColor().equals("brownHair"))) {
 							notCrossGameChars.remove(notCrossGameChars.get(i));
 							i--;
 						}
@@ -694,13 +694,14 @@ public class GuessWho implements ActionListener {
 					for (int i = 0; i < notCrossGameChars.size(); i++) {
 						if (notCrossGameChars.get(i).getHairColor().equals("brownHair")) {
 							notCrossGameChars.remove(notCrossGameChars.get(i));
+							i--;
 						}
 					}
 				}
 			} else if (question.equals(AIPlayer.questions(4))) {
 				if (aiGameChar.getHairColor().equals("blondeHair")) {
 					for (int i = 0; i < notCrossGameChars.size(); i++) {
-						if (!notCrossGameChars.get(i).getHairColor().equals("blondeHair")) {
+						if (!(notCrossGameChars.get(i).getHairColor().equals("blondeHair"))) {
 							notCrossGameChars.remove(notCrossGameChars.get(i));
 							i--;
 						}
@@ -716,7 +717,7 @@ public class GuessWho implements ActionListener {
 			} else if (question.equals(AIPlayer.questions(5))) {
 				if (aiGameChar.getHairColor().equals("gingerHair")) {
 					for (int i = 0; i < notCrossGameChars.size(); i++) {
-						if (!notCrossGameChars.get(i).getHairColor().equals("gingerHair")) {
+						if (!(notCrossGameChars.get(i).getHairColor().equals("gingerHair"))) {
 							notCrossGameChars.remove(notCrossGameChars.get(i));
 							i--;
 						}
@@ -732,7 +733,7 @@ public class GuessWho implements ActionListener {
 			} else if (question.equals(AIPlayer.questions(6))) {
 				if (aiGameChar.getGender().equals("maleGender")) {
 					for (int i = 0; i < notCrossGameChars.size(); i++) {
-						if (!notCrossGameChars.get(i).getGender().equals("maleGender")) {
+						if (!(notCrossGameChars.get(i).getGender().equals("maleGender"))) {
 							notCrossGameChars.remove(notCrossGameChars.get(i));
 							i--;
 						}
@@ -748,7 +749,7 @@ public class GuessWho implements ActionListener {
 			} else if (question.equals(AIPlayer.questions(7))) {
 				if (aiGameChar.getGender().equals("femaleGender")) {
 					for (int i = 0; i < notCrossGameChars.size(); i++) {
-						if (!notCrossGameChars.get(i).getGender().equals("femaleGender")) {
+						if (!(notCrossGameChars.get(i).getGender().equals("femaleGender"))) {
 							notCrossGameChars.remove(notCrossGameChars.get(i));
 							i--;
 						}
@@ -764,7 +765,7 @@ public class GuessWho implements ActionListener {
 			} else if (question.equals(AIPlayer.questions(8))) {
 				if (aiGameChar.getEyeColor().equals("brownEye")) {
 					for (int i = 0; i < notCrossGameChars.size(); i++) {
-						if (!notCrossGameChars.get(i).getEyeColor().equals("brownEye")) {
+						if (!(notCrossGameChars.get(i).getEyeColor().equals("brownEye"))) {
 							notCrossGameChars.remove(notCrossGameChars.get(i));
 							i--;
 						}
@@ -780,7 +781,7 @@ public class GuessWho implements ActionListener {
 			} else if (question.equals(AIPlayer.questions(9))) {
 				if (aiGameChar.getEyeColor().equals("blueEye")) {
 					for (int i = 0; i < notCrossGameChars.size(); i++) {
-						if (!notCrossGameChars.get(i).getEyeColor().equals("blueEye")) {
+						if (!(notCrossGameChars.get(i).getEyeColor().equals("blueEye"))) {
 							notCrossGameChars.remove(notCrossGameChars.get(i));
 							i--;
 						}
@@ -796,7 +797,7 @@ public class GuessWho implements ActionListener {
 			} else if (question.equals(AIPlayer.questions(10))) {
 				if (aiGameChar.getHasGlasses() == true) {
 					for (int i = 0; i < notCrossGameChars.size(); i++) {
-						if (!notCrossGameChars.get(i).getHasGlasses() == true) {
+						if (!(notCrossGameChars.get(i).getHasGlasses() == true)) {
 							notCrossGameChars.remove(notCrossGameChars.get(i));
 							i--;
 						}
@@ -812,7 +813,7 @@ public class GuessWho implements ActionListener {
 			} else if (question.equals(AIPlayer.questions(11))) {
 				if (aiGameChar.getHasGlasses() == false) {
 					for (int i = 0; i < notCrossGameChars.size(); i++) {
-						if (!notCrossGameChars.get(i).getHasGlasses() == false) {
+						if (!(notCrossGameChars.get(i).getHasGlasses() == false)) {
 							notCrossGameChars.remove(notCrossGameChars.get(i));
 							i--;
 						}
@@ -828,7 +829,7 @@ public class GuessWho implements ActionListener {
 			} else if (question.equals(AIPlayer.questions(12))) {
 				if (aiGameChar.getHasHat() == true) {
 					for (int i = 0; i < notCrossGameChars.size(); i++) {
-						if (!notCrossGameChars.get(i).getHasHat() == true) {
+						if (!(notCrossGameChars.get(i).getHasHat() == true)) {
 							notCrossGameChars.remove(notCrossGameChars.get(i));
 							i--;
 						}
@@ -844,7 +845,7 @@ public class GuessWho implements ActionListener {
 			} else if (question.equals(AIPlayer.questions(13))) {
 				if (aiGameChar.getHasHat() == false) {
 					for (int i = 0; i < notCrossGameChars.size(); i++) {
-						if (!notCrossGameChars.get(i).getHasHat() == false) {
+						if (!(notCrossGameChars.get(i).getHasHat() == false)) {
 							notCrossGameChars.remove(notCrossGameChars.get(i));
 							i--;
 						}
@@ -860,7 +861,7 @@ public class GuessWho implements ActionListener {
 			} else if (question.equals(AIPlayer.questions(14))) {
 				if (aiGameChar.getHasFacialHair() == true) {
 					for (int i = 0; i < notCrossGameChars.size(); i++) {
-						if (!notCrossGameChars.get(i).getHasFacialHair() == true) {
+						if (!(notCrossGameChars.get(i).getHasFacialHair() == true)) {
 							notCrossGameChars.remove(notCrossGameChars.get(i));
 							i--;
 						}
@@ -876,7 +877,7 @@ public class GuessWho implements ActionListener {
 			} else if (question.equals(AIPlayer.questions(15))) {
 				if (aiGameChar.getHasFacialHair() == false) {
 					for (int i = 0; i < notCrossGameChars.size(); i++) {
-						if (!notCrossGameChars.get(i).getHasFacialHair() == false) {
+						if (!(notCrossGameChars.get(i).getHasFacialHair() == false)) {
 							notCrossGameChars.remove(notCrossGameChars.get(i));
 							i--;
 						}
@@ -892,7 +893,7 @@ public class GuessWho implements ActionListener {
 			} else if (question.equals(AIPlayer.questions(16))) {
 				if (aiGameChar.getHasEarings() == true) {
 					for (int i = 0; i < notCrossGameChars.size(); i++) {
-						if (!notCrossGameChars.get(i).getHasEarings() == true) {
+						if (!(notCrossGameChars.get(i).getHasEarings() == true)) {
 							notCrossGameChars.remove(notCrossGameChars.get(i));
 							i--;
 						}
@@ -908,7 +909,7 @@ public class GuessWho implements ActionListener {
 			} else if (question.equals(AIPlayer.questions(17))) {
 				if (aiGameChar.getHasEarings() == false) {
 					for (int i = 0; i < notCrossGameChars.size(); i++) {
-						if (!notCrossGameChars.get(i).getHasEarings() == false) {
+						if ((!notCrossGameChars.get(i).getHasEarings() == false)) {
 							notCrossGameChars.remove(notCrossGameChars.get(i));
 							i--;
 						}
@@ -924,7 +925,7 @@ public class GuessWho implements ActionListener {
 			} else if (question.equals(AIPlayer.questions(18))) {
 				if (aiGameChar.getHasMustache() == true) {
 					for (int i = 0; i < notCrossGameChars.size(); i++) {
-						if (!notCrossGameChars.get(i).getHasMustache() == true) {
+						if (!(notCrossGameChars.get(i).getHasMustache() == true)) {
 							notCrossGameChars.remove(notCrossGameChars.get(i));
 							i--;
 						}
@@ -940,7 +941,7 @@ public class GuessWho implements ActionListener {
 			} else if (question.equals(AIPlayer.questions(19))) {
 				if (aiGameChar.getHasMustache() == false) {
 					for (int i = 0; i < notCrossGameChars.size(); i++) {
-						if (!notCrossGameChars.get(i).getHasMustache() == false) {
+						if (!(notCrossGameChars.get(i).getHasMustache() == false)) {
 							notCrossGameChars.remove(notCrossGameChars.get(i));
 							i--;
 						}
@@ -956,7 +957,7 @@ public class GuessWho implements ActionListener {
 			} else if (question.equals(AIPlayer.questions(20))) {
 				if (aiGameChar.getIsShowingTeeth() == true) {
 					for (int i = 0; i < notCrossGameChars.size(); i++) {
-						if (!notCrossGameChars.get(i).getIsShowingTeeth() == true) {
+						if (!(notCrossGameChars.get(i).getIsShowingTeeth() == true)) {
 							notCrossGameChars.remove(notCrossGameChars.get(i));
 							i--;
 						}
@@ -972,7 +973,7 @@ public class GuessWho implements ActionListener {
 			} else if (question.equals(AIPlayer.questions(21))) {
 				if (aiGameChar.getIsShowingTeeth() == false) {
 					for (int i = 0; i < notCrossGameChars.size(); i++) {
-						if (!notCrossGameChars.get(i).getIsShowingTeeth() == false) {
+						if (!(notCrossGameChars.get(i).getIsShowingTeeth() == false)) {
 							notCrossGameChars.remove(notCrossGameChars.get(i));
 							i--;
 						}

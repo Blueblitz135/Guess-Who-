@@ -450,8 +450,7 @@ public class AIPlayer {
 		for (int i = 0; i < numberOfAttributes.length; i++) {
 			// If the a attribute is more common than the current highest attribute and has
 			// yet to be previously chosen
-
-			if (numberOfAttributes[i] >= numberOfAttributes[indexOfHighest] && (questionBank.get(i) != null)) {
+			if (numberOfAttributes[i] > numberOfAttributes[indexOfHighest] && (questionBank.get(i) != null)) {
 				indexOfHighest = i; // Becomes new highest
 			}
 		}

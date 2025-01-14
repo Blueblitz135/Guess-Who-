@@ -15,7 +15,7 @@ public class AIPlayer {
 																	// indexes
 																	// correspond to those of the attributes
 	private ArrayList<String> questionBank = new ArrayList<String>();
-	private String aiQuestion; // Question that was previously asked
+	private String question = ""; // Question that was previously asked
 
 	public AIPlayer(ArrayList<GameChar> gameChars) {
 		for (int i = 0; i < gameChars.size(); i++) {
@@ -41,17 +41,16 @@ public class AIPlayer {
 
 		// If question number is equal to -1, this means that it is the first question,
 		// and therefore no characters need to be removed
-		if (questionNumber != -1) {
+		if (!question.equals("")) {
 			// if the question has a not, the answer is fliped, so that the question
 			// without a not is held true, with the answer variable
-			if (aiQuestion.indexOf("Not") > -1) {
+			if (question.indexOf("Not") > -1) {
 				answer = !answer;
 			}
 			// Algorithm for getting rid of impossible characters for the player to have
 			// chosen
-			int i = 0;
 			for (int j = 0; j < possibleGameChars.size(); j++) {
-				GameChar characterUnderReview = possibleGameChars.get(i); // The character that is currently being
+				GameChar characterUnderReview = possibleGameChars.get(j); // The character that is currently being
 																			// checked if is valid
 
 				// if question has hair in the string, it will check what color it is, and if it
@@ -59,123 +58,373 @@ public class AIPlayer {
 				// character is removed from possible options, and i is not incremented, because
 				// the next player will replace the current player in index, same logic for
 				// every attribute
-				if (aiQuestion.indexOf("Hair") > -1) {
-					if (aiQuestion.indexOf("White") > -1) {
-						if (characterUnderReview.getHairColor().equals("white") && answer == true) {
-							i++;
-							continue;
-						} else {
-							possibleGameChars.remove(characterUnderReview);
+				if (question.equals(GuessWho.questions(0))) {
+					if (characterUnderReview.getSkinColor().equals("whiteSkin")) {
+						for (int i = 0; i < possibleGameChars.size(); i++) {
+							if (!(possibleGameChars.get(i).getSkinColor().equals("whiteSkin"))) {
+								possibleGameChars.remove(possibleGameChars.get(i));
+								i--;
+							}
 						}
-					} else if (aiQuestion.indexOf("Brown") > -1) {
-						if (characterUnderReview.getHairColor().equals("brown") && answer == true) {
-							i++;
-							continue;
-						} else {
-							possibleGameChars.remove(characterUnderReview);
-						}
-					} else if (aiQuestion.indexOf("Blonde") > -1) {
-						if (characterUnderReview.getHairColor().equals("blonde") && answer == true) {
-							i++;
-							continue;
-						} else {
-							possibleGameChars.remove(characterUnderReview);
-						}
-					} else if (aiQuestion.indexOf("Ginger") > -1) {
-						if (characterUnderReview.getHairColor().equals("ginger") && answer == true) {
-							i++;
-							continue;
-						} else {
-							possibleGameChars.remove(characterUnderReview);
+					} else {
+						for (int i = 0; i < possibleGameChars.size(); i++) {
+							if (possibleGameChars.get(i).getSkinColor().equals("whiteSkin")) {
+								possibleGameChars.remove(possibleGameChars.get(i));
+								i--;
+							}
 						}
 					}
-				} else if (aiQuestion.indexOf("Eye") > -1) {
-					if (aiQuestion.indexOf("Blue") > -1) {
-						if (characterUnderReview.getEyeColor().equals("blue") && answer == true) {
-							i++;
-							continue;
-						} else {
-							possibleGameChars.remove(characterUnderReview);
+				} else if (question.equals(GuessWho.questions(1))) {
+					if (characterUnderReview.getSkinColor().equals("blackSkin")) {
+						for (int i = 0; i < possibleGameChars.size(); i++) {
+							if (!(possibleGameChars.get(i).getSkinColor().equals("blackSkin"))) {
+								possibleGameChars.remove(possibleGameChars.get(i));
+								i--;
+							}
 						}
-					} else if (aiQuestion.indexOf("Brown") > -1) {
-						if (characterUnderReview.getEyeColor().equals("brown") && answer == true) {
-							i++;
-							continue;
-						} else {
-							possibleGameChars.remove(characterUnderReview);
-						}
-					}
-				} else if (aiQuestion.indexOf("Skin") > -1) {
-					if (aiQuestion.indexOf("white") > -1) {
-						if (characterUnderReview.getSkinColor().equals("white") && answer == true) {
-							i++;
-							continue;
-						} else {
-							possibleGameChars.remove(characterUnderReview);
-						}
-					} else if (aiQuestion.indexOf("Black") > -1 && answer == true) {
-						if (characterUnderReview.getSkinColor().equals("black") && answer == true) {
-							i++;
-							continue;
-						} else {
-							possibleGameChars.remove(characterUnderReview);
+					} else {
+						for (int i = 0; i < possibleGameChars.size(); i++) {
+							if (possibleGameChars.get(i).getSkinColor().equals("blackSkin")) {
+								possibleGameChars.remove(possibleGameChars.get(i));
+								i--;
+							}
 						}
 					}
-				} else if (aiQuestion.indexOf("Male") > -1) {
-					if (characterUnderReview.getGender().equals("male") && answer == true) {
-						i++;
-						continue;
+				} else if (question.equals(GuessWho.questions(2))) {
+					if (characterUnderReview.getHairColor().equals("whiteHair")) {
+						for (int i = 0; i < possibleGameChars.size(); i++) {
+							if (!(possibleGameChars.get(i).getHairColor().equals("whiteHair"))) {
+								possibleGameChars.remove(possibleGameChars.get(i));
+								i--;
+							}
+						}
 					} else {
-						possibleGameChars.remove(characterUnderReview);
+						for (int i = 0; i < possibleGameChars.size(); i++) {
+							if (possibleGameChars.get(i).getHairColor().equals("whiteHair")) {
+								possibleGameChars.remove(possibleGameChars.get(i));
+								i--;
+							}
+						}
 					}
-				} else if (aiQuestion.indexOf("Female") > -1) {
-					if (characterUnderReview.getGender().equals("female") && answer == true) {
-						i++;
-						continue;
+				} else if (question.equals(GuessWho.questions(3))) {
+					if (characterUnderReview.getHairColor().equals("brownHair")) {
+						for (int i = 0; i < possibleGameChars.size(); i++) {
+							if (!(possibleGameChars.get(i).getHairColor().equals("brownHair"))) {
+								possibleGameChars.remove(possibleGameChars.get(i));
+								i--;
+							}
+						}
 					} else {
-						possibleGameChars.remove(characterUnderReview);
+						for (int i = 0; i < possibleGameChars.size(); i++) {
+							if (possibleGameChars.get(i).getHairColor().equals("brownHair")) {
+								possibleGameChars.remove(possibleGameChars.get(i));
+								i--;
+							}
+						}
 					}
-				} else if (aiQuestion.indexOf("Glasses") > -1) {
-					if (characterUnderReview.getHasGlasses() && answer == true) {
-						i++;
-						continue;
+				} else if (question.equals(GuessWho.questions(4))) {
+					if (characterUnderReview.getHairColor().equals("blondeHair")) {
+						for (int i = 0; i < possibleGameChars.size(); i++) {
+							if (!(possibleGameChars.get(i).getHairColor().equals("blondeHair"))) {
+								possibleGameChars.remove(possibleGameChars.get(i));
+								i--;
+							}
+						}
 					} else {
-						possibleGameChars.remove(characterUnderReview);
+						for (int i = 0; i < possibleGameChars.size(); i++) {
+							if (possibleGameChars.get(i).getHairColor().equals("blondeHair")) {
+								possibleGameChars.remove(possibleGameChars.get(i));
+								i--;
+							}
+						}
 					}
-				} else if (aiQuestion.indexOf("Hat") > -1) {
-					if (characterUnderReview.getHasHat() && answer == true) {
-						i++;
-						continue;
+				} else if (question.equals(GuessWho.questions(5))) {
+					if (characterUnderReview.getHairColor().equals("gingerHair")) {
+						for (int i = 0; i < possibleGameChars.size(); i++) {
+							if (!(possibleGameChars.get(i).getHairColor().equals("gingerHair"))) {
+								possibleGameChars.remove(possibleGameChars.get(i));
+								i--;
+							}
+						}
 					} else {
-						possibleGameChars.remove(characterUnderReview);
+						for (int i = 0; i < possibleGameChars.size(); i++) {
+							if (possibleGameChars.get(i).getHairColor().equals("gingerHair")) {
+								possibleGameChars.remove(possibleGameChars.get(i));
+								i--;
+							}
+						}
 					}
-				} else if (aiQuestion.indexOf("Face") > -1) {
-					if (characterUnderReview.getHasFacialHair() && answer == true) {
-						i++;
-						continue;
+				} else if (question.equals(GuessWho.questions(6))) {
+					if (characterUnderReview.getHairColor().equals("blackHair")) {
+						for (int i = 0; i < possibleGameChars.size(); i++) {
+							if (!(possibleGameChars.get(i).getHairColor().equals("blackHair"))) {
+								possibleGameChars.remove(possibleGameChars.get(i));
+								i--;
+							}
+						}
 					} else {
-						possibleGameChars.remove(characterUnderReview);
+						for (int i = 0; i < possibleGameChars.size(); i++) {
+							if (possibleGameChars.get(i).getHairColor().equals("blackHair")) {
+								possibleGameChars.remove(possibleGameChars.get(i));
+								i--;
+							}
+						}
 					}
-				} else if (aiQuestion.indexOf("Earing") > -1) {
-					if (characterUnderReview.getHasEarings() && answer == true) {
-						i++;
-						continue;
+				} else if (question.equals(GuessWho.questions(7))) {
+					if (characterUnderReview.getGender().equals("maleGender")) {
+						for (int i = 0; i < possibleGameChars.size(); i++) {
+							if (!(possibleGameChars.get(i).getGender().equals("maleGender"))) {
+								possibleGameChars.remove(possibleGameChars.get(i));
+								i--;
+							}
+						}
 					} else {
-						possibleGameChars.remove(characterUnderReview);
+						for (int i = 0; i < possibleGameChars.size(); i++) {
+							if (possibleGameChars.get(i).getGender().equals("maleGender")) {
+								possibleGameChars.remove(possibleGameChars.get(i));
+								i--;
+							}
+						}
 					}
-				} else if (aiQuestion.indexOf("Mustache") > -1) {
-					if (characterUnderReview.getHasMustache() && answer == true) {
-						i++;
-						continue;
+				} else if (question.equals(GuessWho.questions(8))) {
+					if (characterUnderReview.getGender().equals("femaleGender")) {
+						for (int i = 0; i < possibleGameChars.size(); i++) {
+							if (!(possibleGameChars.get(i).getGender().equals("femaleGender"))) {
+								possibleGameChars.remove(possibleGameChars.get(i));
+								i--;
+							}
+						}
 					} else {
-						possibleGameChars.remove(characterUnderReview);
+						for (int i = 0; i < possibleGameChars.size(); i++) {
+							if (possibleGameChars.get(i).getGender().equals("femaleGender")) {
+								possibleGameChars.remove(possibleGameChars.get(i));
+								i--;
+							}
+						}
 					}
-				} else if (aiQuestion.indexOf("Teeth") > -1) {
-					if (characterUnderReview.getIsShowingTeeth() && answer == true) {
-						i++;
-						continue;
+				} else if (question.equals(GuessWho.questions(9))) {
+					if (characterUnderReview.getEyeColor().equals("brownEye")) {
+						for (int i = 0; i < possibleGameChars.size(); i++) {
+							if (!(possibleGameChars.get(i).getEyeColor().equals("brownEye"))) {
+								possibleGameChars.remove(possibleGameChars.get(i));
+								i--;
+							}
+						}
 					} else {
-						possibleGameChars.remove(characterUnderReview);
+						for (int i = 0; i < possibleGameChars.size(); i++) {
+							if (possibleGameChars.get(i).getEyeColor().equals("brownEye")) {
+								possibleGameChars.remove(possibleGameChars.get(i));
+								i--;
+							}
+						}
+					}
+				} else if (question.equals(GuessWho.questions(10))) {
+					if (characterUnderReview.getEyeColor().equals("blueEye")) {
+						for (int i = 0; i < possibleGameChars.size(); i++) {
+							if (!(possibleGameChars.get(i).getEyeColor().equals("blueEye"))) {
+								possibleGameChars.remove(possibleGameChars.get(i));
+								i--;
+							}
+						}
+					} else {
+						for (int i = 0; i < possibleGameChars.size(); i++) {
+							if (possibleGameChars.get(i).getEyeColor().equals("blueEye")) {
+								possibleGameChars.remove(possibleGameChars.get(i));
+								i--;
+							}
+						}
+					}
+				} else if (question.equals(GuessWho.questions(11))) {
+					if (characterUnderReview.getHasGlasses() == true) {
+						for (int i = 0; i < possibleGameChars.size(); i++) {
+							if (!(possibleGameChars.get(i).getHasGlasses() == true)) {
+								possibleGameChars.remove(possibleGameChars.get(i));
+								i--;
+							}
+						}
+					} else {
+						for (int i = 0; i < possibleGameChars.size(); i++) {
+							if (possibleGameChars.get(i).getHasGlasses() == true) {
+								possibleGameChars.remove(possibleGameChars.get(i));
+								i--;
+							}
+						}
+					}
+				} else if (question.equals(GuessWho.questions(12))) {
+					if (characterUnderReview.getHasGlasses() == false) {
+						for (int i = 0; i < possibleGameChars.size(); i++) {
+							if (!(possibleGameChars.get(i).getHasGlasses() == false)) {
+								possibleGameChars.remove(possibleGameChars.get(i));
+								i--;
+							}
+						}
+					} else {
+						for (int i = 0; i < possibleGameChars.size(); i++) {
+							if (possibleGameChars.get(i).getHasGlasses() == false) {
+								possibleGameChars.remove(possibleGameChars.get(i));
+								i--;
+							}
+						}
+					}
+				} else if (question.equals(GuessWho.questions(13))) {
+					if (characterUnderReview.getHasHat() == true) {
+						for (int i = 0; i < possibleGameChars.size(); i++) {
+							if (!(possibleGameChars.get(i).getHasHat() == true)) {
+								possibleGameChars.remove(possibleGameChars.get(i));
+								i--;
+							}
+						}
+					} else {
+						for (int i = 0; i < possibleGameChars.size(); i++) {
+							if (possibleGameChars.get(i).getHasHat() == true) {
+								possibleGameChars.remove(possibleGameChars.get(i));
+								i--;
+							}
+						}
+					}
+				} else if (question.equals(GuessWho.questions(14))) {
+					if (characterUnderReview.getHasHat() == false) {
+						for (int i = 0; i < possibleGameChars.size(); i++) {
+							if (!(possibleGameChars.get(i).getHasHat() == false)) {
+								possibleGameChars.remove(possibleGameChars.get(i));
+								i--;
+							}
+						}
+					} else {
+						for (int i = 0; i < possibleGameChars.size(); i++) {
+							if (possibleGameChars.get(i).getHasHat() == false) {
+								possibleGameChars.remove(possibleGameChars.get(i));
+								i--;
+							}
+						}
+					}
+				} else if (question.equals(GuessWho.questions(15))) {
+					if (characterUnderReview.getHasFacialHair() == true) {
+						for (int i = 0; i < possibleGameChars.size(); i++) {
+							if (!(possibleGameChars.get(i).getHasFacialHair() == true)) {
+								possibleGameChars.remove(possibleGameChars.get(i));
+								i--;
+							}
+						}
+					} else {
+						for (int i = 0; i < possibleGameChars.size(); i++) {
+							if (possibleGameChars.get(i).getHasFacialHair() == true) {
+								possibleGameChars.remove(possibleGameChars.get(i));
+								i--;
+							}
+						}
+					}
+				} else if (question.equals(GuessWho.questions(16))) {
+					if (characterUnderReview.getHasFacialHair() == false) {
+						for (int i = 0; i < possibleGameChars.size(); i++) {
+							if (!(possibleGameChars.get(i).getHasFacialHair() == false)) {
+								possibleGameChars.remove(possibleGameChars.get(i));
+								i--;
+							}
+						}
+					} else {
+						for (int i = 0; i < possibleGameChars.size(); i++) {
+							if (possibleGameChars.get(i).getHasFacialHair() == false) {
+								possibleGameChars.remove(possibleGameChars.get(i));
+								i--;
+							}
+						}
+					}
+				} else if (question.equals(GuessWho.questions(17))) {
+					if (characterUnderReview.getHasEarings() == true) {
+						for (int i = 0; i < possibleGameChars.size(); i++) {
+							if (!(possibleGameChars.get(i).getHasEarings() == true)) {
+								possibleGameChars.remove(possibleGameChars.get(i));
+								i--;
+							}
+						}
+					} else {
+						for (int i = 0; i < possibleGameChars.size(); i++) {
+							if (possibleGameChars.get(i).getHasEarings() == true) {
+								possibleGameChars.remove(possibleGameChars.get(i));
+								i--;
+							}
+						}
+					}
+				} else if (question.equals(GuessWho.questions(18))) {
+					if (characterUnderReview.getHasEarings() == false) {
+						for (int i = 0; i < possibleGameChars.size(); i++) {
+							if (!(possibleGameChars.get(i).getHasEarings() == false)) {
+								possibleGameChars.remove(possibleGameChars.get(i));
+								i--;
+							}
+						}
+					} else {
+						for (int i = 0; i < possibleGameChars.size(); i++) {
+							if (possibleGameChars.get(i).getHasEarings() == false) {
+								possibleGameChars.remove(possibleGameChars.get(i));
+								i--;
+							}
+						}
+					}
+				} else if (question.equals(GuessWho.questions(19))) {
+					if (characterUnderReview.getHasMustache() == true) {
+						for (int i = 0; i < possibleGameChars.size(); i++) {
+							if (!(possibleGameChars.get(i).getHasMustache() == true)) {
+								possibleGameChars.remove(possibleGameChars.get(i));
+								i--;
+							}
+						}
+					} else {
+						for (int i = 0; i < possibleGameChars.size(); i++) {
+							if (possibleGameChars.get(i).getHasMustache() == true) {
+								possibleGameChars.remove(possibleGameChars.get(i));
+								i--;
+							}
+						}
+					}
+				} else if (question.equals(GuessWho.questions(20))) {
+					if (characterUnderReview.getHasMustache() == false) {
+						for (int i = 0; i < possibleGameChars.size(); i++) {
+							if (!(possibleGameChars.get(i).getHasMustache() == false)) {
+								possibleGameChars.remove(possibleGameChars.get(i));
+								i--;
+							}
+						}
+					} else {
+						for (int i = 0; i < possibleGameChars.size(); i++) {
+							if (possibleGameChars.get(i).getHasMustache() == false) {
+								possibleGameChars.remove(possibleGameChars.get(i));
+								i--;
+							}
+						}
+					}
+				} else if (question.equals(GuessWho.questions(21))) {
+					if (characterUnderReview.getIsShowingTeeth() == true) {
+						for (int i = 0; i < possibleGameChars.size(); i++) {
+							if (!(possibleGameChars.get(i).getIsShowingTeeth() == true)) {
+								possibleGameChars.remove(possibleGameChars.get(i));
+								i--;
+							}
+						}
+					} else {
+						for (int i = 0; i < possibleGameChars.size(); i++) {
+							if (possibleGameChars.get(i).getIsShowingTeeth() == true) {
+								possibleGameChars.remove(possibleGameChars.get(i));
+								i--;
+							}
+						}
+					}
+				} else if (question.equals(GuessWho.questions(22))) {
+					if (characterUnderReview.getIsShowingTeeth() == false) {
+						for (int i = 0; i < possibleGameChars.size(); i++) {
+							if (!(possibleGameChars.get(i).getIsShowingTeeth() == false)) {
+								possibleGameChars.remove(possibleGameChars.get(i));
+								i--;
+							}
+						}
+					} else {
+						for (int i = 0; i < possibleGameChars.size(); i++) {
+							if (possibleGameChars.get(i).getIsShowingTeeth() == false) {
+								possibleGameChars.remove(possibleGameChars.get(i));
+								i--;
+							}
+						}
 					}
 				}
 			}
@@ -206,25 +455,21 @@ public class AIPlayer {
 			// If the a attribute is more common than the current highest attribute and has
 			// yet to be previously chosen
 
-			if (numberOfAttributes[i] > numberOfAttributes[indexOfHighest] && (questionBank.get(i) != null)) {
+			if (numberOfAttributes[i] >= numberOfAttributes[indexOfHighest] && (questionBank.get(i) != null)) {
 				indexOfHighest = i; // Becomes new highest
 			}
 		}
 
-		if (numberOfAttributes[indexOfHighest] == 0) {
-			while (aiQuestion != null) {
-				aiQuestion = questionBank.get(ran.nextInt(questionBank.size())); // Ai question set to question
-																					// resulting in highest
-			}
-		}
-		if (questionBank.size() == 0) {
+		if (questionBank.size() == 0 || questionBank.get(indexOfHighest) == null) {
+			System.out.println(indexOfHighest);
+			System.out.println(numberOfAttributes[indexOfHighest] +":"+ attributes[indexOfHighest]);
+			System.out.print(questionBank.get(indexOfHighest));
 			return possibleGameChars.get(ran.nextInt(possibleGameChars.size()));
-
 		}
 		// removing characters
-		aiQuestion = questionBank.get(indexOfHighest);
+		question = questionBank.get(indexOfHighest);
 		System.out.println(questionBank.get(indexOfHighest));
-		questionBank.set(indexOfHighest, null); // Question gets removed as to not ask same questions
+		questionBank.set(indexOfHighest, null); // Question gets removed as to not ask same GuessWho.questions
 		// sets AI question
 		return null; // Returns null if no character is chosen
 	}
@@ -260,6 +505,6 @@ public class AIPlayer {
 	}
 
 	public String getAiQuestion() {
-		return aiQuestion;
+		return question;
 	}
 }

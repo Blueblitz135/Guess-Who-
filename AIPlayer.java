@@ -6,7 +6,6 @@ import java.util.Random;
 public class AIPlayer {
 	private ArrayList<GameChar> possibleGameChars = new ArrayList<GameChar>(); // All possible characters which the
 																				// player could be
-	private int questionNumber = -1; // The question that was previously asked
 	private String[] attributes = { "whiteSkin", "blackSkin", "whiteHair", "brownHair", "blondeHair", "blackHair",
 			"gingerHair", "maleGender", "femaleGender", "brownEye", "blueEye", "trueGlasses", "falseGlasses", "trueHat",
 			"falseHat", "trueFaceHair", "falseFaceHair", "trueEaring", "falseEaring", "trueMustache", "falseMustache",

@@ -15,6 +15,7 @@ public class GuessWho implements ActionListener {
 	private JFrame startFrame;
 	private JFrame rulesFrame;
 	private JFrame gameBoardFrame;
+	private JFrame endFrame;
 	private JFrame statsFrame;
 	private JLabel gameTitle;
 	private JLabel smallGameTitle;
@@ -40,6 +41,7 @@ public class GuessWho implements ActionListener {
 	private JButton submitQuestionButton;
 	private JButton closeRulesButton; // maybe we don't need cause they can just "x" out
 	private JButton statsButton;
+	private JButton exitButton = new JButton("Exit");
 	private JTextField nameGuessField;
 	private JLayeredPane GameCharLayerPane;
 	private ImageIcon gameLogo;
@@ -101,7 +103,7 @@ public class GuessWho implements ActionListener {
 		for (int i = 0; i < 12; i++) {
 			rules[i] = ruleScan.nextLine();
 		}
-		
+
 		System.out.println(numGamesWon);
 		System.out.println(maxNumQuestionsAskedToWin);
 		System.out.println(minNumQuestionsAskedToWin);
@@ -255,7 +257,7 @@ public class GuessWho implements ActionListener {
 		rulesTitle.setFont(new Font("Helvetica", Font.BOLD, 50));
 		rulesTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
 		rulesPanel.add(rulesTitle);
-		
+
 		for (int i = 1; i < 12; i++) {
 			rulesPanel.add(Box.createRigidArea(new Dimension(0, 30)));
 			JLabel rulesLabel = new JLabel();
@@ -570,21 +572,114 @@ public class GuessWho implements ActionListener {
 			rulesFrame.setVisible(false);
 		}
 
+		// if the stats button is clicked, open the states frame
 		if ((e.getSource()).equals(statsButton)) {
 			statsFrame.setVisible(true);
 		}
 
+		// if the exit button is clicked, close all frames and end game
+		if ((e.getSource()).equals(exitButton)) {
+			gameBoardFrame.setVisible(false);
+			statsFrame.setVisible(false);
+			rulesFrame.setVisible(false);
+			endFrame.setVisible(false);
+		}
+		
 		// If the submit guess button is clicked, submit the text within the text field
 		if ((e.getSource()).equals(submitGuessButton)) {
 
-			String name = nameGuessField.getText();
+			String guess = nameGuessField.getText().trim().toUpperCase();
 
 			// Go through the array of GameChars to see if the name submitted is valid
 			for (int i = 0; i < gameChars.size(); i++) {
-				if (gameChars.get(i).getName().equalsIgnoreCase(name)) {
-
+				if (gameChars.get(i).getName().equalsIgnoreCase(guess)) {
+					break;
 				}
 			}
+
+			// create end panel
+			JPanel endPanel = new JPanel();
+			endPanel = new JPanel();
+			endPanel.setBorder(new EmptyBorder(40, 0, 0, 0));
+			endPanel.setLayout(new BoxLayout(endPanel, BoxLayout.Y_AXIS));
+			endPanel.setBackground(backgroundColor);
+			
+			// if user guessed the correct character
+			if (guess.equals(aiGameChar.getName())) {
+			
+				// tells user they win
+				endFrame = new JFrame("You Win!");
+				endFrame.setSize(new Dimension(600,500));
+				endFrame.setLayout(new BorderLayout());
+				endFrame.getContentPane().setBackground(new Color(187, 238, 252));
+				endFrame.setResizable(false);
+				endPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+				JLabel endTitle = new JLabel();
+				endTitle.setText("You Win 😊!");
+				endTitle.setFont(new Font("Helvetica", Font.BOLD, 70));
+				endTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+				endPanel.add(endTitle);
+				endFrame.add(endPanel);
+
+			}
+			
+			// if user guess the wrong character
+			else {
+				
+				// tells user they lost
+				endFrame = new JFrame("You Lose!");
+				endFrame.setSize(new Dimension(600,500));
+				endFrame.setLayout(new BorderLayout());
+				endFrame.getContentPane().setBackground(new Color(187, 238, 252));
+				endFrame.setResizable(false);
+				endPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+				JLabel endTitle = new JLabel();
+				endTitle.setText("You Lose 😢!");
+				endTitle.setFont(new Font("Helvetica", Font.BOLD, 70));
+				endTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+				endPanel.add(endTitle);
+				endFrame.add(endPanel);
+		
+			}
+			
+			
+			
+			
+			// tells user the character the ai chose
+			JLabel chosenChar = new JLabel();
+			endPanel.add(Box.createRigidArea(new Dimension(0, 50)));
+			chosenChar.setText("AI's Character: " + aiGameChar.getName());
+			chosenChar.setFont(new Font("Helvetica", Font.BOLD, 30));
+			chosenChar.setAlignmentX(Component.CENTER_ALIGNMENT);
+			endPanel.add(chosenChar);
+			
+			// tells user the number of questions asked
+			JLabel numQuestions = new JLabel();
+			endPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+			numQuestions.setText("Number of Questions Asked: " + numOfQuestionsAsked);
+			numQuestions.setFont(new Font("Helvetica", Font.BOLD, 30));
+			numQuestions.setAlignmentX(Component.CENTER_ALIGNMENT);
+			endPanel.add(numQuestions);
+
+			
+			// creates exit button
+			exitButton.addActionListener(this);
+			exitButton.setVisible(true);
+			endPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+			exitButton.setPreferredSize(new Dimension(280, 110));
+			exitButton.setBackground(new Color(247, 238, 156));
+			exitButton.setFocusable(false);
+			exitButton.setFont(new Font("Helvetica", Font.BOLD, 60));
+			exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+			endPanel.add(exitButton);
+			
+			endFrame.setVisible(true);
+			
+			
+			
+			
+
+			
 
 		}
 

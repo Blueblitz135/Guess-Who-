@@ -16,7 +16,7 @@ public class AIPlayer {
 																	// correspond to those of the attributes
 	private ArrayList<String> questionBank = new ArrayList<String>();
 	private String question = ""; // Question that was previously asked
-
+	private int indexOfHighest; 
 	public AIPlayer(ArrayList<GameChar> gameChars) {
 		for (int i = 0; i < gameChars.size(); i++) {
 			possibleGameChars.add(gameChars.get(i));
@@ -34,34 +34,6 @@ public class AIPlayer {
 	public GameChar playTurn(boolean answer) {
 		Random ran = new Random();
 
-		if (possibleGameChars.size() == 1) { // When only one character is possible this method will return a guess
-			// Must make a guess
-			return possibleGameChars.get(0);
-		}
-		// Calculates the most prevalent attribute
-		int indexOfHighest = 0; // By default
-
-		// For all the attributes
-		for (int i = 0; i < numberOfAttributes.length; i++) {
-			// If the a attribute is more common than the current highest attribute and has
-			// yet to be previously chosen
-
-			if (numberOfAttributes[i] >= numberOfAttributes[indexOfHighest] && (questionBank.get(i) != null)) {
-				indexOfHighest = i; // Becomes new highest
-			}
-		}
-
-		if (questionBank.size() == 0) {
-			System.out.println(indexOfHighest);
-			System.out.println(numberOfAttributes[indexOfHighest] + ":" + attributes[indexOfHighest]);
-			System.out.print(questionBank.get(indexOfHighest));
-			return possibleGameChars.get(ran.nextInt(possibleGameChars.size()));
-		}
-		// removing characters
-		question = questionBank.get(indexOfHighest);
-		System.out.println(questionBank.get(indexOfHighest));
-		questionBank.set(indexOfHighest, null); // Question gets removed as to not ask same GuessWho.questions
-		
 		// If question number is equal to -1, this means that it is the first question,
 		// and therefore no characters need to be removed
 		if (!question.equals("")) {
@@ -468,6 +440,32 @@ public class AIPlayer {
 			numberOfAttributes[findIndex(possibleGameChars.get(i).getHasMustache() + "Mustache")]++;
 			numberOfAttributes[findIndex(possibleGameChars.get(i).getIsShowingTeeth() + "TeethShowing")]++;
 		}
+		if (possibleGameChars.size() == 1) { // When only one character is possible this method will return a guess
+			// Must make a guess
+			return possibleGameChars.get(0);
+		}
+		// Calculates the most prevalent attribute by default
+
+		// For all the attributes
+		for (int i = 0; i < numberOfAttributes.length; i++) {
+			// If the a attribute is more common than the current highest attribute and has
+			// yet to be previously chosen
+
+			if (numberOfAttributes[i] >= numberOfAttributes[indexOfHighest] && (questionBank.get(i) != null)) {
+				indexOfHighest = i; // Becomes new highest
+			}
+		}
+		
+		if (questionBank.size() == 0) {
+			return possibleGameChars.get(ran.nextInt(possibleGameChars.size()));
+		}
+		
+		question = questionBank.get(indexOfHighest);
+		while (question == null) {
+			question = questionBank.get(ran.nextInt(23));
+		}
+		System.out.println(question);
+		questionBank.set(indexOfHighest, null); // Question gets removed as to not ask same GuessWho.questions
 
 		// sets AI question
 		return null; // Returns null if no character is chosen

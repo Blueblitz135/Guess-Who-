@@ -39,7 +39,7 @@ public class GuessWho implements ActionListener {
 	private JButton rightArrow;
 	private JButton leftArrow;
 	private JButton submitQuestionButton;
-	private JButton exitButton = new JButton();
+	private JButton exitButton = new JButton("Exit");
 	private JButton closeRulesButton; // maybe we don't need cause they can just "x" out
 	private JButton statsButton;
 	private JTextField nameGuessField;

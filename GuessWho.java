@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -17,7 +16,6 @@ public class GuessWho implements ActionListener {
 	private JFrame rulesFrame;
 	private JFrame gameBoardFrame;
 	private JFrame statsFrame;
-	private JFrame endFrame;
 	private JLabel gameTitle;
 	private JLabel smallGameTitle;
 	private JPanel GameCharPanel;
@@ -40,7 +38,6 @@ public class GuessWho implements ActionListener {
 	private JButton rightArrow;
 	private JButton leftArrow;
 	private JButton submitQuestionButton;
-	private JButton exitButton = new JButton("Exit");
 	private JButton closeRulesButton; // maybe we don't need cause they can just "x" out
 	private JButton statsButton;
 	private JTextField nameGuessField;
@@ -66,14 +63,10 @@ public class GuessWho implements ActionListener {
 	private int numGamesWon;
 	private int maxNumQuestionsAskedToWin;
 	private int minNumQuestionsAskedToWin;
-
+	private int choice = -1; 
 	// Kian Fixing Everytthing Variables
 	private AIPlayer ai;
 	private GameChar aiGameChar;
-	
-	// text files
-	private File statsFile = new File("stats.txt");
-	private File rulesFile = new File("GuessWhoRules.txt");
 
 	/**
 	 * This is the constructor which will initiate the graphics of the game board
@@ -81,7 +74,7 @@ public class GuessWho implements ActionListener {
 	 * @throws FileNotFoundException
 	 */
 	public GuessWho() throws FileNotFoundException {
-
+		
 		// Initialize variables and constant objects for the game
 		gameLogo = new ImageIcon("guessWho_Icon.png");
 		gbc = new GridBagConstraints(); // variable used to determine the panel position and spacing for the game frame
@@ -92,6 +85,7 @@ public class GuessWho implements ActionListener {
 		aiTurn = false;
 
 		// Initialize stats variables using file i/o
+		File statsFile = new File("stats.txt");
 		Scanner statsScan = new Scanner(statsFile);
 
 		// These should be not on file
@@ -100,6 +94,7 @@ public class GuessWho implements ActionListener {
 		minNumQuestionsAskedToWin = statsScan.nextInt();
 
 		// Initialize rules variables using file i/o
+		File rulesFile = new File("GuessWhoRules.txt");
 		Scanner ruleScan = new Scanner(rulesFile);
 
 		String[] rules = new String[12];
@@ -147,7 +142,7 @@ public class GuessWho implements ActionListener {
 		gameChars.add(new GameChar("blackSkin", "brownHair", "maleGender", "brownEye", "JAMES", false, false, true,
 				false, false, false));
 		gameChars.add(new GameChar("whiteSkin", "gingerHair", "femaleGender", "brownEye", "ASHLEY", false, true, false,
-				true, false, false));
+				true, false, true));
 		gameChars.add(new GameChar("whiteSkin", "blondeHair", "femaleGender", "blueEye", "MEGAN", false, false, false,
 				true, false, false));
 		gameChars.add(new GameChar("whiteSkin", "blackHair", "maleGender", "brownEye", "TYLER", false, false, false,
@@ -159,7 +154,7 @@ public class GuessWho implements ActionListener {
 		gameChars.add(new GameChar("whiteSkin", "gingerHair", "maleGender", "blueEye", "JOSEPH", true, false, false,
 				false, false, false));
 		gameChars.add(new GameChar("whiteSkin", "blondeHair", "maleGender", "brownEye", "JAKE", false, false, true,
-				false, true, false));
+				false, true, true));
 		gameChars.add(new GameChar("whiteSkin", "whiteHair", "maleGender", "brownEye", "ALEX", true, false, false,
 				false, false, false));
 		gameChars.add(new GameChar("whiteSkin", "brownHair", "femaleGender", "brownEye", "RACHEL", false, true, false,
@@ -609,7 +604,7 @@ public class GuessWho implements ActionListener {
 	 * @param e the action event that was registered
 	 */
 	@Override
-	public void actionPerformed(ActionEvent e){
+	public void actionPerformed(ActionEvent e) {
 		// If it is the AI's turn, there will be a pop up prompting the user to answer
 		// the AI's question
 		// If it is the player's turn, then they will be able to choose and ask a
@@ -639,106 +634,18 @@ public class GuessWho implements ActionListener {
 			statsFrame.setVisible(true);
 		}
 
-		// if the exit button is clicked, updates stats file and ends game
-		if ((e.getSource()).equals(exitButton)) {
-			try {
-				fileWriter();
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			gameBoardFrame.setVisible(false);
-			statsFrame.setVisible(false);
-			rulesFrame.setVisible(false);
-			endFrame.setVisible(false);
-			System.exit(0);
-		}
-
 		// If the submit guess button is clicked, submit the text within the text field
 		if ((e.getSource()).equals(submitGuessButton)) {
 
-			String guess = nameGuessField.getText().trim().toUpperCase();
+			String name = nameGuessField.getText();
 
 			// Go through the array of GameChars to see if the name submitted is valid
 			for (int i = 0; i < gameChars.size(); i++) {
-				if (gameChars.get(i).getName().equalsIgnoreCase(guess)) {
-					break;
+				if (gameChars.get(i).getName().equalsIgnoreCase(name)) {
+
 				}
 			}
 
-			// create end panel
-			JPanel endPanel = new JPanel();
-			endPanel = new JPanel();
-			endPanel.setBorder(new EmptyBorder(40, 0, 0, 0));
-			endPanel.setLayout(new BoxLayout(endPanel, BoxLayout.Y_AXIS));
-			endPanel.setBackground(backgroundColor);
-
-			// if user guessed the correct character
-			if (guess.equals(aiGameChar.getName())) {
-
-				// tells user they win
-				endFrame = new JFrame("You Win!");
-				endFrame.setSize(new Dimension(600, 500));
-				endFrame.setLayout(new BorderLayout());
-				endFrame.getContentPane().setBackground(new Color(187, 238, 252));
-				endFrame.setResizable(false);
-				endPanel.add(Box.createRigidArea(new Dimension(0, 20)));
-				JLabel endTitle = new JLabel();
-				endTitle.setText("You Win 😊!");
-				endTitle.setFont(new Font("Helvetica", Font.BOLD, 70));
-				endTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
-				endPanel.add(endTitle);
-				endFrame.add(endPanel);
-				numGamesWon++;
-			}
-
-			// if user guess the wrong character
-			else {
-
-				// tells user they lost
-				endFrame = new JFrame("You Lose!");
-				endFrame.setSize(new Dimension(600, 500));
-				endFrame.setLayout(new BorderLayout());
-				endFrame.getContentPane().setBackground(new Color(187, 238, 252));
-				endFrame.setResizable(false);
-				endPanel.add(Box.createRigidArea(new Dimension(0, 20)));
-				JLabel endTitle = new JLabel();
-				endTitle.setText("You Lose 😢!");
-				endTitle.setFont(new Font("Helvetica", Font.BOLD, 70));
-				endTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
-				endPanel.add(endTitle);
-				endFrame.add(endPanel);
-
-			}
-
-			// tells user the character the ai chose
-			JLabel chosenChar = new JLabel();
-			endPanel.add(Box.createRigidArea(new Dimension(0, 50)));
-			chosenChar.setText("AI's Character: " + aiGameChar.getName());
-			chosenChar.setFont(new Font("Helvetica", Font.BOLD, 30));
-			chosenChar.setAlignmentX(Component.CENTER_ALIGNMENT);
-			endPanel.add(chosenChar);
-
-			// tells user the number of questions asked
-			JLabel numQuestions = new JLabel();
-			endPanel.add(Box.createRigidArea(new Dimension(0, 20)));
-			numQuestions.setText("Number of Questions Asked: " + numOfQuestionsAsked);
-			numQuestions.setFont(new Font("Helvetica", Font.BOLD, 30));
-			numQuestions.setAlignmentX(Component.CENTER_ALIGNMENT);
-			endPanel.add(numQuestions);
-
-			// creates exit button
-			exitButton.addActionListener(this);
-			exitButton.setVisible(true);
-			endPanel.add(Box.createRigidArea(new Dimension(0, 20)));
-			exitButton.setPreferredSize(new Dimension(280, 110));
-			exitButton.setBackground(new Color(247, 238, 156));
-			exitButton.setFocusable(false);
-			exitButton.setFont(new Font("Helvetica", Font.BOLD, 60));
-			exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-			endPanel.add(exitButton);
-
-			endFrame.setVisible(true);
 		}
 
 		// If the right arrow is clicked, go to the next question.
@@ -1173,47 +1080,23 @@ public class GuessWho implements ActionListener {
 			}
 
 			GameChar aiGuess = ai.playTurn(playerAnswer);
-			int choice = -1;
-			while (choice == -1) {
-				choice = JOptionPane.showConfirmDialog(null, ai.getAiQuestion(), "Answer Ai's Question",
-						JOptionPane.YES_NO_OPTION);
+			if (aiGuess == null) {
+				do {
+					choice = JOptionPane.showConfirmDialog(null, ai.getAiQuestion(), "Answer Ai's Question",
+							JOptionPane.YES_NO_OPTION);
+				} while (choice == -1);
 			}
 			if (choice == 0) {
 				playerAnswer = true;
 			} else {
 				playerAnswer = false;
 			}
-//			if (!(aiGuess == null)) {
-//				choice = JOptionPane.showConfirmDialog(null, "Is Your Character: " + aiGuess, "AI Is Guessing",
-//						JOptionPane.YES_NO_OPTION);
-//			}
+			if (!(aiGuess == null)) {
+				choice = JOptionPane.showConfirmDialog(null, "Is Your Character: " + aiGuess.getName(), "AI Is Guessing",
+						JOptionPane.YES_NO_OPTION);
+			}
 		}
 
-	}
-	
-	// this method writes to the stats file
-	public void fileWriter() throws Exception{
-		File stats = new File("stats.txt");
-		PrintWriter statsWrite = new PrintWriter(stats);
-		// number of games won
-		statsWrite.println(numGamesWon);
-		
-		// writes the highest number of questioned asked
-		if ((numOfQuestionsAsked > maxNumQuestionsAskedToWin) || (maxNumQuestionsAskedToWin == 0)) {
-					statsWrite.println(numOfQuestionsAsked);
-		}
-		else {
-			statsWrite.println(maxNumQuestionsAskedToWin);
-		}
-		
-		// writes the lowest number of questions asked
-		if ((numOfQuestionsAsked < minNumQuestionsAskedToWin) || (minNumQuestionsAskedToWin == 0)) {
-			statsWrite.println(numOfQuestionsAsked);
-		}
-		else {
-			statsWrite.println(minNumQuestionsAskedToWin);
-		}
-		statsWrite.close();
 	}
 
 }

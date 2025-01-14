@@ -15,7 +15,7 @@ public class AIPlayer {
 																	// correspond to those of the attributes
 	private ArrayList<String> questionBank = new ArrayList<String>(); // ArrayList of all questions
 
-	private String question = ""; // Question the ai is asking, will be accessed
+	private String question = ""; // Question the AI is asking, will be accessed
 
 	private int indexOfHighest; // index of the most prevalent attribute
 
@@ -24,16 +24,19 @@ public class AIPlayer {
 		for (int i = 0; i < gameChars.size(); i++) {
 			possibleGameChars.add(gameChars.get(i));
 		}
-		// Adds all questions to questionbank
+		// Adds all questions to question bank
 		for (int i = 0; i < 17; i++) {
 			questionBank.add(GuessWho.questions(i));
 		}
 	}
 
 	/**
-	 * Players the Ai's turn
+	 * Uses algorithm which chooses best question to asked based on most prevalent
+	 * attribute, after one character is remaining possible, it will return that
+	 * character
 	 * 
 	 * @param answer The player answer to the previous AI question
+	 * @return The guess of the AI, for what the players character is
 	 */
 	public GameChar playTurn(boolean answer) {
 		Random ran = new Random();
@@ -41,16 +44,10 @@ public class AIPlayer {
 		// If the question String is empty, it represents the first run of the game,
 		// therefore no characters need to be removed
 		if (!question.equals("")) {
-			// Algorithm for getting rid of impossible characters for the player to have
-			// chosen
-			// The character that is currently being
-			// checked if is valid
-
-			// if question has hair in the string, it will check what color it is, and if it
-			// is meant to be that color, the index i is increased, otherwise, that
-			// character is removed from possible options, and i is not incremented, because
-			// the next player will replace the current player in index, same logic for
-			// every attribute
+			/*
+			 * Algorithm for removing possible characters player could have based on the
+			 * previous question asked by AI.
+			 */
 			if (question.equals(GuessWho.questions(0))) {
 				if (answer) {
 					for (int i = 0; i < possibleGameChars.size(); i++) {
@@ -325,6 +322,7 @@ public class AIPlayer {
 				}
 			}
 		}
+
 		// Sets default values of attributes
 		for (int i = 0; i < numberOfAttributes.length; i++) {
 			numberOfAttributes[i] = 0;
@@ -359,13 +357,17 @@ public class AIPlayer {
 			}
 		}
 
+		// If the AI runs out of questions to ask, then it will guess a random character
 		if (questionBank.size() == 0) {
 			return possibleGameChars.get(ran.nextInt(possibleGameChars.size()));
 		}
 
+		// Set the question to ask
+		// If the best question to ask has already been asked,
+		// the AI will guess a random question that hasn't been asked yet
 		question = questionBank.get(indexOfHighest);
 		while (question == null) {
-			question = questionBank.get(ran.nextInt(23));
+			question = questionBank.get(ran.nextInt(questionBank.size()));
 		}
 		questionBank.set(indexOfHighest, null); // Question gets removed as to not ask same GuessWho.questions
 

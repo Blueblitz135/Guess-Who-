@@ -642,6 +642,7 @@ public class GuessWho implements ActionListener {
 			statsFrame.setVisible(false);
 			rulesFrame.setVisible(false);
 			endFrame.setVisible(false);
+			System.exit(0);
 		}
 
 		// If the submit guess button is clicked, submit the text within the text field

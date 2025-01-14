@@ -1089,7 +1089,6 @@ public class GuessWho implements ActionListener {
 		// writes the highest number of questioned asked
 		if (((numOfQuestionsAsked > maxNumQuestionsAskedToWin) || (maxNumQuestionsAskedToWin == 0)) && playerWon) {
 			statsWrite.println(numOfQuestionsAsked);
-			System.out.println("here");
 		} else {
 			statsWrite.println(maxNumQuestionsAskedToWin);
 		}

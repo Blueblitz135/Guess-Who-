@@ -14,11 +14,11 @@ public class AIPlayer {
 																	// indexes
 																	// correspond to those of the attributes
 	private ArrayList<String> questionBank = new ArrayList<String>(); // ArrayList of all questions
-	
+
 	private String question = ""; // Question the ai is asking, will be accessed
-	
+
 	private int indexOfHighest; // index of the most prevalent attribute
-	
+
 	public AIPlayer(ArrayList<GameChar> gameChars) {
 		// Adds all characters to possibleCharacters which AI can guess
 		for (int i = 0; i < gameChars.size(); i++) {
@@ -38,7 +38,8 @@ public class AIPlayer {
 	public GameChar playTurn(boolean answer) {
 		Random ran = new Random();
 
-		// If the question String is empty, it represents the first run of the game, therefore no characters need to be removed 
+		// If the question String is empty, it represents the first run of the game,
+		// therefore no characters need to be removed
 		if (!question.equals("")) {
 			// Algorithm for getting rid of impossible characters for the player to have
 			// chosen
@@ -324,12 +325,6 @@ public class AIPlayer {
 				}
 			}
 		}
-
-		System.out.println();
-		for (int i = 0; i < possibleGameChars.size(); i++) {
-			System.out.print(possibleGameChars.get(i).getName() + ", ");
-		}
-		System.out.println();
 		// Sets default values of attributes
 		for (int i = 0; i < numberOfAttributes.length; i++) {
 			numberOfAttributes[i] = 0;

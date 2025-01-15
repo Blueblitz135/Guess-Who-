@@ -364,13 +364,13 @@ public class AIPlayer {
 		}
 		// Calculates the most prevalent attribute by default
 		int half = possibleGameChars.size() / 2;
-		int res = numberOfAttributes[0];
+		int currentClosest = numberOfAttributes[0]; // Current attribute closest to representing half the characters
 		// For all the attributes
 		for (int i = 1; i < numberOfAttributes.length; i++) {
 			// If the a attribute is more common than the current highest attribute and has
 			// yet to be previously chosen
-			if (Math.abs(numberOfAttributes[i] - half) <= Math.abs(res - half) && (questionBank.get(i) != null)) {
-				res = numberOfAttributes[i];
+			if (Math.abs(numberOfAttributes[i] - half) <= Math.abs(currentClosest - half) && (questionBank.get(i) != null)) {
+				currentClosest = numberOfAttributes[i];
 				indexOfHighest = i; // Becomes new highest
 			}
 		}

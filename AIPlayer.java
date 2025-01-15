@@ -5,7 +5,7 @@ import java.util.Random;
 
 /**
  * @authors Aidan Leung, Kian Davoudi, Steven Kom, Daniel Li ICS4U-01 January
- *          14, 2024 This is the class for the AI player, including all the
+ *          14, 2025 This is the class for the AI player, including all the
  *          methods and attributes needed for it to function in the Guess Who
  *          game
  */
@@ -16,7 +16,7 @@ public class AIPlayer {
 			"gingerHair", "maleGender", "femaleGender", "brownEye", "blueEye", "glasses", "hat", "faceHair", "earing",
 			"mustache", "teethShowing" }; // All the attributes
 											// of the GameChars
-	private int[] numberOfAttributes = new int[attributes.length]; // Number of GameChar that have the attributes,
+	private int[] numberOfAttributes = new int[attributes.length]; // Number of Game characters that have each attributes,
 																	// indexes
 																	// correspond to those of the attributes
 	private ArrayList<String> questionBank = new ArrayList<String>(); // ArrayList of all questions
@@ -345,16 +345,16 @@ public class AIPlayer {
 			if (possibleGameChars.get(i).getHasHat()) {
 				numberOfAttributes[findIndex("hat")]++;
 			}
-			if (possibleGameChars.get(i).getHasGlasses()) {
+			if (possibleGameChars.get(i).getHasFacialHair()) {
 				numberOfAttributes[findIndex("faceHair")]++;
 			}
-			if (possibleGameChars.get(i).getHasGlasses()) {
+			if (possibleGameChars.get(i).getHasEarings()) {
 				numberOfAttributes[findIndex("earing")]++;
 			}
-			if (possibleGameChars.get(i).getHasGlasses()) {
+			if (possibleGameChars.get(i).getHasMustache()) {
 				numberOfAttributes[findIndex("mustache")]++;
 			}
-			if (possibleGameChars.get(i).getHasGlasses()) {
+			if (possibleGameChars.get(i).getIsShowingTeeth()) {
 				numberOfAttributes[findIndex("teethShowing")]++;
 			}
 		}

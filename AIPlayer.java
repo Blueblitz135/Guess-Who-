@@ -3,6 +3,12 @@ package guessWho;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * @authors Aidan Leung, Kian Davoudi, Steven Kom, Daniel Li ICS4U-01 January
+ *          14, 2024 This is the class for the AI player, including all the
+ *          methods and attributes needed for it to function in the Guess Who
+ *          game
+ */
 public class AIPlayer {
 	private ArrayList<GameChar> possibleGameChars = new ArrayList<GameChar>(); // All possible characters which the
 																				// player could be
@@ -333,12 +339,24 @@ public class AIPlayer {
 			numberOfAttributes[findIndex(possibleGameChars.get(i).getHairColor())]++;
 			numberOfAttributes[findIndex(possibleGameChars.get(i).getGender())]++;
 			numberOfAttributes[findIndex(possibleGameChars.get(i).getEyeColor())]++;
-			numberOfAttributes[findIndex("glasses")]++;
-			numberOfAttributes[findIndex("hat")]++;
-			numberOfAttributes[findIndex("faceHair")]++;
-			numberOfAttributes[findIndex("earing")]++;
-			numberOfAttributes[findIndex("mustache")]++;
-			numberOfAttributes[findIndex("teethShowing")]++;
+			if (possibleGameChars.get(i).getHasGlasses()) {
+				numberOfAttributes[findIndex("glasses")]++;
+			}
+			if (possibleGameChars.get(i).getHasHat()) {
+				numberOfAttributes[findIndex("hat")]++;
+			}
+			if (possibleGameChars.get(i).getHasGlasses()) {
+				numberOfAttributes[findIndex("faceHair")]++;
+			}
+			if (possibleGameChars.get(i).getHasGlasses()) {
+				numberOfAttributes[findIndex("earing")]++;
+			}
+			if (possibleGameChars.get(i).getHasGlasses()) {
+				numberOfAttributes[findIndex("mustache")]++;
+			}
+			if (possibleGameChars.get(i).getHasGlasses()) {
+				numberOfAttributes[findIndex("teethShowing")]++;
+			}
 		}
 		if (possibleGameChars.size() == 1) { // When only one character is possible this method will return a guess
 			// Must make a guess

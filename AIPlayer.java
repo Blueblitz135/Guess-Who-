@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * @authors Aidan Leung, Kian Davoudi, Steven Kom, Daniel Li ICS4U-01 January
- *          14, 2025 This is the class for the AI player, including all the
- *          methods and attributes needed for it to function in the Guess Who
- *          game
+ * @authors Aidan Leung, Kian Davoudi, Steven Kom, Daniel Li
+ * January 14, 2025
+ * This is the class for the AI player, including all themethods and attributes 
+ * needed for it to function in the Guess Who game.
  */
 public class AIPlayer {
 	private ArrayList<GameChar> possibleGameChars = new ArrayList<GameChar>(); // All possible characters which the

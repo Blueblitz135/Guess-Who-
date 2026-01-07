@@ -2,8 +2,6 @@
 
 A desktop **Guess Who?** game built in **Java** with a **Swing GUI**. Pick a secret character, ask yes/no questions, eliminate candidates, and make the final guess.
 
-> Repo includes core classes like `GuessWho.java`, `AIPlayer.java`, and `GameChar.java`, plus image assets for the board/UI. :contentReference[oaicite:1]{index=1}
-
 ---
 
 ## Features

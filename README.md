@@ -10,5 +10,5 @@ A desktop **Guess Who?** game built in **Java** with a **Swing GUI**. Pick a sec
 - **Java Swing GUI** game interface
 - **Character board** with visual assets/icons
 - **Object-oriented design** with dedicated classes for game characters and gameplay logic
-- **AI opponent support** (see `AIPlayer.java`) :contentReference[oaicite:2]{index=2}
+- **COM opponent support** (see `AIPlayer.java`) :contentReference[oaicite:2]{index=2}
 - Extra folders/assets included for extending the character set and UI :contentReference[oaicite:3]{index=3}

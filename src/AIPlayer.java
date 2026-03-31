@@ -1,4 +1,3 @@
-package guessWho;
 
 import java.util.ArrayList;
 import java.util.Random;
